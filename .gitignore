@@ -24,5 +24,5 @@ dist-ssr
 *.sw?
 
 # Private Components
-src/components/
+# src/components/
 temp_keyboard.tsx
