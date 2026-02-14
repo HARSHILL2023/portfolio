@@ -1,7 +1,10 @@
 import React, { useState, useEffect, useRef, useMemo, memo } from 'react';
 import { motion, useSpring, useMotionValue, AnimatePresence } from 'framer-motion';
-import TechKeyboard from './TechKeyboard';
 import SplineScene from './SplineScene';
+import { Meteors } from './ui/meteors';
+import { Particles } from './ui/particles';
+import { HyperText } from './ui/hyper-text';
+import { MagicCard } from './ui/magic-card';
 
 const roles = [
     'Frontend Developer',
@@ -85,24 +88,6 @@ const ProjectCard = memo(({ project, index }) => (
     </motion.div>
 ));
 
-const StarField = memo(({ stars }) => (
-    <div className="absolute inset-0 pointer-events-none">
-        {stars.map((star, i) => (
-            <div
-                key={i}
-                className={`absolute rounded-full bg-white transition-opacity duration-1000 ${star.depth} animate-pulse will-change-transform`}
-                style={{
-                    left: star.left,
-                    top: star.top,
-                    width: star.size,
-                    height: star.size,
-                    opacity: star.opacity,
-                    transform: `translate3d(calc(var(--mouse-x, 0) / ${60 + i}), calc(var(--mouse-y, 0) / ${60 + i}), 0)`,
-                }}
-            />
-        ))}
-    </div>
-));
 
 export default function Portfolio() {
     const rootRef = useRef(null);
@@ -111,25 +96,6 @@ export default function Portfolio() {
     const [isDeleting, setIsDeleting] = useState(false);
     const [showCursor, setShowCursor] = useState(true);
 
-    // Smooth Cursor Physics
-    const mouseX = useMotionValue(0);
-    const mouseY = useMotionValue(0);
-    const springConfig = { damping: 25, stiffness: 200 };
-    const cursorX = useSpring(mouseX, springConfig);
-    const cursorY = useSpring(mouseY, springConfig);
-
-    useEffect(() => {
-        const handleMouseMove = (e) => {
-            mouseX.set(e.clientX);
-            mouseY.set(e.clientY);
-            if (rootRef.current) {
-                rootRef.current.style.setProperty('--mouse-x', `${e.clientX - window.innerWidth / 2}px`);
-                rootRef.current.style.setProperty('--mouse-y', `${e.clientY - window.innerHeight / 2}px`);
-            }
-        };
-        window.addEventListener('mousemove', handleMouseMove);
-        return () => window.removeEventListener('mousemove', handleMouseMove);
-    }, [mouseX, mouseY]);
 
     // Typewriter effect
     useEffect(() => {
@@ -159,37 +125,25 @@ export default function Portfolio() {
         return () => clearInterval(blinkInterval);
     }, []);
 
-    const stardust = useMemo(() => [...Array(20)].map((_, i) => ({
-        left: `${Math.random() * 100}%`,
-        top: `${Math.random() * 100}%`,
-        size: `${Math.random() * 2 + 1}px`,
-        depth: Math.random() > 0.5 ? 'blur-sm' : 'blur-none',
-        opacity: Math.random() * 0.3 + 0.1,
-    })), []);
 
     return (
         <div ref={rootRef} className="min-h-screen bg-black text-white overflow-x-hidden relative">
-            {/* Optimized Background */}
+            {/* Whole Background Particles */}
+            <Particles
+                className="fixed inset-0 z-0"
+                quantity={150}
+                ease={80}
+                color="#ffffff"
+                staticity={30}
+                refresh
+            />
+
             <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
-                <div className="absolute inset-0 bg-black"></div>
-                <div className="absolute inset-0 opacity-20">
-                    <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-cyan-900/20 via-transparent to-transparent animate-aurora"></div>
-                </div>
-                <StarField stars={stardust} />
-                <div className="absolute top-20 left-10 w-[500px] h-[500px] bg-cyan-600/10 rounded-full blur-[100px] animate-float-slow will-change-transform"></div>
-                <div className="absolute bottom-20 right-10 w-[500px] h-[500px] bg-purple-600/10 rounded-full blur-[100px] animate-float-slow-reverse will-change-transform"></div>
+                <div className="absolute inset-0 bg-black/50"></div>
+                <div className="absolute top-20 left-10 w-[500px] h-[500px] bg-cyan-600/5 rounded-full blur-[100px] animate-float-slow will-change-transform"></div>
+                <div className="absolute bottom-20 right-10 w-[500px] h-[500px] bg-purple-600/5 rounded-full blur-[100px] animate-float-slow-reverse will-change-transform"></div>
             </div>
 
-            {/* Optimized Custom Cursor */}
-            <motion.div
-                className="fixed pointer-events-none z-50 mix-blend-screen"
-                style={{ x: cursorX, y: cursorY, translateX: '-50%', translateY: '-50%' }}
-            >
-                <div className="relative">
-                    <div className="w-8 h-8 border-2 border-cyan-400 rounded-full"></div>
-                    <div className="w-2 h-2 bg-cyan-400 rounded-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 shadow-lg shadow-cyan-400/50"></div>
-                </div>
-            </motion.div>
 
             {/* Hero Section */}
             <section className="min-h-screen flex items-center justify-center px-6 py-20 relative z-10">
@@ -199,114 +153,63 @@ export default function Portfolio() {
                     transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
                     className="text-center max-w-5xl mx-auto"
                 >
-                    <div className="relative backdrop-blur-xl rounded-3xl p-10 lg:p-14 border border-white/10 mt-20 shadow-2xl bg-black/60 will-change-transform overflow-hidden group">
-                        {/* Decorative background glow */}
-                        <div className="absolute -top-24 -left-24 w-96 h-96 bg-cyan-500/10 rounded-full blur-[100px] group-hover:bg-cyan-500/20 transition-colors duration-1000"></div>
-                        <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-purple-500/10 rounded-full blur-[100px] group-hover:bg-purple-500/20 transition-colors duration-1000"></div>
+                    <div className="relative backdrop-blur-2xl rounded-[3rem] border border-white/10 shadow-[0_0_100px_-20px_rgba(34,211,238,0.15)] bg-black/40 will-change-transform overflow-hidden group">
+                        {/* Meteors Effect inside Hero Card */}
+                        <Meteors number={100} />
 
-                        <div className="relative z-10">
-                            <motion.div
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 0.2, duration: 0.8 }}
-                                className="mb-6 flex justify-center"
+                        <div className="relative z-10 flex flex-col items-center p-8 md:p-12">
+                            <HyperText
+                                className="text-5xl md:text-8xl font-black mb-4 bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent italic tracking-tighter"
+                                duration={1200}
                             >
-                                <div className="w-24 h-24 rounded-full bg-gradient-to-br from-cyan-400 via-purple-500 to-pink-500 p-1 animate-pulse-slow">
-                                    <div className="w-full h-full rounded-full bg-[#0a0a0a] flex items-center justify-center">
-                                        <motion.span
-                                            animate={{ rotate: [0, 10, -10, 0] }}
-                                            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                                            className="text-4xl"
-                                        >
-                                            👨‍💻
-                                        </motion.span>
-                                    </div>
-                                </div>
-                            </motion.div>
-
-
-                            <motion.h1
-                                initial={{ opacity: 0, filter: "blur(10px)" }}
-                                animate={{ opacity: 1, filter: "blur(0px)" }}
-                                transition={{ duration: 1, delay: 0.4 }}
-                                className="text-5xl md:text-8xl font-black mb-4 bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent italic tracking-tighter will-change-transform"
-                                style={{
-                                    transform: `perspective(1000px) rotateY(calc(var(--mouse-x, 0) / 40 * 1deg)) rotateX(calc(var(--mouse-y, 0) / -40 * 1deg))`
-                                }}
-                            >
-                                {"Harshil Patel".split("").map((char, i) => (
-                                    <motion.span
-                                        key={i}
-                                        initial={{ opacity: 0, y: 20 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        transition={{
-                                            duration: 0.5,
-                                            delay: 0.6 + i * 0.05,
-                                            ease: [0.215, 0.61, 0.355, 1]
-                                        }}
-                                        className="inline-block"
-                                    >
-                                        {char === " " ? "\u00A0" : char}
-                                    </motion.span>
-                                ))}
-                            </motion.h1>
+                                Harshil Patel
+                            </HyperText>
 
                             <motion.div
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
                                 transition={{ delay: 1.2, duration: 1 }}
-                                className="h-12 mb-6"
+                                className="h-10 mb-6"
                             >
-                                <p className="text-2xl md:text-3xl font-semibold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent inline-flex items-center">
+                                <p className="text-xl md:text-2xl font-medium text-gray-400 inline-flex items-center">
                                     {typewriterText}
-                                    <span className={`inline-block w-0.5 h-8 bg-cyan-400 ml-1 ${showCursor ? 'opacity-100' : 'opacity-0'}`}></span>
+                                    <span className={`inline-block w-0.5 h-6 bg-cyan-400 ml-1 ${showCursor ? 'opacity-100' : 'opacity-0'}`}></span>
                                 </p>
                             </motion.div>
 
-                            <motion.p
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 1.4, duration: 0.8 }}
-                                className="text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed mb-8"
-                            >
-                                Crafting innovative digital experiences through code. First Year B.Tech CSE student passionate about Web3, 3D Graphics, and Creative Coding.
-                            </motion.p>
-
+                            {/* Unique Terminal/System Status Bio */}
                             <motion.div
-                                initial={{ opacity: 0, y: 20 }}
+                                initial={{ opacity: 0, y: 30 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: 1.6, duration: 0.8 }}
-                                className="flex flex-wrap justify-center gap-4"
+                                className="mt-8 grid grid-cols-2 md:grid-cols-3 gap-4 w-full max-w-2xl px-4"
                             >
-                                <motion.a
-                                    whileHover={{ scale: 1.05, y: -2 }}
-                                    whileTap={{ scale: 0.95 }}
-                                    href="#projects"
-                                    className="px-8 py-3 bg-cyan-500 rounded-xl font-bold hover:bg-cyan-400 transition-all shadow-lg shadow-cyan-500/20 active:shadow-cyan-500/40"
-                                >
-                                    View Work
-                                </motion.a>
-                                <motion.a
-                                    whileHover={{ scale: 1.05, y: -2, backgroundColor: "rgba(255, 255, 255, 0.1)" }}
-                                    whileTap={{ scale: 0.95 }}
-                                    href="#connect"
-                                    className="px-8 py-3 border border-white/20 rounded-xl font-bold transition-all"
-                                >
-                                    Contact Me
-                                </motion.a>
+                                <div className="p-4 rounded-xl bg-white/5 border border-white/10 backdrop-blur-sm relative overflow-hidden group/item">
+                                    <div className="absolute inset-0 bg-cyan-400/5 opacity-0 group-hover/item:opacity-100 transition-opacity" />
+                                    <p className="text-[10px] font-mono text-cyan-400 mb-1 tracking-widest uppercase">Location</p>
+                                    <p className="text-sm font-bold text-white uppercase italic">Planet Earth</p>
+                                </div>
+                                <div className="p-4 rounded-xl bg-white/5 border border-white/10 backdrop-blur-sm relative overflow-hidden group/item">
+                                    <div className="absolute inset-0 bg-purple-400/5 opacity-0 group-hover/item:opacity-100 transition-opacity" />
+                                    <p className="text-[10px] font-mono text-purple-400 mb-1 tracking-widest uppercase">Status</p>
+                                    <p className="text-sm font-bold text-white uppercase italic">Active_Sync</p>
+                                </div>
+                                <div className="p-4 rounded-xl bg-white/5 border border-white/10 backdrop-blur-sm relative overflow-hidden group/item col-span-2 md:col-span-1">
+                                    <div className="absolute inset-0 bg-pink-400/5 opacity-0 group-hover/item:opacity-100 transition-opacity" />
+                                    <p className="text-[10px] font-mono text-pink-400 mb-1 tracking-widest uppercase">Version</p>
+                                    <p className="text-sm font-bold text-white uppercase italic">2026.Build_1.0</p>
+                                </div>
                             </motion.div>
                         </div>
+
+                        {/* Decorator Scan Line */}
+                        <div className="absolute inset-0 pointer-events-none opacity-20 bg-[linear-gradient(to_bottom,transparent_0%,rgba(6,182,212,0.1)_50%,transparent_100%)] animate-scan" />
                     </div>
                 </motion.div>
             </section>
 
             {/* Connect — Premium Social Links */}
             <section id="connect" className="min-h-screen flex flex-col items-center justify-center px-6 py-24 relative z-10 overflow-hidden">
-                <div className="absolute inset-0 pointer-events-none z-0">
-                    <div className="absolute inset-0 bg-gradient-to-b from-black via-cyan-950/20 to-black" />
-                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-cyan-500/5 rounded-full blur-[120px]" />
-                </div>
-
                 <div className="max-w-5xl mx-auto w-full relative z-10">
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
@@ -373,7 +276,6 @@ export default function Portfolio() {
                 </div>
             </section>
 
-            <TechKeyboard />
 
             {/* Projects Section */}
             <section id="projects" className="min-h-screen px-6 py-40 relative z-10">
@@ -392,6 +294,70 @@ export default function Portfolio() {
                             <ProjectCard key={index} project={project} index={index} />
                         ))}
                     </div>
+                </div>
+            </section>
+
+            {/* Contact Section */}
+            <section id="contact" className="min-h-screen flex flex-col items-center justify-center px-6 py-40 relative z-10 overflow-hidden">
+                <div className="max-w-4xl mx-auto w-full relative z-10">
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6 }}
+                        className="text-center mb-16"
+                    >
+                        <span className="inline-block px-4 py-1.5 rounded-full border border-purple-500/30 text-purple-400 text-xs font-mono tracking-[0.2em] uppercase mb-6">
+                            Ready to work?
+                        </span>
+                        <h2 className="text-4xl md:text-6xl font-black mb-4">
+                            <span className="bg-gradient-to-r from-white via-purple-200 to-white bg-clip-text text-transparent">Get in</span>
+                            <span className="text-white"> Touch</span>
+                        </h2>
+
+                        {/* Hover Hint */}
+                        <div className="flex items-center justify-center gap-2 mt-4 text-purple-400/60 animate-pulse">
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122" />
+                            </svg>
+                            <span className="text-[10px] font-mono tracking-widest uppercase italic">Move mouse over the form to reveal energy</span>
+                        </div>
+                    </motion.div>
+
+                    <MagicCard className="p-8 md:p-12 shadow-2xl border border-white/5">
+                        <form className="space-y-8" onSubmit={(e) => e.preventDefault()}>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                <div className="space-y-2">
+                                    <label className="text-[10px] font-mono text-cyan-400 uppercase tracking-widest ml-1">Identity</label>
+                                    <input
+                                        type="text"
+                                        placeholder="YOUR NAME"
+                                        className="w-full bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-white focus:outline-none focus:border-cyan-400/50 transition-colors font-mono placeholder:text-gray-700"
+                                    />
+                                </div>
+                                <div className="space-y-2">
+                                    <label className="text-[10px] font-mono text-purple-400 uppercase tracking-widest ml-1">Frequency</label>
+                                    <input
+                                        type="email"
+                                        placeholder="YOUR EMAIL"
+                                        className="w-full bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-white focus:outline-none focus:border-purple-400/50 transition-colors font-mono placeholder:text-gray-700"
+                                    />
+                                </div>
+                            </div>
+                            <div className="space-y-2">
+                                <label className="text-[10px] font-mono text-pink-400 uppercase tracking-widest ml-1">Signal Message</label>
+                                <textarea
+                                    rows="5"
+                                    placeholder="HOW CAN I HELP YOU?"
+                                    className="w-full bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-white focus:outline-none focus:border-pink-400/50 transition-colors font-mono placeholder:text-gray-700 resize-none"
+                                ></textarea>
+                            </div>
+                            <button className="w-full py-5 rounded-xl bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 text-white font-black uppercase tracking-[0.3em] text-sm hover:scale-[1.02] transition-transform shadow-[0_10px_30px_-5px_rgba(192,132,252,0.3)] group/btn relative overflow-hidden">
+                                <span className="relative z-10">Initialize Transmission</span>
+                                <div className="absolute inset-0 bg-white opacity-0 group-hover/btn:opacity-10 transition-opacity" />
+                            </button>
+                        </form>
+                    </MagicCard>
                 </div>
             </section>
 

@@ -45,6 +45,34 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+@keyframes meteor {
+  0% {
+    transform: rotate(var(--angle)) translateX(0);
+    opacity: 0;
+  }
+
+  10% {
+    opacity: 1;
+  }
+
+  90% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: rotate(var(--angle)) translateX(1000px);
+    opacity: 0;
+  }
+}
+
+.animate-meteor {
+  animation: meteor 5s linear infinite;
+}
+
+.animate-scan {
+  animation: scan 4s linear infinite;
+}
+
 [class*="animate-"] {
   will-change: transform, opacity;
   backface-visibility: hidden;

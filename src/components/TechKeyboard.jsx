@@ -219,13 +219,7 @@ const TechKeyboard = () => {
     }, [splineApp]);
 
     return (
-        <section id="skills" className="w-full min-h-[140dvh] relative bg-[#010101] pt-40 pb-60 flex flex-col items-center overflow-hidden">
-            <div className="absolute inset-0 bg-[#000000]" />
-            <NeuralBackground />
-            <div className="absolute inset-0 neural-grid opacity-30 pointer-events-none" />
-
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1400px] h-[800px] bg-blue-600/5 blur-[120px] rounded-full pointer-events-none" />
-            <div className="absolute bottom-0 right-0 w-[800px] h-[600px] bg-cyan-600/5 blur-[100px] rounded-full pointer-events-none animate-pulse-slow" />
+        <section id="skills" className="w-full min-h-[140dvh] relative pt-40 pb-60 flex flex-col items-center overflow-hidden">
 
             <div className="sticky top-24 z-30 mb-52 flex flex-col items-center text-center px-6">
                 <BoxReveal color="#22d3ee">
