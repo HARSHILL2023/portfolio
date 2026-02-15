@@ -94,6 +94,8 @@ export function SmoothCursor({
         damping: 35,
     });
 
+    const isHoveringRef = useRef(false);
+
     useEffect(() => {
         const updateVelocity = (currentPos) => {
             const currentTime = Date.now();
@@ -133,15 +135,35 @@ export function SmoothCursor({
                 rotation.set(accumulatedRotation.current);
                 previousAngle.current = currentAngle;
 
-                scale.set(0.95);
-                setIsMoving(true);
+                if (!isHoveringRef.current) {
+                    scale.set(0.95);
+                    const timeout = setTimeout(() => {
+                        if (!isHoveringRef.current) scale.set(1);
+                    }, 150);
+                    return () => clearTimeout(timeout);
+                }
+            }
+        };
 
-                const timeout = setTimeout(() => {
-                    scale.set(1);
-                    setIsMoving(false);
-                }, 150);
+        const handleMouseOver = (e) => {
+            const target = e.target;
+            const isInteractive = target && (
+                target.tagName === "A" ||
+                target.tagName === "BUTTON" ||
+                target.tagName === "INPUT" ||
+                target.tagName === "TEXTAREA" ||
+                target.closest("a") ||
+                target.closest("button") ||
+                target.closest(".cursor-pointer") ||
+                window.getComputedStyle(target).cursor === "pointer"
+            );
 
-                return () => clearTimeout(timeout);
+            if (isInteractive) {
+                isHoveringRef.current = true;
+                scale.set(1.5);
+            } else {
+                isHoveringRef.current = false;
+                scale.set(1);
             }
         };
 
@@ -155,11 +177,16 @@ export function SmoothCursor({
             });
         };
 
+        document.documentElement.style.cursor = "none";
         document.body.style.cursor = "none";
+
         window.addEventListener("mousemove", throttledMouseMove);
+        window.addEventListener("mouseover", handleMouseOver, { capture: true });
 
         return () => {
             window.removeEventListener("mousemove", throttledMouseMove);
+            window.removeEventListener("mouseover", handleMouseOver, { capture: true });
+            document.documentElement.style.cursor = "auto";
             document.body.style.cursor = "auto";
             if (rafId) cancelAnimationFrame(rafId);
         };
@@ -175,7 +202,7 @@ export function SmoothCursor({
                 translateY: "-50%",
                 rotate: rotation,
                 scale: scale,
-                zIndex: 100,
+                zIndex: 9999,
                 pointerEvents: "none",
                 willChange: "transform",
             }}

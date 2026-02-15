@@ -5,6 +5,8 @@ import { Meteors } from './ui/meteors';
 import { Particles } from './ui/particles';
 import { HyperText } from './ui/hyper-text';
 import { MagicCard } from './ui/magic-card';
+import { Dock, DockIcon } from './ui/dock';
+import { MorphingText } from './ui/morphing-text';
 
 const roles = [
     'Frontend Developer',
@@ -164,7 +166,6 @@ export default function Portfolio() {
                             >
                                 Harshil Patel
                             </HyperText>
-
                             <motion.div
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
@@ -221,57 +222,45 @@ export default function Portfolio() {
                         <span className="inline-block px-4 py-1.5 rounded-full border border-cyan-500/30 text-cyan-400 text-xs font-mono tracking-[0.2em] uppercase mb-6">
                             Let's Connect
                         </span>
-                        <h2 className="text-4xl md:text-6xl font-black mb-4">
-                            <span className="bg-gradient-to-r from-white via-cyan-200 to-white bg-clip-text text-transparent">Find Me</span>
-                            <span className="text-white"> Online</span>
-                        </h2>
+                        <div className="flex flex-row items-baseline justify-center gap-x-3 mb-4 whitespace-nowrap">
+                            <h2 className="text-4xl md:text-6xl font-black text-white tracking-tighter">
+                                Find Me on
+                            </h2>
+                            <div className="w-[180px] md:w-[320px] text-left">
+                                <MorphingText
+                                    texts={["GitHub", "LinkedIn", "LeetCode"]}
+                                    className="text-4xl md:text-6xl font-black italic tracking-tighter text-cyan-400"
+                                    width="w-full"
+                                />
+                            </div>
+                        </div>
                         <p className="text-gray-400 max-w-xl mx-auto text-lg">
                             Code, connect, and collaborate — tap any card to visit my profile.
                         </p>
                     </motion.div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-                        {socialAccounts.map((account, index) => (
-                            <motion.a
-                                key={account.name}
-                                href={account.url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                initial={{ opacity: 0, y: 40 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ duration: 0.5, delay: index * 0.1 }}
-                                whileHover={{ y: -8, scale: 1.02 }}
-                                whileTap={{ scale: 0.98 }}
-                                className="group relative block"
-                            >
-                                <div
-                                    className="relative overflow-hidden rounded-2xl p-8 md:p-10 backdrop-blur-xl bg-white/[0.03] border border-white/10 hover:border-white/20 transition-all duration-500"
-                                    style={{ boxShadow: `0 0 40px -10px ${account.glow}` }}
-                                >
-                                    <div className="absolute inset-0 bg-gradient-to-br opacity-0 group-hover:opacity-100 from-white/5 to-transparent transition-opacity duration-500 rounded-2xl" />
-                                    <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${account.gradient} opacity-10 rounded-full blur-2xl group-hover:opacity-20 transition-opacity duration-500`} />
-
-                                    <div className="relative z-10">
-                                        <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${account.gradient} flex items-center justify-center text-white mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg`}>
+                    <div className="flex items-center justify-center scale-150 py-12">
+                        <Dock magnification={80} distance={150}>
+                            {socialAccounts.map((account, index) => (
+                                <DockIcon key={account.name} className="bg-white/10 p-3 group relative">
+                                    <a
+                                        href={account.url}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="flex items-center justify-center w-full h-full"
+                                    >
+                                        <div className={`text-white transition-colors duration-300 group-hover:text-cyan-400`}>
                                             {account.icon}
                                         </div>
-                                        <h3 className="text-xl font-bold text-white mb-2 group-hover:text-cyan-100 transition-colors">
-                                            {account.name}
-                                        </h3>
-                                        <p className="text-gray-400 text-sm mb-6">
-                                            {account.label}
-                                        </p>
-                                        <span className="inline-flex items-center gap-2 text-cyan-400 text-sm font-semibold opacity-80 group-hover:opacity-100 group-hover:gap-3 transition-all duration-300">
-                                            Visit Profile
-                                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                                            </svg>
-                                        </span>
-                                    </div>
-                                </div>
-                            </motion.a>
-                        ))}
+
+                                        {/* Label Tooltip */}
+                                        <div className="absolute -top-12 left-1/2 -translate-x-1/2 px-3 py-1 bg-white/10 backdrop-blur-md border border-white/20 rounded-lg opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none whitespace-nowrap">
+                                            <p className="text-[10px] font-mono text-white tracking-widest uppercase">{account.name}</p>
+                                        </div>
+                                    </a>
+                                </DockIcon>
+                            ))}
+                        </Dock>
                     </div>
                 </div>
             </section>

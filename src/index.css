@@ -45,6 +45,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+*,
+*::before,
+*::after {
+  cursor: none !important;
+}
+
 @keyframes meteor {
   0% {
     transform: rotate(var(--angle)) translateX(0);
