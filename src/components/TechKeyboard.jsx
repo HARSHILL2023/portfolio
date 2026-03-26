@@ -259,7 +259,7 @@ const TechKeyboard = () => {
                     <Suspense fallback={null}>
                         {isInView && (
                             <Spline
-                                scene="/assets/skills-keyboard.spline"
+                                 scene={`${import.meta.env.BASE_URL}assets/skills-keyboard.spline`}
                                 onLoad={onLoad}
                             />
                         )}

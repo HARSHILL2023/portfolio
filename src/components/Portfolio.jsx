@@ -1,6 +1,10 @@
-import React, { useState, useEffect, useRef, useMemo, memo } from 'react';
+import React, { useState, useEffect, useRef, useMemo, memo, lazy, Suspense } from 'react';
 import { motion, useSpring, useMotionValue, AnimatePresence } from 'framer-motion';
-import SplineScene from './SplineScene';
+
+// Lazy loading heavy components for performance
+const SkillsSection = lazy(() => import('./SkillsSection'));
+const Certifications = lazy(() => import('./Certifications'));
+
 import { Meteors } from './ui/meteors';
 import { Particles } from './ui/particles';
 import { HyperText } from './ui/hyper-text';
@@ -51,6 +55,42 @@ const socialAccounts = [
         url: 'https://leetcode.com/profile/',
         gradient: 'from-amber-500 to-orange-600',
         glow: 'rgba(255, 161, 22, 0.4)',
+    },
+    {
+        name: 'YouTube',
+        label: 'Content Creation',
+        icon: (
+            <svg viewBox="0 0 24 24" fill="currentColor" className="w-8 h-8">
+                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+            </svg>
+        ),
+        url: 'https://youtube.com/@harshilpatel-20?si=L9HrbJJDXA0dCqUG',
+        gradient: 'from-red-600 to-red-800',
+        glow: 'rgba(255, 0, 0, 0.4)',
+    },
+    {
+        name: 'Twitter (X)',
+        label: 'Microblogging',
+        icon: (
+            <svg viewBox="0 0 24 24" fill="currentColor" className="w-8 h-8">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+            </svg>
+        ),
+        url: 'https://x.com/HarshilPat74943',
+        gradient: 'from-gray-700 to-black',
+        glow: 'rgba(255, 255, 255, 0.4)',
+    },
+    {
+        name: 'Sololearn',
+        label: 'Daily Learning',
+        icon: (
+            <svg viewBox="0 0 24 24" fill="currentColor" className="w-8 h-8">
+                <path d="M12 0L1.5 6v12L12 24l10.5-6V6L12 0zm0 18.75l-6-3.42V8.67l6 3.42 6-3.42v6.66l-6 3.42z" />
+            </svg>
+        ),
+        url: 'https://www.sololearn.com/en/profile/34952120',
+        gradient: 'from-blue-400 to-teal-500',
+        glow: 'rgba(0, 191, 255, 0.4)',
     }
 ];
 
@@ -65,19 +105,22 @@ const creativeProjects = [
 
 // Memoized Components for Performance
 const ProjectCard = memo(({ project, index }) => (
-    <motion.div
+    <motion.article
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-50px" }}
         transition={{ duration: 0.6, delay: index * 0.1, ease: [0.215, 0.61, 0.355, 1] }}
-        className={`group backdrop-blur-xl bg-white/5 rounded-2xl p-8 border border-white/20 transition-all duration-500 cursor-pointer relative overflow-hidden animate-${project.animation} will-change-transform shadow-[0_20px_50px_rgba(0,0,0,0.3)] hover:shadow-cyan-500/20`}
+        className={`group backdrop-blur-xl bg-white/5 rounded-2xl p-8 border border-white/20 transition-all duration-500 cursor-pointer relative overflow-hidden will-change-transform shadow-[0_20px_50px_rgba(0,0,0,0.3)] hover:shadow-cyan-500/20`}
+        aria-labelledby={`project-title-${index}`}
     >
         <div className="absolute inset-0 bg-gradient-to-br from-cyan-400/0 to-purple-400/0 group-hover:from-cyan-400/20 group-hover:to-purple-400/20 transition-all duration-700 rounded-2xl"></div>
         <div className="relative z-10">
             <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${project.color} mb-6 flex items-center justify-center shadow-lg transform group-hover:scale-110 group-hover:rotate-12 transition-all duration-500`}>
                 <span className="text-3xl">💡</span>
             </div>
-            <h3 className="text-2xl font-bold mb-4 text-white group-hover:text-cyan-300 transition-colors uppercase tracking-tight">{project.title}</h3>
+            <h3 id={`project-title-${index}`} className="text-2xl font-black text-white mb-3 group-hover:text-cyan-400 transition-colors duration-300">
+                {project.title}
+            </h3>
             <p className="text-gray-400 mb-6 group-hover:text-gray-300 transition-colors leading-relaxed">{project.description}</p>
             <div className="flex flex-wrap gap-2">
                 {project.tech.map((tech, idx) => (
@@ -87,7 +130,7 @@ const ProjectCard = memo(({ project, index }) => (
                 ))}
             </div>
         </div>
-    </motion.div>
+    </motion.article>
 ));
 
 
@@ -97,7 +140,6 @@ export default function Portfolio() {
     const [typewriterIndex, setTypewriterIndex] = useState(0);
     const [isDeleting, setIsDeleting] = useState(false);
     const [showCursor, setShowCursor] = useState(true);
-
 
     // Typewriter effect
     useEffect(() => {
@@ -127,9 +169,10 @@ export default function Portfolio() {
         return () => clearInterval(blinkInterval);
     }, []);
 
-
     return (
-        <div ref={rootRef} className="min-h-screen bg-black text-white overflow-x-hidden relative">
+        <main ref={rootRef} className="min-h-screen bg-black text-white overflow-x-hidden relative selection:bg-cyan-500/30 font-sans antialiased">
+            <h1 className="sr-only">Harshil Patel - Senior Frontend Engineer & UI/UX Specialist Portfolio</h1>
+            
             {/* Whole Background Particles */}
             <Particles
                 className="fixed inset-0 z-0"
@@ -140,23 +183,21 @@ export default function Portfolio() {
                 refresh
             />
 
-            <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
+            <div className="fixed inset-0 overflow-hidden pointer-events-none z-0" aria-hidden="true">
                 <div className="absolute inset-0 bg-black/50"></div>
                 <div className="absolute top-20 left-10 w-[500px] h-[500px] bg-cyan-600/5 rounded-full blur-[100px] animate-float-slow will-change-transform"></div>
                 <div className="absolute bottom-20 right-10 w-[500px] h-[500px] bg-purple-600/5 rounded-full blur-[100px] animate-float-slow-reverse will-change-transform"></div>
             </div>
 
-
             {/* Hero Section */}
-            <section className="min-h-screen flex items-center justify-center px-6 py-20 relative z-10">
+            <header id="hero" className="min-h-screen flex items-center justify-center px-6 py-20 relative z-10" aria-label="Introduction Section">
                 <motion.div
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
                     className="text-center max-w-5xl mx-auto"
                 >
-                    <div className="relative backdrop-blur-2xl rounded-[3rem] border border-white/10 shadow-[0_0_100px_-20px_rgba(34,211,238,0.15)] bg-black/40 will-change-transform overflow-hidden group">
-                        {/* Meteors Effect inside Hero Card */}
+                    <div className="relative backdrop-blur-2xl rounded-[3rem] border border-white/10 shadow-[0_0_100px_-20px_rgba(34,211,238,0.15)] bg-black/40 overflow-hidden group">
                         <Meteors number={100} />
 
                         <div className="relative z-10 flex flex-col items-center p-8 md:p-12">
@@ -174,16 +215,15 @@ export default function Portfolio() {
                             >
                                 <p className="text-xl md:text-2xl font-medium text-gray-400 inline-flex items-center">
                                     {typewriterText}
-                                    <span className={`inline-block w-0.5 h-6 bg-cyan-400 ml-1 ${showCursor ? 'opacity-100' : 'opacity-0'}`}></span>
+                                    <span className={`inline-block w-0.5 h-6 bg-cyan-400 ml-1 ${showCursor ? 'opacity-100' : 'opacity-0'}`} aria-hidden="true"></span>
                                 </p>
                             </motion.div>
 
-                            {/* Unique Terminal/System Status Bio */}
                             <motion.div
                                 initial={{ opacity: 0, y: 30 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: 1.6, duration: 0.8 }}
-                                className="mt-8 grid grid-cols-2 md:grid-cols-3 gap-4 w-full max-w-2xl px-4"
+                                className="mt-8 grid grid-cols-2 md:grid-cols-3 gap-4 w-full max-w-2xl px-4 text-left"
                             >
                                 <div className="p-4 rounded-xl bg-white/5 border border-white/10 backdrop-blur-sm relative overflow-hidden group/item">
                                     <div className="absolute inset-0 bg-cyan-400/5 opacity-0 group-hover/item:opacity-100 transition-opacity" />
@@ -202,15 +242,13 @@ export default function Portfolio() {
                                 </div>
                             </motion.div>
                         </div>
-
-                        {/* Decorator Scan Line */}
-                        <div className="absolute inset-0 pointer-events-none opacity-20 bg-[linear-gradient(to_bottom,transparent_0%,rgba(6,182,212,0.1)_50%,transparent_100%)] animate-scan" />
+                        <div className="absolute inset-0 pointer-events-none opacity-20 bg-[linear-gradient(to_bottom,transparent_0%,rgba(6,182,212,0.1)_50%,transparent_100%)] animate-scan" aria-hidden="true" />
                     </div>
                 </motion.div>
-            </section>
+            </header>
 
-            {/* Connect — Premium Social Links */}
-            <section id="connect" className="min-h-screen flex flex-col items-center justify-center px-6 py-24 relative z-10 overflow-hidden">
+            {/* Connect Section */}
+            <section id="connect" className="py-32 md:py-40 flex flex-col items-center justify-center px-6 relative z-10 overflow-hidden" aria-label="Social Connections">
                 <div className="max-w-5xl mx-auto w-full relative z-10">
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
@@ -223,51 +261,46 @@ export default function Portfolio() {
                             Let's Connect
                         </span>
                         <div className="flex flex-row items-baseline justify-center gap-x-3 mb-4 whitespace-nowrap">
-                            <h2 className="text-4xl md:text-6xl font-black text-white tracking-tighter">
-                                Find Me on
-                            </h2>
+                            <h2 className="text-4xl md:text-6xl font-black text-white tracking-tighter">Find Me on</h2>
                             <div className="w-[180px] md:w-[320px] text-left">
                                 <MorphingText
-                                    texts={["GitHub", "LinkedIn", "LeetCode"]}
+                                    texts={["GitHub", "LinkedIn", "LeetCode", "YouTube", "Twitter", "Sololearn"]}
                                     className="text-4xl md:text-6xl font-black italic tracking-tighter text-cyan-400"
                                     width="w-full"
                                 />
                             </div>
                         </div>
-                        <p className="text-gray-400 max-w-xl mx-auto text-lg">
-                            Code, connect, and collaborate — tap any card to visit my profile.
-                        </p>
                     </motion.div>
 
-                    <div className="flex items-center justify-center scale-150 py-12">
+                    <nav className="flex items-center justify-center scale-150 py-12" aria-label="Social Media Dock">
                         <Dock magnification={80} distance={150}>
-                            {socialAccounts.map((account, index) => (
+                            {socialAccounts.map((account) => (
                                 <DockIcon key={account.name} className="bg-white/10 p-3 group relative">
                                     <a
                                         href={account.url}
                                         target="_blank"
                                         rel="noopener noreferrer"
+                                        aria-label={`Visit my ${account.name} profile`}
                                         className="flex items-center justify-center w-full h-full"
                                     >
-                                        <div className={`text-white transition-colors duration-300 group-hover:text-cyan-400`}>
+                                        <div className="text-white transition-colors duration-300 group-hover:text-cyan-400">
                                             {account.icon}
-                                        </div>
-
-                                        {/* Label Tooltip */}
-                                        <div className="absolute -top-12 left-1/2 -translate-x-1/2 px-3 py-1 bg-white/10 backdrop-blur-md border border-white/20 rounded-lg opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none whitespace-nowrap">
-                                            <p className="text-[10px] font-mono text-white tracking-widest uppercase">{account.name}</p>
                                         </div>
                                     </a>
                                 </DockIcon>
                             ))}
                         </Dock>
-                    </div>
+                    </nav>
                 </div>
             </section>
 
+            {/* Technical Skills Section */}
+            <Suspense fallback={<div className="h-screen bg-black flex items-center justify-center font-mono text-cyan-400 uppercase tracking-widest animate-pulse">Initializing_Skills_Interface...</div>}>
+                <SkillsSection />
+            </Suspense>
 
             {/* Projects Section */}
-            <section id="projects" className="min-h-screen px-6 py-40 relative z-10">
+            <section id="projects" className="py-32 md:py-40 px-6 relative z-10" aria-label="Development Projects">
                 <div className="max-w-7xl mx-auto w-full">
                     <motion.h2
                         initial={{ opacity: 0, y: 30 }}
@@ -286,8 +319,13 @@ export default function Portfolio() {
                 </div>
             </section>
 
+            {/* Certifications Section */}
+            <Suspense fallback={<div className="h-screen bg-black" />}>
+                <Certifications />
+            </Suspense>
+
             {/* Contact Section */}
-            <section id="contact" className="min-h-screen flex flex-col items-center justify-center px-6 py-40 relative z-10 overflow-hidden">
+            <section id="contact" className="py-32 md:py-40 flex flex-col items-center justify-center px-6 relative z-10 overflow-hidden" aria-label="Contact and Inquiries">
                 <div className="max-w-4xl mx-auto w-full relative z-10">
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
@@ -299,49 +337,46 @@ export default function Portfolio() {
                         <span className="inline-block px-4 py-1.5 rounded-full border border-purple-500/30 text-purple-400 text-xs font-mono tracking-[0.2em] uppercase mb-6">
                             Ready to work?
                         </span>
-                        <h2 className="text-4xl md:text-6xl font-black mb-4">
-                            <span className="bg-gradient-to-r from-white via-purple-200 to-white bg-clip-text text-transparent">Get in</span>
-                            <span className="text-white"> Touch</span>
-                        </h2>
-
-                        {/* Hover Hint */}
-                        <div className="flex items-center justify-center gap-2 mt-4 text-purple-400/60 animate-pulse">
-                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122" />
-                            </svg>
-                            <span className="text-[10px] font-mono tracking-widest uppercase italic">Move mouse over the form to reveal energy</span>
-                        </div>
+                        <h2 className="text-4xl md:text-6xl font-black mb-4 uppercase italic tracking-tighter">Get in <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500">Touch</span></h2>
                     </motion.div>
 
                     <MagicCard className="p-8 md:p-12 shadow-2xl border border-white/5">
-                        <form className="space-y-8" onSubmit={(e) => e.preventDefault()}>
+                        <form className="space-y-8" aria-label="Contact Form" onSubmit={(e) => e.preventDefault()}>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                 <div className="space-y-2">
-                                    <label className="text-[10px] font-mono text-cyan-400 uppercase tracking-widest ml-1">Identity</label>
+                                    <label htmlFor="name" className="text-[10px] font-mono text-cyan-400 uppercase tracking-widest ml-1">Identity</label>
                                     <input
+                                        id="name"
                                         type="text"
                                         placeholder="YOUR NAME"
+                                        autoComplete="name"
                                         className="w-full bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-white focus:outline-none focus:border-cyan-400/50 transition-colors font-mono placeholder:text-gray-700"
                                     />
                                 </div>
                                 <div className="space-y-2">
-                                    <label className="text-[10px] font-mono text-purple-400 uppercase tracking-widest ml-1">Frequency</label>
+                                    <label htmlFor="email" className="text-[10px] font-mono text-purple-400 uppercase tracking-widest ml-1">Frequency</label>
                                     <input
+                                        id="email"
                                         type="email"
                                         placeholder="YOUR EMAIL"
+                                        autoComplete="email"
                                         className="w-full bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-white focus:outline-none focus:border-purple-400/50 transition-colors font-mono placeholder:text-gray-700"
                                     />
                                 </div>
                             </div>
                             <div className="space-y-2">
-                                <label className="text-[10px] font-mono text-pink-400 uppercase tracking-widest ml-1">Signal Message</label>
+                                <label htmlFor="message" className="text-[10px] font-mono text-pink-400 uppercase tracking-widest ml-1">Signal Message</label>
                                 <textarea
+                                    id="message"
                                     rows="5"
                                     placeholder="HOW CAN I HELP YOU?"
                                     className="w-full bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-white focus:outline-none focus:border-pink-400/50 transition-colors font-mono placeholder:text-gray-700 resize-none"
                                 ></textarea>
                             </div>
-                            <button className="w-full py-5 rounded-xl bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 text-white font-black uppercase tracking-[0.3em] text-sm hover:scale-[1.02] transition-transform shadow-[0_10px_30px_-5px_rgba(192,132,252,0.3)] group/btn relative overflow-hidden">
+                            <button 
+                                type="submit"
+                                className="w-full py-5 rounded-xl bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 text-white font-black uppercase tracking-[0.3em] text-sm hover:scale-[1.01] active:scale-95 transition-all shadow-lg group/btn relative overflow-hidden"
+                            >
                                 <span className="relative z-10">Initialize Transmission</span>
                                 <div className="absolute inset-0 bg-white opacity-0 group-hover/btn:opacity-10 transition-opacity" />
                             </button>
@@ -350,10 +385,9 @@ export default function Portfolio() {
                 </div>
             </section>
 
-            {/* Footer */}
-            <footer className="py-20 text-center opacity-30 border-t border-white/10">
-                <p className="text-[10px] font-mono tracking-[2em] uppercase">© Harshil Patel • 2026</p>
+            <footer className="py-20 text-center opacity-30 border-t border-white/10" role="contentinfo">
+                <p className="text-[10px] font-mono tracking-[2em] uppercase">© Harshil Patel • 2026 • Optimized for Modern Web</p>
             </footer>
-        </div >
+        </main>
     );
 }
