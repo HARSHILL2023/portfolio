@@ -1,0 +1,10 @@
+/*
+  Redirects for Single Page Applications (SPAs)
+  https://docs.netlify.com/routing/redirects/
+*/
+
+/*
+  If your application uses client-side routing, you need to redirect all requests to index.html
+  This allows React Router or other client-side routers to handle the navigation.
+*/
+/*  /index.html  200
