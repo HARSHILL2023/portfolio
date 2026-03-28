@@ -96,30 +96,7 @@ export default function ProjectShowcase() {
                     ))}
                 </div>
 
-                {/* Global CTA Integration */}
-                <motion.div
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.4 }}
-                    className="mt-32 text-center"
-                >
-                    <div className="h-px w-full bg-gradient-to-r from-transparent via-purple-500/20 to-transparent mb-24" />
 
-                    <h3 className="text-2xl md:text-3xl font-bold text-white/80 mb-10 italic tracking-tight">
-                        Analyzing Repository Architecture
-                    </h3>
-
-                    <a
-                        href="https://github.com/HARSHILL2023"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-6 px-12 py-5 rounded-2xl border border-purple-400/20 bg-purple-500/10 text-white font-bold uppercase tracking-[0.3em] text-xs hover:border-purple-400 hover:scale-105 active:scale-95 transition-all shadow-2xl backdrop-blur-md"
-                    >
-                        <span>Explore Directory</span>
-                        <div className="w-2 h-2 rounded-full bg-purple-400 animate-pulse" />
-                    </a>
-                </motion.div>
             </div>
         </section>
     );

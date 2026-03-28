@@ -177,22 +177,7 @@ export const PersonalLanding = () => {
                         }}
                     />
 
-                    {/* Spinning conic border ring — square */}
-                    <motion.div
-                        style={{
-                            width: 368,
-                            height: 368,
-                            background: 'conic-gradient(from 0deg, #a855f7 0%, #6366f1 35%, #22d3ee 65%, #a855f7 100%)',
-                            borderRadius: '1.25rem',
-                            position: 'absolute',
-                            padding: 2,
-                        }}
-                        animate={{ rotate: 360 }}
-                        transition={{ duration: 11, repeat: Infinity, ease: 'linear' }}
-                    >
-                        {/* Inner mask */}
-                        <div style={{ width: '100%', height: '100%', borderRadius: '1.1rem', background: '#000005' }} />
-                    </motion.div>
+
 
                     {/* Photo — square */}
                     <div

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useMemo, memo, lazy, Suspense } fro
 import { motion, useSpring, useMotionValue, AnimatePresence } from 'framer-motion';
 
 // Lazy loading heavy components for performance
-const RadarSkills = lazy(() => import('./RadarSkills'));
+const TechOrbitSkills = lazy(() => import('./TechOrbitSkills'));
 const Certifications = lazy(() => import('./Certifications'));
 const ProjectShowcase = lazy(() => import('./ProjectShowcase'));
 const PersonalLanding = lazy(() => import('./ui/personal-landing').then(m => ({ default: m.PersonalLanding })));
@@ -12,11 +12,11 @@ import { Particles } from './ui/particles';
 import { MagicCard } from './ui/magic-card';
 import { LimelightNav } from './ui/limelight-nav';
 import {
-    User as UserIcon,
-    Cpu,
+    User,
     Layers,
-    Award,
-    SendHorizonal
+    Code,
+    Trophy,
+    Send
 } from 'lucide-react';
 
 import AetherBackground from './ui/aether-background';
@@ -35,9 +35,9 @@ export default function Portfolio() {
                 </div>
             </Suspense>
 
-            {/* Futuristic Radar Skills Section */}
+            {/* Futuristic Tech Orbit Skills Section */}
             <Suspense fallback={<div className="h-screen bg-transparent" />}>
-                <RadarSkills />
+                <TechOrbitSkills />
             </Suspense>
 
             {/* Advanced Project Showcase */}
@@ -56,11 +56,11 @@ export default function Portfolio() {
             <div className="fixed bottom-12 left-1/2 -translate-x-1/2 z-[100] animate-in slide-in-from-bottom-10 duration-1000 delay-500">
                 <LimelightNav
                     items={[
-                        { id: 'identity', icon: <UserIcon size={18} />, label: 'Identity', link: '#top' },
-                        { id: 'skills', icon: <Cpu size={18} />, label: 'Arsenal', link: '#skills' },
-                        { id: 'projects', icon: <Layers size={18} />, label: 'Repository', link: '#projects' },
-                        { id: 'certs', icon: <Award size={18} />, label: 'Credentials', link: '#certifications' },
-                        { id: 'contact', icon: <SendHorizonal size={18} />, label: 'Signal', link: '#contact' },
+                        { id: 'identity', icon: <User size={20} />, label: 'Identity', link: '#top' },
+                        { id: 'skills', icon: <Layers size={20} />, label: 'Arsenal', link: '#skills' },
+                        { id: 'projects', icon: <Code size={20} />, label: 'Repository', link: '#projects' },
+                        { id: 'certs', icon: <Trophy size={20} />, label: 'Credentials', link: '#certifications' },
+                        { id: 'contact', icon: <Send size={20} />, label: 'Signal', link: '#contact' },
                     ]}
                 />
             </div>
