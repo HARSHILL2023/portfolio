@@ -1,196 +1,80 @@
 "use client";
 
-import { motion, useSpring } from "framer-motion";
+import { motion, useSpring, useMotionValue } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 
 const DefaultCursorSVG = () => {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
-            width={50}
-            height={54}
-            viewBox="0 0 50 54"
+            width={40}
+            height={40}
+            viewBox="0 0 24 24"
             fill="none"
-            style={{ scale: 0.5 }}
+            className="drop-shadow-[0_0_8px_rgba(34,211,238,0.5)]"
         >
-            <g filter="url(#filter0_d_91_7928)">
-                <path
-                    d="M42.6817 41.1495L27.5103 6.79925C26.7269 5.02557 24.2082 5.02558 23.3927 6.79925L7.59814 41.1495C6.75833 42.9759 8.52712 44.8902 10.4125 44.1954L24.3757 39.0496C24.8829 38.8627 25.4385 38.8627 25.9422 39.0496L39.8121 44.1954C41.6849 44.8902 43.4884 42.9759 42.6817 41.1495Z"
-                    fill="black"
-                />
-                <path
-                    d="M43.7146 40.6933L28.5431 6.34306C27.3556 3.65428 23.5772 3.69516 22.3668 6.32755L6.57226 40.6778C5.3134 43.4156 7.97238 46.298 10.803 45.2549L24.7662 40.109C25.0221 40.0147 25.2999 40.0156 25.5494 40.1082L39.4193 45.254C42.2261 46.2953 44.9254 43.4347 43.7146 40.6933Z"
-                    stroke="white"
-                    strokeWidth={2.25825}
-                />
-            </g>
-            <defs>
-                <filter
-                    id="filter0_d_91_7928"
-                    x={0.602397}
-                    y={0.952444}
-                    width={49.0584}
-                    height={52.428}
-                    filterUnits="userSpaceOnUse"
-                    colorInterpolationFilters="sRGB"
-                >
-                    <feFlood floodOpacity={0} result="BackgroundImageFix" />
-                    <feColorMatrix
-                        in="SourceAlpha"
-                        type="matrix"
-                        values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
-                        result="hardAlpha"
-                    />
-                    <feOffset dy={2.25825} />
-                    <feGaussianBlur stdDeviation={2.25825} />
-                    <feComposite in2="hardAlpha" operator="out" />
-                    <feColorMatrix
-                        type="matrix"
-                        values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.08 0"
-                    />
-                    <feBlend
-                        mode="normal"
-                        in2="BackgroundImageFix"
-                        result="effect1_dropShadow_91_7928"
-                    />
-                    <feBlend
-                        mode="normal"
-                        in="SourceGraphic"
-                        in2="effect1_dropShadow_91_7928"
-                        result="shape"
-                    />
-                </filter>
-            </defs>
+            <path
+                d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z"
+                fill="white"
+                stroke="black"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+            />
         </svg>
     );
 };
 
-export function SmoothCursor({
-    cursor = <DefaultCursorSVG />,
-    springConfig = {
-        damping: 45,
-        stiffness: 400,
-        mass: 1,
-        restDelta: 0.001,
-    },
-}) {
-    const [isMoving, setIsMoving] = useState(false);
-    const lastMousePos = useRef({ x: 0, y: 0 });
-    const velocity = useRef({ x: 0, y: 0 });
-    const lastUpdateTime = useRef(Date.now());
-    const previousAngle = useRef(0);
-    const accumulatedRotation = useRef(0);
-
-    const cursorX = useSpring(0, springConfig);
-    const cursorY = useSpring(0, springConfig);
-    const rotation = useSpring(0, {
-        ...springConfig,
-        damping: 60,
-        stiffness: 300,
-    });
-    const scale = useSpring(1, {
-        ...springConfig,
-        stiffness: 500,
-        damping: 35,
-    });
-
-    const isHoveringRef = useRef(false);
+export function SmoothCursor() {
+    const mouseX = useMotionValue(0);
+    const mouseY = useMotionValue(0);
+    
+    // Very fast, responsive springs to minimize perceived lag
+    const springConfig = { damping: 25, stiffness: 700, mass: 0.5 };
+    const cursorX = useSpring(mouseX, springConfig);
+    const cursorY = useSpring(mouseY, springConfig);
+    
+    const [isPointer, setIsPointer] = useState(false);
+    const scale = useSpring(1, { damping: 20, stiffness: 400 });
 
     useEffect(() => {
-        const updateVelocity = (currentPos) => {
-            const currentTime = Date.now();
-            const deltaTime = currentTime - lastUpdateTime.current;
-
-            if (deltaTime > 0) {
-                velocity.current = {
-                    x: (currentPos.x - lastMousePos.current.x) / deltaTime,
-                    y: (currentPos.y - lastMousePos.current.y) / deltaTime,
-                };
-            }
-
-            lastUpdateTime.current = currentTime;
-            lastMousePos.current = currentPos;
-        };
-
-        const smoothMouseMove = (e) => {
-            const currentPos = { x: e.clientX, y: e.clientY };
-            updateVelocity(currentPos);
-
-            const speed = Math.sqrt(
-                Math.pow(velocity.current.x, 2) + Math.pow(velocity.current.y, 2),
-            );
-
-            cursorX.set(currentPos.x);
-            cursorY.set(currentPos.y);
-
-            if (speed > 0.1) {
-                const currentAngle =
-                    Math.atan2(velocity.current.y, velocity.current.x) * (180 / Math.PI) +
-                    90;
-
-                let angleDiff = currentAngle - previousAngle.current;
-                if (angleDiff > 180) angleDiff -= 360;
-                if (angleDiff < -180) angleDiff += 360;
-                accumulatedRotation.current += angleDiff;
-                rotation.set(accumulatedRotation.current);
-                previousAngle.current = currentAngle;
-
-                if (!isHoveringRef.current) {
-                    scale.set(0.95);
-                    const timeout = setTimeout(() => {
-                        if (!isHoveringRef.current) scale.set(1);
-                    }, 150);
-                    return () => clearTimeout(timeout);
-                }
-            }
-        };
-
-        const handleMouseOver = (e) => {
+        const handleMouseMove = (e) => {
+            mouseX.set(e.clientX);
+            mouseY.set(e.clientY);
+            
+            // Re-check pointer state on move to handle dynamic elements
             const target = e.target;
-            const isInteractive = target && (
-                target.tagName === "A" ||
-                target.tagName === "BUTTON" ||
-                target.tagName === "INPUT" ||
-                target.tagName === "TEXTAREA" ||
-                target.closest("a") ||
-                target.closest("button") ||
-                target.closest(".cursor-pointer") ||
-                window.getComputedStyle(target).cursor === "pointer"
-            );
-
-            if (isInteractive) {
-                isHoveringRef.current = true;
-                scale.set(1.5);
-            } else {
-                isHoveringRef.current = false;
-                scale.set(1);
+            const isClickable = target.closest('a, button, input, [role="button"], .cursor-pointer') || 
+                               window.getComputedStyle(target).cursor === 'pointer';
+            
+            if (isClickable !== isPointer) {
+                setIsPointer(isClickable);
+                scale.set(isClickable ? 1.5 : 1);
             }
         };
 
-        let rafId;
-        const throttledMouseMove = (e) => {
-            if (rafId) return;
+        const handleMouseDown = () => scale.set(0.8);
+        const handleMouseUp = () => scale.set(isPointer ? 1.5 : 1);
 
-            rafId = requestAnimationFrame(() => {
-                smoothMouseMove(e);
-                rafId = 0;
-            });
-        };
+        // Hide cursor globally
+        const style = document.createElement("style");
+        style.innerHTML = `
+            * { cursor: none !important; }
+            a, button, [role="button"], input { cursor: none !important; }
+        `;
+        document.head.appendChild(style);
 
-        document.documentElement.style.cursor = "none";
-        document.body.style.cursor = "none";
-
-        window.addEventListener("mousemove", throttledMouseMove);
-        window.addEventListener("mouseover", handleMouseOver, { capture: true });
+        window.addEventListener("mousemove", handleMouseMove);
+        window.addEventListener("mousedown", handleMouseDown);
+        window.addEventListener("mouseup", handleMouseUp);
 
         return () => {
-            window.removeEventListener("mousemove", throttledMouseMove);
-            window.removeEventListener("mouseover", handleMouseOver, { capture: true });
-            document.documentElement.style.cursor = "auto";
-            document.body.style.cursor = "auto";
-            if (rafId) cancelAnimationFrame(rafId);
+            window.removeEventListener("mousemove", handleMouseMove);
+            window.removeEventListener("mousedown", handleMouseDown);
+            window.removeEventListener("mouseup", handleMouseUp);
+            document.head.removeChild(style);
         };
-    }, [cursorX, cursorY, rotation, scale]);
+    }, [isPointer, mouseX, mouseY, scale]);
 
     return (
         <motion.div
@@ -198,23 +82,24 @@ export function SmoothCursor({
                 position: "fixed",
                 left: cursorX,
                 top: cursorY,
-                translateX: "-50%",
-                translateY: "-50%",
-                rotate: rotation,
-                scale: scale,
-                zIndex: 9999,
+                translateX: 4, // Slight offset to align the SVG tip (3,3) better
+                translateY: 4,
+                zIndex: 99999,
                 pointerEvents: "none",
                 willChange: "transform",
-            }}
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{
-                type: "spring",
-                stiffness: 400,
-                damping: 30,
+                scale: scale,
             }}
         >
-            {cursor}
+            <div className={`transition-transform duration-300 ${isPointer ? 'rotate-12' : 'rotate-0'}`}>
+                <DefaultCursorSVG />
+                {isPointer && (
+                    <motion.div 
+                        initial={{ opacity: 0, scale: 0.5 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        className="absolute -inset-2 bg-cyan-500/20 blur-xl rounded-full -z-10"
+                    />
+                )}
+            </div>
         </motion.div>
     );
 }

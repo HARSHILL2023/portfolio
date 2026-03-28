@@ -19,16 +19,16 @@ const SkillCard = memo(({ skill, index }) => (
     initial={{ opacity: 0, scale: 0.8, y: 20 }}
     whileInView={{ opacity: 1, scale: 1, y: 0 }}
     viewport={{ once: true }}
-    transition={{ 
-      duration: 0.5, 
+    transition={{
+      duration: 0.5,
       delay: index * 0.05,
-      ease: [0.23, 1, 0.32, 1] 
+      ease: [0.23, 1, 0.32, 1]
     }}
     whileHover={{ y: -10, scale: 1.05 }}
     className="group relative"
   >
     <div className={`absolute inset-0 bg-gradient-to-br ${skill.color} opacity-0 group-hover:opacity-20 blur-2xl transition-opacity duration-500 rounded-2xl`} />
-    
+
     <div className="relative backdrop-blur-xl bg-white/5 border border-white/10 rounded-2xl p-6 flex flex-col items-center justify-center gap-4 hover:border-white/20 transition-all duration-300">
       <div className={`w-16 h-16 rounded-xl bg-gradient-to-br ${skill.color} flex items-center justify-center text-3xl shadow-lg ring-1 ring-white/20 group-hover:ring-white/40 transition-all`}>
         {skill.icon}
@@ -65,7 +65,7 @@ export default function SkillsSection() {
           ))}
         </div>
       </div>
-      
+
       {/* Decorative elements */}
       <div className="absolute top-1/2 left-0 -translate-y-1/2 w-64 h-64 bg-cyan-500/5 blur-[120px] rounded-full pointer-events-none" />
       <div className="absolute bottom-1/2 right-0 translate-y-1/2 w-64 h-64 bg-purple-500/5 blur-[120px] rounded-full pointer-events-none" />
