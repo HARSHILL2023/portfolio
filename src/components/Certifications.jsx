@@ -47,8 +47,13 @@ const Certifications = () => {
                             whileInView={{ opacity: 1, scale: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.5, delay: index * 0.1 }}
-                            whileHover={{ scale: 1.05 }}
-                            className="group relative bg-white/5 backdrop-blur-xl border border-white/10 p-8 rounded-2xl overflow-hidden transition-all duration-500 shadow-xl hover:border-purple-400/30 shadow-[0_0_30px_rgba(168,85,247,0.1)] hover:shadow-[0_0_30px_rgba(168,85,247,0.2)]"
+                            whileHover={{ scale: 1.02 }}
+                            className="group relative border border-white/10 p-8 rounded-3xl overflow-hidden transition-all duration-500 shadow-[0_4px_32px_rgba(0,0,0,0.12)] hover:border-purple-400/40"
+                            style={{
+                                background: 'rgba(10, 8, 20, 0.08)',
+                                backdropFilter: 'blur(20px) saturate(160%)',
+                                WebkitBackdropFilter: 'blur(20px) saturate(160%)',
+                            }}
                         >
                             {/* Animated Background Glow */}
                             <div className="absolute inset-0 bg-gradient-to-br from-white/0 to-white/0 group-hover:from-purple-500/5 group-hover:to-transparent transition-all duration-700 font-bold" />

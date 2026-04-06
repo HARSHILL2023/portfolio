@@ -135,10 +135,13 @@ export default function TechOrbitSkills() {
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 1 }}
-                className="max-w-[1200px] w-full mx-auto relative rounded-[40px] overflow-hidden"
+                transition={{ duration: 1, ease: 'easeOut' }}
+                className="max-w-[1200px] w-full mx-auto relative rounded-3xl overflow-hidden"
                 style={{
-                    boxShadow: '0 0 60px rgba(130, 0, 219, 0.2), 0 0 120px rgba(99,102,241,0.1)'
+                    background: 'rgba(10, 8, 20, 0.08)',
+                    backdropFilter: 'blur(20px) saturate(160%)',
+                    WebkitBackdropFilter: 'blur(20px) saturate(160%)',
+                    boxShadow: '0 4px 32px rgba(0,0,0,0.12)',
                 }}
             >
                 {/* Glowing conic border only (transparent center) */}

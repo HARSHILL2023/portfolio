@@ -29,7 +29,14 @@ const SkillCard = memo(({ skill, index }) => (
   >
     <div className={`absolute inset-0 bg-gradient-to-br ${skill.color} opacity-0 group-hover:opacity-20 blur-2xl transition-opacity duration-500 rounded-2xl`} />
 
-    <div className="relative backdrop-blur-xl bg-white/5 border border-white/10 rounded-2xl p-6 flex flex-col items-center justify-center gap-4 hover:border-white/20 transition-all duration-300">
+    <div 
+      className="relative border border-white/10 rounded-3xl p-6 flex flex-col items-center justify-center gap-4 hover:border-purple-500/30 transition-all duration-300 shadow-[0_4px_32px_rgba(0,0,0,0.12)]"
+      style={{
+        background: 'rgba(10, 8, 20, 0.08)',
+        backdropFilter: 'blur(20px) saturate(160%)',
+        WebkitBackdropFilter: 'blur(20px) saturate(160%)',
+      }}
+    >
       <div className={`w-16 h-16 rounded-xl bg-gradient-to-br ${skill.color} flex items-center justify-center text-3xl shadow-lg ring-1 ring-white/20 group-hover:ring-white/40 transition-all`}>
         {skill.icon}
       </div>

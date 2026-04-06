@@ -17,7 +17,8 @@ import {
     Code,
     Trophy,
     Send,
-    FileText
+    FileText,
+    Milestone
 } from 'lucide-react';
 import { Magnet } from './ui/Magnet';
 
@@ -39,7 +40,9 @@ export default function Portfolio() {
 
             {/* Futuristic Tech Orbit Skills Section */}
             <Suspense fallback={<div className="h-screen bg-transparent" />}>
-                <TechOrbitSkills />
+                <div id="skills">
+                    <TechOrbitSkills />
+                </div>
             </Suspense>
 
             {/* Advanced Project Showcase */}

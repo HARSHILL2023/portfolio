@@ -15,7 +15,12 @@ export default function ProjectCard({
 }) {
     return (
         <div 
-            className={`w-full flex flex-col bg-transparent backdrop-blur-sm rounded-2xl p-6 border border-[rgba(255,255,255,0.08)] hover:border-[rgba(139,92,246,0.4)] hover:shadow-[0_0_20px_rgba(139,92,246,0.15)] transition-all duration-300 ${className}`}
+            className={`w-full flex flex-col rounded-3xl p-6 border border-white/10 shadow-[0_4px_32px_rgba(0,0,0,0.12)] hover:border-purple-500/40 transition-all duration-500 ${className}`}
+            style={{
+                background: 'rgba(10, 8, 20, 0.08)',
+                backdropFilter: 'blur(20px) saturate(160%)',
+                WebkitBackdropFilter: 'blur(20px) saturate(160%)',
+            }}
         >
             {/* Category Tag */}
             <div className="self-start px-3 py-1 rounded bg-white/5 border border-white/5">
