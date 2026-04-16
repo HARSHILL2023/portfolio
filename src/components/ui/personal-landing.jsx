@@ -5,20 +5,24 @@ import {
     Github,
     Youtube,
     Linkedin,
+    Twitter,
+    Code2,
+    ArrowRight,
+    Send
 } from "lucide-react";
 
 const socialLinks = [
     {
         href: 'https://youtube.com/@harshilpatel-20?si=L9HrbJJDXA0dCqUG',
         label: 'YouTube',
-        icon: <Youtube size={20} />,
+        icon: <Youtube size={18} />,
         bg: 'hover:bg-red-500/10 hover:border-red-500/50',
         text: 'text-white/60 hover:text-red-400',
     },
     {
         href: 'https://github.com/HARSHILL2023',
         label: 'GitHub',
-        icon: <Github size={20} />,
+        icon: <Github size={18} />,
         bg: 'hover:bg-white/10 hover:border-white/50',
         text: 'text-white/60 hover:text-white',
     },
@@ -28,6 +32,20 @@ const socialLinks = [
         icon: <Linkedin size={18} />,
         bg: 'hover:bg-purple-500/10 hover:border-purple-500/30',
         text: 'text-white/70 hover:text-white',
+    },
+    {
+        href: 'https://leetcode.com/u/HARSHILL2023/',
+        label: 'LeetCode',
+        icon: <Code2 size={18} />,
+        bg: 'hover:bg-yellow-500/10 hover:border-yellow-500/30',
+        text: 'text-white/70 hover:text-yellow-400',
+    },
+    {
+        href: 'https://twitter.com/example',
+        label: 'Twitter',
+        icon: <Twitter size={18} />,
+        bg: 'hover:bg-blue-400/10 hover:border-blue-400/30',
+        text: 'text-white/70 hover:text-blue-400',
     },
 ];
 
@@ -47,12 +65,12 @@ export const PersonalLanding = () => {
                 >
                     {/* Borderless frosted glass card */}
                     <div
-                        className="rounded-3xl p-8 md:p-10 relative overflow-hidden flex flex-col gap-7 text-left"
+                        className="rounded-[2.5rem] p-8 md:p-12 relative overflow-hidden flex flex-col gap-8 text-left border border-white/10"
                         style={{
-                            background: 'rgba(10, 8, 20, 0.08)',
-                            backdropFilter: 'blur(20px) saturate(160%)',
-                            WebkitBackdropFilter: 'blur(20px) saturate(160%)',
-                            boxShadow: '0 4px 32px rgba(0,0,0,0.12)',
+                            background: 'rgba(10, 8, 20, 0.4)',
+                            backdropFilter: 'blur(32px) saturate(180%)',
+                            WebkitBackdropFilter: 'blur(32px) saturate(180%)',
+                            boxShadow: '0 8px 64px rgba(0,0,0,0.24)',
                         }}
                     >
 
@@ -62,16 +80,10 @@ export const PersonalLanding = () => {
                             initial={{ opacity: 0, y: 10 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.35 }}
-                            className="self-start inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[11px] font-mono tracking-[0.18em] uppercase"
-                            style={{
-                                background: 'rgba(168,85,247,0.14)',
-                                border: '1px solid rgba(168,85,247,0.38)',
-                                color: '#e9d5ff',
-                                textShadow: '0 0 12px rgba(168,85,247,0.6)',
-                            }}
+                            className="self-start inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[10px] font-mono tracking-[0.2em] uppercase bg-purple-500/10 border border-purple-500/20 text-purple-300 shadow-[0_0_20px_rgba(168,85,247,0.15)]"
                         >
-                            <span className="w-1.5 h-1.5 bg-purple-300 rounded-full animate-pulse" />
-                            Full Stack Developer
+                            <span className="w-1.5 h-1.5 bg-purple-400 rounded-full animate-pulse" />
+                            MERN Stack Developer | AI Enthusiast
                         </motion.span>
 
                         {/* Name heading */}
@@ -79,7 +91,7 @@ export const PersonalLanding = () => {
                             initial={{ opacity: 0, y: 24 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.5, duration: 0.8 }}
-                            className="text-5xl md:text-6xl font-black tracking-tight leading-[1.08]"
+                            className="text-5xl md:text-7xl font-black tracking-tight leading-[1.05]"
                         >
                             <span
                                 className="text-white"
@@ -88,10 +100,9 @@ export const PersonalLanding = () => {
                                 Hi, I'm{' '}
                             </span>
                             <span
-                                className="text-transparent bg-clip-text"
+                                className="text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-400 via-purple-400 to-cyan-400"
                                 style={{
-                                    backgroundImage: 'linear-gradient(90deg, #e879f9 0%, #a78bfa 50%, #67e8f9 100%)',
-                                    filter: 'drop-shadow(0 2px 8px rgba(168,85,247,0.50))',
+                                    filter: 'drop-shadow(0 2px 12px rgba(168,85,247,0.50))',
                                 }}
                             >
                                 Harshil
@@ -103,22 +114,39 @@ export const PersonalLanding = () => {
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             transition={{ delay: 0.7 }}
-                            className="text-base md:text-lg leading-relaxed font-medium"
-                            style={{
-                                color: 'rgba(255,255,255,0.92)',
-                                textShadow: '0 1px 8px rgba(0,0,0,0.60)',
-                            }}
+                            className="text-lg md:text-xl leading-relaxed text-white/70 font-medium max-w-lg"
                         >
-                            Software Engineer and UI/UX Specialist crafting{' '}
-                            <span style={{ color: '#fff', fontWeight: 700 }}>high-signal</span>, performant web architectures.
-                            Obsessed with{' '}
-                            <span style={{ color: '#fff', fontWeight: 700 }}>structural elegance</span> and{' '}
-                            <span style={{ color: '#fff', fontWeight: 700 }}>interactive precision</span>.
+                            Senior Software Engineer crafting{' '}
+                            <span className="text-white font-bold">high-signal</span>, performant web architectures.
+                            Specializing in the <span className="text-purple-300 font-bold">MERN stack</span> and interactive design.
                         </motion.p>
+
+                        {/* CTA Buttons */}
+                        <motion.div 
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.8 }}
+                            className="flex flex-wrap gap-4"
+                        >
+                            <a 
+                                href="#projects" 
+                                className="group relative flex items-center gap-2 px-8 py-4 rounded-2xl bg-white text-black font-bold uppercase tracking-widest text-[10px] hover:bg-purple-500 hover:text-white transition-all duration-300 overflow-hidden"
+                            >
+                                <span className="relative z-10 flex items-center gap-2 uppercase">
+                                    View Projects <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                                </span>
+                            </a>
+                            <a 
+                                href="#contact" 
+                                className="flex items-center gap-2 px-8 py-4 rounded-2xl bg-white/5 border border-white/10 text-white font-bold uppercase tracking-widest text-[10px] hover:bg-white/10 transition-all duration-300"
+                            >
+                                Contact Me <Send size={14} />
+                            </a>
+                        </motion.div>
 
                         {/* Divider */}
                         <div
-                            className="w-full h-px"
+                            className="w-full h-px mt-4"
                             style={{ background: 'linear-gradient(to right, rgba(255,255,255,0.12), rgba(168,85,247,0.18), transparent)' }}
                         />
 
@@ -137,20 +165,12 @@ export const PersonalLanding = () => {
                                     rel="noopener noreferrer"
                                     aria-label={link.label}
                                     className={twMerge(
-                                        'flex items-center gap-2.5 rounded-xl px-5 py-2.5 text-sm font-bold tracking-tight transition-all duration-300 hover:scale-105 focus:outline-none',
-                                        link.bg,
+                                        'group flex items-center justify-center w-12 h-12 rounded-xl text-sm transition-all duration-300 hover:scale-110 focus:outline-none bg-white/5 border border-white/10 hover:border-purple-500/40',
+                                        link.text
                                     )}
-                                    style={{
-                                        background: 'rgba(255,255,255,0.07)',
-                                        border: '1px solid rgba(255,255,255,0.16)',
-                                        backdropFilter: 'blur(8px)',
-                                        WebkitBackdropFilter: 'blur(8px)',
-                                        color: 'rgba(255,255,255,0.88)',
-                                        textShadow: '0 1px 6px rgba(0,0,0,0.5)',
-                                    }}
+                                    title={link.label}
                                 >
                                     {link.icon}
-                                    <span>{link.label}</span>
                                 </a>
                             ))}
                         </motion.div>
@@ -168,11 +188,11 @@ export const PersonalLanding = () => {
                     <div
                         className="absolute pointer-events-none"
                         style={{
-                            width: 420,
-                            height: 420,
-                            background: 'radial-gradient(circle, rgba(130,0,219,0.32) 0%, rgba(99,102,241,0.14) 55%, transparent 75%)',
-                            filter: 'blur(50px)',
-                            borderRadius: '1.5rem',
+                            width: 480,
+                            height: 480,
+                            background: 'radial-gradient(circle, rgba(130,0,219,0.35) 0%, rgba(99,102,241,0.15) 55%, transparent 75%)',
+                            filter: 'blur(60px)',
+                            borderRadius: '2rem',
                             animation: 'plGlowPulse 4s ease-in-out infinite',
                         }}
                     />
@@ -183,12 +203,12 @@ export const PersonalLanding = () => {
                     <div
                         style={{
                             position: 'relative',
-                            width: 360,
-                            height: 360,
-                            borderRadius: '1.1rem',
+                            width: 380,
+                            height: 380,
+                            borderRadius: '1.5rem',
                             overflow: 'hidden',
-                            border: '2px solid rgba(255,255,255,0.18)',
-                            boxShadow: '0 0 60px rgba(130,0,219,0.40), 0 0 100px rgba(99,102,241,0.14), inset 0 0 20px rgba(0,0,0,0.4)',
+                            border: '1px solid rgba(255,255,255,0.18)',
+                            boxShadow: '0 0 80px rgba(130,0,219,0.45), 0 0 120px rgba(99,102,241,0.15)',
                         }}
                     >
                         <img
@@ -199,27 +219,27 @@ export const PersonalLanding = () => {
                             style={{ filter: 'brightness(1.05) contrast(1.02)' }}
                         />
                         {/* Vignette */}
-                        <div style={{ position: 'absolute', inset: 0, borderRadius: '1.1rem', background: 'linear-gradient(to top, rgba(0,0,0,0.18), transparent)', pointerEvents: 'none' }} />
+                        <div style={{ position: 'absolute', inset: 0, borderRadius: '1.5rem', background: 'linear-gradient(to top, rgba(0,0,0,0.2), transparent)', pointerEvents: 'none' }} />
                     </div>
 
-                    {/* "Available for Work" status pill */}
+                    {/* Status pill */}
                     <motion.div
-                        className="absolute flex items-center gap-2 px-4 py-2 rounded-full bg-black/80 border border-white/10 backdrop-blur-xl"
-                        style={{ bottom: -6 }}
+                        className="absolute flex items-center gap-2 px-5 py-2.5 rounded-full bg-black/80 border border-white/10 backdrop-blur-2xl shadow-2xl"
+                        style={{ bottom: -10 }}
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 1.2 }}
                     >
-                        <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />
-                        <span className="text-[10px] font-mono text-emerald-400 uppercase tracking-widest">
+                        <div className="w-2.5 h-2.5 bg-emerald-400 rounded-full animate-[pulse_2s_ease-in-out_infinite]" />
+                        <span className="text-[10px] font-mono text-emerald-400 font-bold uppercase tracking-[0.2em]">
                             Available for Work
                         </span>
                     </motion.div>
 
                     <style>{`
                         @keyframes plGlowPulse {
-                            0%, 100% { opacity: 0.82; transform: scale(1); }
-                            50%       { opacity: 1;    transform: scale(1.07); }
+                            0%, 100% { opacity: 0.8; transform: scale(1); }
+                            50%       { opacity: 1;   transform: scale(1.1); }
                         }
                     `}</style>
                 </motion.div>
@@ -227,4 +247,5 @@ export const PersonalLanding = () => {
         </div>
     );
 };
+
 

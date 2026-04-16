@@ -129,7 +129,7 @@ export default function TechOrbitSkills() {
     const isPaused = hoveredSkill !== null;
 
     return (
-        <section id="skills" className="py-24 md:py-32 relative flex flex-col items-center justify-center min-h-screen bg-transparent z-10 selection:bg-purple-500/30 px-4 md:px-8">
+        <section className="py-24 md:py-32 relative flex flex-col items-center justify-center min-h-screen bg-transparent z-10 selection:bg-purple-500/30 px-4 md:px-8">
             {/* Liquid Glass Wrapper for the Entire Section */}
             <motion.div
                 initial={{ opacity: 0, y: 40 }}
