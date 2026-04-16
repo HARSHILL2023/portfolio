@@ -38,8 +38,14 @@ html {
   scroll-behavior: smooth;
 }
 
-#home, #skills, #projects, #figma, #hackathon, #certificates, #contact {
-    scroll-margin-top: 4rem;
+#home,
+#skills,
+#projects,
+#figma,
+#hackathon,
+#certificates,
+#contact {
+  scroll-margin-top: 4rem;
 }
 
 html,
@@ -983,9 +989,12 @@ body {
 }
 
 @keyframes float {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0);
   }
+
   50% {
     transform: translateY(-10px);
   }
@@ -996,10 +1005,13 @@ body {
 }
 
 .scrollbar-hide {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
 }
 
 .scrollbar-hide::-webkit-scrollbar {
-  display: none; /* Chrome, Safari and Opera */
+  display: none;
+  /* Chrome, Safari and Opera */
 }

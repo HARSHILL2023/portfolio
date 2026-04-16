@@ -90,9 +90,9 @@ export default function Portfolio() {
         };
     }, [navItems]);
 
-    const activeIndex = useMemo(() => 
+    const activeIndex = useMemo(() =>
         navItems.findIndex(item => item.id === activeSection),
-    [activeSection, navItems]);
+        [activeSection, navItems]);
 
     return (
         <main ref={rootRef} className="min-h-screen bg-transparent text-white overflow-x-hidden relative selection:bg-purple-500/30 font-sans antialiased z-10">
@@ -126,7 +126,7 @@ export default function Portfolio() {
                 </section>
             </Suspense>
 
-            {/* Hackathons */ section id="hackathon" }
+            {/* Hackathons */}
             <Suspense fallback={<div className="h-24 bg-transparent" />}>
                 <section id="hackathon">
                     <HackathonSection />
