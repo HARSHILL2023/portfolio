@@ -36,6 +36,7 @@ const defaultNavItems = [
 export const LimelightNav = ({
     items = defaultNavItems,
     defaultActiveIndex = 0,
+    activeIndex: controlledActiveIndex,
     onTabChange,
     className,
     limelightClassName,
@@ -46,6 +47,13 @@ export const LimelightNav = ({
     const [isReady, setIsReady] = useState(false);
     const navItemRefs = useRef([]);
     const limelightRef = useRef(null);
+
+    // Sync state with controlled prop
+    React.useEffect(() => {
+        if (controlledActiveIndex !== undefined) {
+            setActiveIndex(controlledActiveIndex);
+        }
+    }, [controlledActiveIndex]);
 
     useLayoutEffect(() => {
         if (items.length === 0) return;
@@ -73,11 +81,13 @@ export const LimelightNav = ({
         itemOnClick?.();
     };
 
+
     return (
         <nav className={twMerge(
-            "relative inline-flex items-center h-16 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-xl px-2 shadow-2xl transition-all duration-500",
+            "relative inline-flex items-center h-16 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-xl px-2 shadow-2xl transition-all duration-500 overflow-x-auto max-w-[95vw] scrollbar-hide",
             className
         )}>
+
             {items.map(({ id, icon, label, onClick, link }, index) => (
                 <a
                     key={id}
@@ -89,8 +99,8 @@ export const LimelightNav = ({
                     )}
                     onClick={(e) => {
                         // If it's an anchor jump within the page, we don't want to break the click
-                        if (!link?.startsWith('http')) {
-                            // e.preventDefault(); // Uncomment if you want pure state-based nav
+                        if (link?.startsWith('#')) {
+                            e.preventDefault(); 
                         }
                         handleItemClick(index, onClick);
                     }}
@@ -108,6 +118,7 @@ export const LimelightNav = ({
                     })}
                 </a>
             ))}
+
 
             {/* LIMELIGHT BEAM EFFECT */}
             <div
