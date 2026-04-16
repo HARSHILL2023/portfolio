@@ -5,6 +5,10 @@ import { motion, useSpring, useMotionValue, AnimatePresence } from 'framer-motio
 const TechOrbitSkills = lazy(() => import('./TechOrbitSkills'));
 const Certifications = lazy(() => import('./Certifications'));
 const ProjectShowcase = lazy(() => import('./ProjectShowcase'));
+const FigmaShowcase = lazy(() => import('./FigmaShowcase'));
+const HackathonSection = lazy(() => import('./HackathonSection'));
+const AchievementsSection = lazy(() => import('./AchievementsSection'));
+const ContactSection = lazy(() => import('./ContactSection'));
 const PersonalLanding = lazy(() => import('./ui/personal-landing').then(m => ({ default: m.PersonalLanding })));
 
 import { Meteors } from './ui/meteors';
@@ -18,44 +22,137 @@ import {
     Trophy,
     Send,
     FileText,
-    Milestone
+    Figma,
+    Terminal,
+    Award
 } from 'lucide-react';
 import { Magnet } from './ui/Magnet';
 
-import AetherBackground from './ui/aether-background';
-
 export default function Portfolio() {
     const rootRef = useRef(null);
+    const [activeSection, setActiveSection] = useState('home');
+
+    const navItems = useMemo(() => [
+        { id: 'home', icon: <User size={20} />, label: 'Identity', link: '#home' },
+        { id: 'skills', icon: <Layers size={20} />, label: 'Arsenal', link: '#skills' },
+        { id: 'projects', icon: <Code size={20} />, label: 'Repository', link: '#projects' },
+        { id: 'figma', icon: <Figma size={20} />, label: 'Studio', link: '#figma' },
+        { id: 'hackathon', icon: <Terminal size={20} />, label: 'Arena', link: '#hackathon' },
+        { id: 'certificates', icon: <Trophy size={20} />, label: 'Credentials', link: '#certificates' },
+        { id: 'contact', icon: <Send size={20} />, label: 'Signal', link: '#contact' },
+    ], []);
+
+    useEffect(() => {
+        const sectionIds = navItems.map(item => item.id);
+
+        const observerOptions = {
+            root: null,
+            rootMargin: '-30% 0px -40% 0px',
+            threshold: [0, 0.1, 0.2]
+        };
+
+        const observerCallback = (entries) => {
+            let highestRatio = -1;
+            let mostVisibleSection = null;
+
+            entries.forEach(entry => {
+                if (entry.isIntersecting && entry.intersectionRatio > highestRatio) {
+                    highestRatio = entry.intersectionRatio;
+                    mostVisibleSection = entry.target.id;
+                }
+            });
+
+            if (mostVisibleSection) {
+                setActiveSection(mostVisibleSection);
+            }
+        };
+
+
+        const observer = new IntersectionObserver(observerCallback, observerOptions);
+
+        sectionIds.forEach(id => {
+            const element = document.getElementById(id);
+            if (element) observer.observe(element);
+        });
+
+        const handleScroll = () => {
+            const winScroll = window.innerHeight + window.scrollY;
+            const height = document.body.offsetHeight;
+            if (winScroll >= height - 100) {
+                setActiveSection('contact');
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        return () => {
+            observer.disconnect();
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, [navItems]);
+
+    const activeIndex = useMemo(() => 
+        navItems.findIndex(item => item.id === activeSection),
+    [activeSection, navItems]);
 
     return (
         <main ref={rootRef} className="min-h-screen bg-transparent text-white overflow-x-hidden relative selection:bg-purple-500/30 font-sans antialiased z-10">
-            <h1 className="sr-only">Harshil Patel - Senior Frontend Engineer & UI/UX Specialist Portfolio</h1>
+            <h1 className="sr-only">Harshil Patel - Senior Full Stack Developer & UI/UX Specialist Portfolio</h1>
 
 
-            <Suspense fallback={<div className="min-h-screen bg-transparent" />}>
-                <div id="top">
+            <Suspense fallback={<div className="h-24 bg-transparent" />}>
+                <section id="home">
                     <PersonalLanding />
-                </div>
+                </section>
             </Suspense>
 
             {/* Futuristic Tech Orbit Skills Section */}
-            <Suspense fallback={<div className="h-screen bg-transparent" />}>
-                <div id="skills">
+            <Suspense fallback={<div className="h-24 bg-transparent" />}>
+                <section id="skills">
                     <TechOrbitSkills />
-                </div>
+                </section>
             </Suspense>
 
             {/* Advanced Project Showcase */}
-            <Suspense fallback={<div className="h-screen bg-transparent" />}>
-                <ProjectShowcase />
+            <Suspense fallback={<div className="h-24 bg-transparent" />}>
+                <section id="projects">
+                    <ProjectShowcase />
+                </section>
+            </Suspense>
+
+            {/* Figma Designs */}
+            <Suspense fallback={<div className="h-24 bg-transparent" />}>
+                <section id="figma">
+                    <FigmaShowcase />
+                </section>
+            </Suspense>
+
+            {/* Hackathons */ section id="hackathon" }
+            <Suspense fallback={<div className="h-24 bg-transparent" />}>
+                <section id="hackathon">
+                    <HackathonSection />
+                </section>
+            </Suspense>
+
+            {/* Achievements */}
+            <Suspense fallback={<div className="h-24 bg-transparent" />}>
+                <AchievementsSection />
             </Suspense>
 
             {/* Industry Credentials Section */}
-            <Suspense fallback={<div className="h-screen bg-transparent" />}>
-                <div id="certifications" className="max-w-6xl mx-auto px-6 py-24 md:py-32">
+            <Suspense fallback={<div className="h-24 bg-transparent" />}>
+                <section id="certificates">
                     <Certifications />
-                </div>
+                </section>
             </Suspense>
+
+            {/* Contact Section */}
+            <Suspense fallback={<div className="h-24 bg-transparent" />}>
+                <section id="contact">
+                    <ContactSection />
+                </section>
+            </Suspense>
+
+
 
             {/* Fixed Top Right Magnetic Resume */}
             <div className="fixed top-6 right-6 md:top-8 md:right-8 z-[110]">
@@ -84,15 +181,19 @@ export default function Portfolio() {
             {/* Floating Navigation Hub */}
             <div className="fixed bottom-12 left-1/2 -translate-x-1/2 z-[100] animate-in slide-in-from-bottom-10 duration-1000 delay-500">
                 <LimelightNav
-                    items={[
-                        { id: 'identity', icon: <User size={20} />, label: 'Identity', link: '#top' },
-                        { id: 'skills', icon: <Layers size={20} />, label: 'Arsenal', link: '#skills' },
-                        { id: 'projects', icon: <Code size={20} />, label: 'Repository', link: '#projects' },
-                        { id: 'certs', icon: <Trophy size={20} />, label: 'Credentials', link: '#certifications' },
-                        { id: 'contact', icon: <Send size={20} />, label: 'Signal', link: '#contact' },
-                    ]}
+                    items={navItems}
+                    activeIndex={activeIndex}
+                    onTabChange={(index) => {
+                        const targetId = navItems[index].id;
+                        const element = document.getElementById(targetId);
+                        if (element) {
+                            element.scrollIntoView({ behavior: 'smooth' });
+                        }
+                    }}
                 />
             </div>
+
+
 
             <footer className="py-20 text-center opacity-30 border-t border-white/10" role="contentinfo">
                 <p className="text-[10px] font-mono tracking-[2em] uppercase text-white/50">© Harshil Patel • 2026 • Optimized for Modern Web Architecture</p>
@@ -100,3 +201,4 @@ export default function Portfolio() {
         </main>
     );
 }
+
