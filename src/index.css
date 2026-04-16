@@ -34,8 +34,17 @@
   animation: shine 4s ease-in-out infinite;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
+#home, #skills, #projects, #figma, #hackathon, #certificates, #contact {
+    scroll-margin-top: 4rem;
+}
+
 html,
 body {
+
   margin: 0;
   background: transparent;
   color: white;
@@ -44,6 +53,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
 
 *,
 *::before,
@@ -983,4 +993,13 @@ body {
 
 .animate-float {
   animation: float 4s ease-in-out infinite;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none; /* Chrome, Safari and Opera */
 }

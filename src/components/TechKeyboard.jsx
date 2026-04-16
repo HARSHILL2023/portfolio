@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect, useRef, useState } from 'react';
+    import React, { Suspense, useEffect, useRef, useState } from 'react';
 import Spline from '@splinetool/react-spline';
 import { motion, AnimatePresence, useInView } from 'framer-motion';
 import gsap from 'gsap';
@@ -219,7 +219,7 @@ const TechKeyboard = () => {
     }, [splineApp]);
 
     return (
-        <section id="skills" className="w-full min-h-[140dvh] relative pt-40 pb-60 flex flex-col items-center overflow-hidden">
+        <section className="w-full min-h-[140dvh] relative pt-40 pb-60 flex flex-col items-center overflow-hidden">
 
             <div className="sticky top-24 z-30 mb-52 flex flex-col items-center text-center px-6">
                 <BoxReveal color="#22d3ee">
