@@ -1,5 +1,6 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { X, ExternalLink, Award } from 'lucide-react';
 
 const certifications = [
     {
@@ -21,8 +22,10 @@ const certifications = [
 ];
 
 const Certifications = () => {
+    const [selectedCert, setSelectedCert] = useState(null);
+
     return (
-        <section id="certifications" className="py-40 px-6 relative overflow-hidden">
+        <section className="py-24 md:py-32 px-6 relative overflow-hidden">
             <div className="max-w-7xl mx-auto">
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
@@ -31,15 +34,15 @@ const Certifications = () => {
                     transition={{ duration: 0.8 }}
                     className="text-center mb-20"
                 >
-                    <h2 className="text-5xl md:text-7xl font-black uppercase tracking-tighter bg-gradient-to-b from-white to-gray-500 bg-clip-text text-transparent">
-                        Certifications
+                    <span className="inline-block px-4 py-1.5 rounded-full border border-purple-500/30 text-purple-400 text-xs font-mono tracking-[0.2em] uppercase mb-8">
+                        The Credentials
+                    </span>
+                    <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tight text-white">
+                        Official <span className="text-purple-400">Verifications</span>
                     </h2>
-                    <p className="text-gray-400 mt-4 max-w-xl mx-auto text-lg leading-relaxed">
-                        Industry-recognized proofs of technical competence and continuous professional growth.
-                    </p>
                 </motion.div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 max-w-4xl mx-auto justify-items-center">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
                     {certifications.map((cert, index) => (
                         <motion.div
                             key={index}
@@ -47,55 +50,97 @@ const Certifications = () => {
                             whileInView={{ opacity: 1, scale: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.5, delay: index * 0.1 }}
-                            whileHover={{ scale: 1.02 }}
-                            className="group relative border border-white/10 p-8 rounded-3xl overflow-hidden transition-all duration-500 shadow-[0_4px_32px_rgba(0,0,0,0.12)] hover:border-purple-400/40"
+                            onClick={() => setSelectedCert(cert)}
+                            className="group relative border border-white/10 p-10 rounded-[2.5rem] overflow-hidden transition-all duration-500 shadow-2xl cursor-pointer hover:border-purple-400/40"
                             style={{
-                                background: 'rgba(10, 8, 20, 0.08)',
+                                background: 'rgba(10, 8, 20, 0.4)',
                                 backdropFilter: 'blur(20px) saturate(160%)',
                                 WebkitBackdropFilter: 'blur(20px) saturate(160%)',
                             }}
                         >
-                            {/* Animated Background Glow */}
-                            <div className="absolute inset-0 bg-gradient-to-br from-white/0 to-white/0 group-hover:from-purple-500/5 group-hover:to-transparent transition-all duration-700 font-bold" />
-
                             <div className="relative z-10 flex flex-col h-full">
-                                <div className={`w-12 h-12 rounded-xl bg-purple-500/20 mb-6 flex items-center justify-center text-xl shadow-lg transform group-hover:rotate-12 transition-transform border border-purple-500/30`}>
-                                    🏆
+                                <div className="p-4 w-fit rounded-2xl bg-purple-500/10 border border-purple-500/20 mb-8 group-hover:scale-110 transition-transform duration-500">
+                                    <Award className="text-purple-400" size={28} />
                                 </div>
 
-                                <h3 className="text-xl font-bold text-white mb-2 leading-tight tracking-tight group-hover:text-purple-300 transition-colors">
+                                <h3 className="text-2xl font-bold text-white mb-2 leading-tight group-hover:text-purple-300 transition-colors">
                                     {cert.title}
                                 </h3>
 
-                                <p className="text-white/70 text-sm font-medium mb-1">{cert.issuer}</p>
-                                <p className="text-white/40 text-[10px] font-mono uppercase tracking-[0.2em] mb-4">{cert.date}</p>
-
-                                {cert.description && (
-                                    <p className="text-white/60 text-[11px] leading-relaxed mb-6 group-hover:text-white/80 transition-colors line-clamp-3">
-                                        {cert.description}
-                                    </p>
-                                )}
-
-                                <div className="mt-auto">
-                                    <a
-                                        href={cert.url}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-purple-400 hover:text-white transition-all group-hover:gap-4"
-                                    >
-                                        View Certificate
-                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                                        </svg>
-                                    </a>
+                                <div className="flex items-center justify-between mb-6">
+                                    <p className="text-white/60 text-sm font-medium">{cert.issuer}</p>
+                                    <p className="text-purple-400 text-[10px] font-mono uppercase tracking-widest">{cert.date}</p>
                                 </div>
+
+                                <p className="text-white/40 text-sm leading-relaxed mb-8">
+                                    {cert.description}
+                                </p>
+
+                                <button className="mt-auto inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-white/40 group-hover:text-white transition-colors">
+                                    View Protocol Details
+                                    <X className="rotate-[135deg]" size={14} />
+                                </button>
                             </div>
                         </motion.div>
                     ))}
                 </div>
             </div>
+
+            {/* Modal Preview */}
+            <AnimatePresence>
+                {selectedCert && (
+                    <div className="fixed inset-0 z-[200] flex items-center justify-center p-6 bg-black/80 backdrop-blur-xl">
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                            animate={{ opacity: 1, scale: 1, y: 0 }}
+                            exit={{ opacity: 0, scale: 0.9, y: 20 }}
+                            className="relative w-full max-w-2xl bg-zinc-900/90 border border-white/10 p-12 rounded-[3rem] shadow-3xl text-center"
+                        >
+                            <button 
+                                onClick={() => setSelectedCert(null)}
+                                className="absolute top-8 right-8 p-3 rounded-full bg-white/5 border border-white/10 text-white hover:bg-white/10 transition-all active:scale-90"
+                            >
+                                <X size={24} />
+                            </button>
+
+                            <div className="inline-flex items-center justify-center p-6 rounded-3xl bg-purple-500/10 border border-purple-500/20 mb-10">
+                                <Award className="text-purple-400" size={48} />
+                            </div>
+
+                            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+                                {selectedCert.title}
+                            </h2>
+                            <p className="text-purple-300 font-mono text-xs uppercase tracking-[0.3em] mb-8">
+                                Issued by {selectedCert.issuer} • {selectedCert.date}
+                            </p>
+                            
+                            <p className="text-white/60 text-lg leading-relaxed mb-12 max-w-lg mx-auto">
+                                {selectedCert.description}
+                            </p>
+
+                            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                                <a
+                                    href={selectedCert.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="flex items-center justify-center gap-3 px-10 py-5 rounded-2xl bg-white text-black font-bold uppercase tracking-widest text-xs hover:bg-purple-500 hover:text-white transition-all duration-300"
+                                >
+                                    Verify Certificate <ExternalLink size={16} />
+                                </a>
+                                <button 
+                                    onClick={() => setSelectedCert(null)}
+                                    className="px-10 py-5 rounded-2xl bg-white/5 border border-white/10 text-white font-bold uppercase tracking-widest text-xs hover:bg-white/10 transition-all duration-300"
+                                >
+                                    Return to Terminal
+                                </button>
+                            </div>
+                        </motion.div>
+                    </div>
+                )}
+            </AnimatePresence>
         </section>
     );
 };
 
 export default Certifications;
+

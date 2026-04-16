@@ -1,61 +1,82 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import ProjectCard from './ui/ProjectCard';
 
 const projects = [
     {
         id: '01',
         title: 'Lenskart Experience',
-        description: 'Optimized eyewear e-commerce flow for higher conversion rates and architectural scalpability.',
-        tag: 'E-commerce Architecture',
+        description: 'Optimized eyewear e-commerce flow for higher conversion rates and architectural scalability.',
+        tag: 'Full Stack',
         status: 'Active',
-        link: 'https://lambent-macaron-c52cee.netlify.app/'
+        link: 'https://lambent-macaron-c52cee.netlify.app/',
+        github: 'https://github.com/HARSHILL2023',
+        youtube: 'https://youtube.com/demo1',
+        api: 'https://documenter.getpostman.com/view/example'
     },
     {
         id: '02',
         title: 'Fancode Live',
         description: 'Real-time sports engagement platform with zero-latency synchronization and dynamic state management.',
-        tag: 'Systems Integration',
+        tag: 'Full Stack',
         status: 'Live',
-        link: 'https://quiet-chaja-9781c8.netlify.app/'
+        link: 'https://quiet-chaja-9781c8.netlify.app/',
+        github: 'https://github.com/HARSHILL2023',
+        youtube: 'https://youtube.com/demo2',
+        api: 'https://documenter.getpostman.com/view/example'
     },
     {
         id: '03',
         title: 'Zetwork Enterprise',
         description: 'Industrial procurement discovery interface optimized for large-scale enterprise trade flows.',
-        tag: 'Procurement Systems',
+        tag: 'Frontend',
         status: 'Live',
-        link: 'https://incandescent-gaufre-51bce6.netlify.app/'
+        link: 'https://incandescent-gaufre-51bce6.netlify.app/',
+        github: 'https://github.com/HARSHILL2023',
+        figma: 'https://www.figma.com/design/example'
     },
     {
         id: '04',
-        title: 'Rapido Logistics',
-        description: 'Logistics booking system focused on mobile-first ergonomics and high-concurrency booking.',
-        tag: 'Mobile Ergonomics',
+        title: 'Retro Shooter',
+        description: 'High-performance 2D space shooter built with native Javascript engines and optimized collision detection.',
+        tag: 'Games',
         status: 'Deployed',
-        link: 'https://resilient-mooncake-6f5f97.netlify.app'
+        link: 'https://resilient-mooncake-6f5f97.netlify.app',
+        github: 'https://github.com/HARSHILL2023'
     },
     {
         id: '05',
-        title: 'Udaan B2B',
+        title: 'Udaan B2B Clone',
         description: 'Full-stack marketplace architecture designed for large-scale trade and inventory management.',
-        tag: 'B2B Infrastructure',
+        tag: 'Clones',
         status: 'Active',
-        link: 'https://regal-torrone-7fbf6b.netlify.app'
+        link: 'https://regal-torrone-7fbf6b.netlify.app',
+        github: 'https://github.com/HARSHILL2023',
+        youtube: 'https://youtube.com/demo3'
     },
     {
         id: '06',
-        title: 'Paperboat Branding',
+        title: 'Paperboat Design',
         description: 'Strategic motion-driven UI centered on narrative storytelling and user experience strategy.',
-        tag: 'Motion UI Strategy',
+        tag: 'Frontend',
         status: 'Deployed',
-        link: 'https://github.com/HARSHILL2023/6th-project'
+        link: 'https://github.com/HARSHILL2023/6th-project',
+        github: 'https://github.com/HARSHILL2023',
+        figma: 'https://www.figma.com/design/example'
     }
 ];
 
+const categories = ['All', 'Full Stack', 'Frontend', 'Games', 'Clones'];
+
 export default function ProjectShowcase() {
+    const [activeCategory, setActiveCategory] = useState('All');
+
+    const filteredProjects = activeCategory === 'All' 
+        ? projects 
+        : projects.filter(p => p.tag === activeCategory);
+
     return (
-        <section id="projects" className="py-24 md:py-32 px-6 bg-transparent relative overflow-hidden selection:bg-indigo-500/30">
+        <section className="py-24 md:py-32 px-6 bg-transparent relative overflow-hidden selection:bg-indigo-500/30">
             {/* Global Design System Background Glow */}
             <div className="absolute inset-0 pointer-events-none opacity-20">
                 <div className="absolute top-1/4 left-1/4 w-[800px] h-[800px] bg-indigo-600/10 rounded-full blur-[160px] animate-pulse" />
@@ -69,7 +90,7 @@ export default function ProjectShowcase() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.8 }}
-                    className="text-center mb-24"
+                    className="text-center mb-16"
                 >
                     <span className="inline-block px-4 py-1.5 rounded-full border border-purple-500/30 text-purple-400 text-xs font-mono tracking-[0.2em] uppercase mb-8">
                         The Repository
@@ -77,27 +98,57 @@ export default function ProjectShowcase() {
                     <h2 className="text-4xl md:text-6xl font-bold tracking-tight text-white uppercase">
                         Project <span className="text-purple-400">Showroom</span>
                     </h2>
-                    <p className="mt-8 text-white/70 font-mono text-[10px] uppercase tracking-[0.4em] max-w-xl mx-auto leading-relaxed italic">
-                        Strategic architectural builds and high-signal product design implementations.
-                    </p>
                 </motion.div>
 
-                {/* Grid (System Integrated) */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {projects.map((project) => (
-                        <ProjectCard
-                            key={project.id}
-                            title={project.title}
-                            description={project.description}
-                            tag={project.tag}
-                            status={project.status}
-                            link={project.link}
-                        />
+                {/* Category Tabs */}
+                <div className="flex flex-wrap justify-center gap-4 mb-20">
+                    {categories.map((cat) => (
+                        <button
+                            key={cat}
+                            onClick={() => setActiveCategory(cat)}
+                            className={`px-6 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest transition-all duration-300 border ${
+                                activeCategory === cat 
+                                ? 'bg-purple-600 border-purple-600 text-white shadow-[0_0_20px_rgba(168,85,247,0.4)]' 
+                                : 'bg-white/5 border-white/10 text-white/40 hover:border-white/30'
+                            }`}
+                        >
+                            {cat}
+                        </button>
                     ))}
                 </div>
 
-
+                {/* Grid (System Integrated) */}
+                <motion.div 
+                    layout
+                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+                >
+                    <AnimatePresence mode='popLayout'>
+                        {filteredProjects.map((project) => (
+                            <motion.div
+                                layout
+                                key={project.id}
+                                initial={{ opacity: 0, scale: 0.9 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                exit={{ opacity: 0, scale: 0.9 }}
+                                transition={{ duration: 0.4 }}
+                            >
+                                <ProjectCard
+                                    title={project.title}
+                                    description={project.description}
+                                    tag={project.tag}
+                                    status={project.status}
+                                    link={project.link}
+                                    github={project.github}
+                                    youtube={project.youtube}
+                                    figma={project.figma}
+                                    api={project.api}
+                                />
+                            </motion.div>
+                        ))}
+                    </AnimatePresence>
+                </motion.div>
             </div>
         </section>
     );
 }
+
