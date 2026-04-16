@@ -5,12 +5,11 @@ import {
     Github,
     Youtube,
     Linkedin,
+    Twitter,
     Code2,
     ArrowRight,
-    Send,
-    Twitter
+    Send
 } from "lucide-react";
-import GradientBlinds from "./GradientBlinds";
 
 const socialLinks = [
     {
@@ -52,108 +51,110 @@ const socialLinks = [
 
 export const PersonalLanding = () => {
     return (
-        <section id="home" className="min-h-screen w-full flex items-center justify-center px-6 relative overflow-hidden bg-[#050505]">
-            
-            {/* ── BACKGROUND LAYER ── */}
-            <div className="absolute inset-0 z-0">
-                <GradientBlinds
-                    gradientColors={['#8B5CF6', '#EC4899', '#3B82F6']}
-                    angle={15}
-                    noise={0.2}
-                    blindCount={10}
-                    blindMinWidth={80}
-                    spotlightRadius={0.4}
-                    spotlightSoftness={1.2}
-                    spotlightOpacity={0.8}
-                    mouseDampening={0.2}
-                    distortAmount={0.2}
-                    shineDirection="left"
-                    mixBlendMode="lighten"
-                />
-            </div>
+        <div className="min-h-screen w-full flex items-start justify-center px-6 pt-28 pb-10 relative overflow-hidden selection:bg-cyan-500/30">
 
-            {/* ── OVERLAY FIX ── */}
-            <div className="absolute inset-0 z-[1] bg-black/40 backdrop-blur-[2px]" />
+            {/* ── Split layout: LEFT text, RIGHT photo ── */}
+            <div className="w-full max-w-6xl flex flex-col lg:flex-row items-center justify-between gap-14 lg:gap-20 z-10">
 
-            {/* ── CONTENT LAYER ── */}
-            <div className="relative z-10 w-full max-w-4xl mx-auto flex flex-col items-center text-center">
-                
+                {/* ─── LEFT: Liquid glass text card ─── */}
                 <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, ease: "easeOut" }}
-                    className="relative p-8 md:p-16 rounded-[3rem] border border-white/10 bg-white/5 backdrop-blur-2xl shadow-2xl overflow-hidden group"
+                    initial={{ opacity: 0, x: -50 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+                    className="flex-1 max-w-xl w-full"
                 >
-                    {/* Interior Glow */}
-                    <div className="absolute -top-24 -left-24 w-64 h-64 bg-purple-500/20 blur-[100px] rounded-full group-hover:bg-purple-500/30 transition-colors duration-700" />
-                    
-                    <div className="relative z-10 flex flex-col items-center">
+                    {/* Borderless frosted glass card */}
+                    <div
+                        className="rounded-[2.5rem] p-8 md:p-12 relative overflow-hidden flex flex-col gap-8 text-left border border-white/10"
+                        style={{
+                            background: 'rgba(10, 8, 20, 0.4)',
+                            backdropFilter: 'blur(32px) saturate(180%)',
+                            WebkitBackdropFilter: 'blur(32px) saturate(180%)',
+                            boxShadow: '0 8px 64px rgba(0,0,0,0.24)',
+                        }}
+                    >
+
                         {/* Greeting badge */}
                         <motion.span
-                            initial={{ opacity: 0, scale: 0.9 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ delay: 0.3 }}
-                            className="inline-flex items-center gap-2 px-6 py-2 rounded-full text-[10px] font-mono tracking-[0.3em] uppercase bg-black/40 border border-white/10 text-purple-300 mb-8"
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.35 }}
+                            className="self-start inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[10px] font-mono tracking-[0.2em] uppercase bg-purple-500/10 border border-purple-500/20 text-purple-300 shadow-[0_0_20px_rgba(168,85,247,0.15)]"
                         >
-                            <span className="w-2 h-2 bg-purple-400 rounded-full animate-pulse" />
+                            <span className="w-1.5 h-1.5 bg-purple-400 rounded-full animate-pulse" />
                             MERN Stack Developer | AI Enthusiast
                         </motion.span>
 
                         {/* Name heading */}
                         <motion.h1
-                            initial={{ opacity: 0, y: 20 }}
+                            initial={{ opacity: 0, y: 24 }}
                             animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.4, duration: 0.8 }}
-                            className="text-6xl md:text-9xl font-black tracking-tighter leading-none mb-6"
+                            transition={{ delay: 0.5, duration: 0.8 }}
+                            className="text-5xl md:text-7xl font-black tracking-tight leading-[1.05]"
                         >
-                            <span className="text-white drop-shadow-2xl text-shadow-glow">HARSHIL</span>
-                            <br />
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400">PATEL</span>
+                            <span
+                                className="text-white"
+                                style={{ textShadow: '0 2px 20px rgba(255,255,255,0.25)' }}
+                            >
+                                Hi, I'm{' '}
+                            </span>
+                            <span
+                                className="text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-400 via-purple-400 to-cyan-400"
+                                style={{
+                                    filter: 'drop-shadow(0 2px 12px rgba(168,85,247,0.50))',
+                                }}
+                            >
+                                Harshil
+                            </span>
                         </motion.h1>
 
-                        {/* Short intro */}
+                        {/* About text */}
                         <motion.p
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
-                            transition={{ delay: 0.6 }}
-                            className="text-lg md:text-2xl text-white/60 max-w-2xl leading-relaxed mb-12 font-medium"
+                            transition={{ delay: 0.7 }}
+                            className="text-lg md:text-xl leading-relaxed text-white/70 font-medium max-w-lg"
                         >
-                            Building <span className="text-white">scalable systems</span> and 
-                            <span className="text-purple-300"> immersive digital experiences</span> 
-                            with a focus on architectural excellence.
+                            Senior Software Engineer crafting{' '}
+                            <span className="text-white font-bold">high-signal</span>, performant web architectures.
+                            Specializing in the <span className="text-purple-300 font-bold">MERN stack</span> and interactive design.
                         </motion.p>
 
                         {/* CTA Buttons */}
-                        <motion.div 
+                        <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.7 }}
-                            className="flex flex-col sm:flex-row gap-6 mb-12"
+                            transition={{ delay: 0.8 }}
+                            className="flex flex-wrap gap-4"
                         >
-                            <a 
-                                href="#projects" 
-                                className="px-10 py-5 rounded-2xl bg-white text-black font-black uppercase tracking-widest text-xs hover:bg-purple-500 hover:text-white transition-all duration-300 shadow-xl shadow-purple-500/20 active:scale-95"
+                            <a
+                                href="#projects"
+                                className="group relative flex items-center gap-2 px-8 py-4 rounded-2xl bg-white text-black font-bold uppercase tracking-widest text-[10px] hover:bg-purple-500 hover:text-white transition-all duration-300 overflow-hidden"
                             >
-                                <span className="flex items-center gap-3">
-                                    View Projects <ArrowRight size={16} />
+                                <span className="relative z-10 flex items-center gap-2 uppercase">
+                                    View Projects <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
                                 </span>
                             </a>
-                            <a 
-                                href="#contact" 
-                                className="px-10 py-5 rounded-2xl bg-white/5 border border-white/20 text-white font-black uppercase tracking-widest text-xs hover:bg-white/10 transition-all duration-300 backdrop-blur-md active:scale-95"
+                            <a
+                                href="#contact"
+                                className="flex items-center gap-2 px-8 py-4 rounded-2xl bg-white/5 border border-white/10 text-white font-bold uppercase tracking-widest text-[10px] hover:bg-white/10 transition-all duration-300"
                             >
-                                <span className="flex items-center gap-3">
-                                    Contact Me <Send size={16} />
-                                </span>
+                                Contact Me <Send size={14} />
                             </a>
                         </motion.div>
 
+                        {/* Divider */}
+                        <div
+                            className="w-full h-px mt-4"
+                            style={{ background: 'linear-gradient(to right, rgba(255,255,255,0.12), rgba(168,85,247,0.18), transparent)' }}
+                        />
+
                         {/* Social links */}
                         <motion.div
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ delay: 0.8 }}
-                            className="flex gap-4"
+                            initial={{ opacity: 0, y: 14 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.9 }}
+                            className="flex flex-wrap gap-3"
                         >
                             {socialLinks.map((link) => (
                                 <a
@@ -161,8 +162,9 @@ export const PersonalLanding = () => {
                                     href={link.href}
                                     target="_blank"
                                     rel="noopener noreferrer"
+                                    aria-label={link.label}
                                     className={twMerge(
-                                        'p-4 rounded-2xl bg-black/40 border border-white/10 transition-all duration-300 hover:border-purple-500/50 hover:-translate-y-1',
+                                        'group flex items-center justify-center w-12 h-12 rounded-xl text-sm transition-all duration-300 hover:scale-110 focus:outline-none bg-white/5 border border-white/10 hover:border-purple-500/40',
                                         link.text
                                     )}
                                     title={link.label}
@@ -173,7 +175,72 @@ export const PersonalLanding = () => {
                         </motion.div>
                     </div>
                 </motion.div>
+
+                {/* ─── RIGHT: Profile photo ─── */}
+                <motion.div
+                    initial={{ opacity: 0, x: 50 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.4, duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+                    className="relative flex items-center justify-center flex-shrink-0"
+                >
+                    {/* Ambient glow blob */}
+                    <div
+                        className="absolute pointer-events-none"
+                        style={{
+                            width: 480,
+                            height: 480,
+                            background: 'radial-gradient(circle, rgba(130,0,219,0.35) 0%, rgba(99,102,241,0.15) 55%, transparent 75%)',
+                            filter: 'blur(60px)',
+                            borderRadius: '2rem',
+                            animation: 'plGlowPulse 4s ease-in-out infinite',
+                        }}
+                    />
+
+                    {/* Photo — square */}
+                    <div
+                        style={{
+                            position: 'relative',
+                            width: 380,
+                            height: 380,
+                            borderRadius: '1.5rem',
+                            overflow: 'hidden',
+                            border: '1px solid rgba(255,255,255,0.18)',
+                            boxShadow: '0 0 80px rgba(130,0,219,0.45), 0 0 120px rgba(99,102,241,0.15)',
+                        }}
+                    >
+                        <img
+                            src="/assets/profile.jpg"
+                            alt="Harshil Patel"
+                            className="w-full h-full object-cover object-top transition-transform duration-700 hover:scale-105"
+                            loading="eager"
+                            style={{ filter: 'brightness(1.05) contrast(1.02)' }}
+                        />
+                        {/* Vignette */}
+                        <div style={{ position: 'absolute', inset: 0, borderRadius: '1.5rem', background: 'linear-gradient(to top, rgba(0,0,0,0.2), transparent)', pointerEvents: 'none' }} />
+                    </div>
+
+                    {/* Status pill */}
+                    <motion.div
+                        className="absolute flex items-center gap-2 px-5 py-2.5 rounded-full bg-black/80 border border-white/10 backdrop-blur-2xl shadow-2xl"
+                        style={{ bottom: -10 }}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 1.2 }}
+                    >
+                        <div className="w-2.5 h-2.5 bg-emerald-400 rounded-full animate-[pulse_2s_ease-in-out_infinite]" />
+                        <span className="text-[10px] font-mono text-emerald-400 font-bold uppercase tracking-[0.2em]">
+                            Available for Work
+                        </span>
+                    </motion.div>
+
+                    <style>{`
+                        @keyframes plGlowPulse {
+                            0%, 100% { opacity: 0.8; transform: scale(1); }
+                            50%       { opacity: 1;   transform: scale(1.1); }
+                        }
+                    `}</style>
+                </motion.div>
             </div>
-        </section>
+        </div>
     );
 };

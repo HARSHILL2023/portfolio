@@ -32,6 +32,9 @@ export default function Portfolio() {
     const rootRef = useRef(null);
     const [activeSection, setActiveSection] = useState('home');
 
+    // Persistent map tracking each section's current visibility ratio
+    const sectionVisibility = useRef(new Map());
+
     const navItems = useMemo(() => [
         { id: 'home', icon: <User size={20} />, label: 'Identity', link: '#home' },
         { id: 'skills', icon: <Layers size={20} />, label: 'Arsenal', link: '#skills' },
@@ -45,28 +48,45 @@ export default function Portfolio() {
     useEffect(() => {
         const sectionIds = navItems.map(item => item.id);
 
+        // Use a narrow detection band in the middle of the viewport
         const observerOptions = {
             root: null,
-            rootMargin: '-30% 0px -40% 0px',
-            threshold: [0, 0.1, 0.2]
+            rootMargin: '-20% 0px -35% 0px',
+            threshold: [0, 0.05, 0.1, 0.2, 0.3, 0.5]
         };
 
         const observerCallback = (entries) => {
-            let highestRatio = -1;
-            let mostVisibleSection = null;
-
+            // Step 1: Update the persistent visibility map with new data
             entries.forEach(entry => {
-                if (entry.isIntersecting && entry.intersectionRatio > highestRatio) {
-                    highestRatio = entry.intersectionRatio;
-                    mostVisibleSection = entry.target.id;
+                if (entry.isIntersecting) {
+                    sectionVisibility.current.set(entry.target.id, entry.intersectionRatio);
+                } else {
+                    sectionVisibility.current.delete(entry.target.id);
                 }
             });
 
-            if (mostVisibleSection) {
-                setActiveSection(mostVisibleSection);
+            // Step 2: From ALL currently visible sections, pick the one
+            // that appears first in DOM order (topmost on screen)
+            let bestSection = null;
+            let bestTop = Infinity;
+
+            sectionVisibility.current.forEach((ratio, id) => {
+                const el = document.getElementById(id);
+                if (el) {
+                    const rect = el.getBoundingClientRect();
+                    // The section whose top is closest to (but below) the viewport top wins
+                    const absTop = Math.abs(rect.top);
+                    if (absTop < bestTop) {
+                        bestTop = absTop;
+                        bestSection = id;
+                    }
+                }
+            });
+
+            if (bestSection) {
+                setActiveSection(bestSection);
             }
         };
-
 
         const observer = new IntersectionObserver(observerCallback, observerOptions);
 
@@ -75,6 +95,7 @@ export default function Portfolio() {
             if (element) observer.observe(element);
         });
 
+        // Bottom-of-page fallback: force "contact" when scrolled to the very end
         const handleScroll = () => {
             const winScroll = window.innerHeight + window.scrollY;
             const height = document.body.offsetHeight;
@@ -158,7 +179,7 @@ export default function Portfolio() {
             <div className="fixed top-6 right-6 md:top-8 md:right-8 z-[110]">
                 <Magnet padding={80} disabled={false} magnetStrength={3}>
                     <a
-                        href="/resume.pdf"
+                        href="https://drive.google.com/file/d/1ukf2AUQCVaa8u2A6N83Sxwj42iTkTygx/view?usp=drivesdk"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="group relative flex items-center gap-2 rounded-full px-5 py-2 md:px-6 md:py-2.5 text-[10px] md:text-xs font-bold tracking-[0.1em] text-white transition-all overflow-hidden"
@@ -179,18 +200,21 @@ export default function Portfolio() {
             </div>
 
             {/* Floating Navigation Hub */}
-            <div className="fixed bottom-12 left-1/2 -translate-x-1/2 z-[100] animate-in slide-in-from-bottom-10 duration-1000 delay-500">
-                <LimelightNav
-                    items={navItems}
-                    activeIndex={activeIndex}
-                    onTabChange={(index) => {
-                        const targetId = navItems[index].id;
-                        const element = document.getElementById(targetId);
-                        if (element) {
-                            element.scrollIntoView({ behavior: 'smooth' });
-                        }
-                    }}
-                />
+            <div className="fixed bottom-12 left-0 right-0 z-[100] flex justify-center pointer-events-none">
+                <div className="pointer-events-auto" style={{ animation: 'slideUpFadeIn 0.8s ease-out 0.5s both' }}>
+                    <LimelightNav
+                        items={navItems}
+                        activeIndex={activeIndex}
+                        onTabChange={(index) => {
+                            const targetId = navItems[index].id;
+                            setActiveSection(targetId);
+                            const element = document.getElementById(targetId);
+                            if (element) {
+                                element.scrollIntoView({ behavior: 'smooth' });
+                            }
+                        }}
+                    />
+                </div>
             </div>
 
 
