@@ -1,27 +1,55 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Send, CheckCircle, AlertCircle, Mail, MapPin, Phone } from "lucide-react";
 import emailjs from "@emailjs/browser";
 
 export default function ContactSection() {
-    const form = useRef();
+    const [formData, setFormData] = useState({
+        name: "",
+        email: "",
+        message: ""
+    });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [status, setStatus] = useState(null); // 'success' | 'error'
+    const [errorMessage, setErrorMessage] = useState("");
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({
+            ...prev,
+            [name]: value
+        }));
+    };
 
     const sendEmail = (e) => {
         e.preventDefault();
+
+        // Basic Client-side Validation
+        if (!formData.name || !formData.email || !formData.message) {
+            setStatus('error');
+            setErrorMessage("Please fill in all fields.");
+            return;
+        }
+
         setIsSubmitting(true);
         setStatus(null);
+        setErrorMessage("");
 
-        // Replace these with your actual local EmailJS Service ID, Template ID, and Public Key
-        // I am setting them as placeholders for the user to fill.
-        emailjs.sendForm('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', form.current, 'YOUR_PUBLIC_KEY')
-            .then((result) => {
+        // EmailJS Configuration - Using provided credentials
+        const SERVICE_ID = "service_8ll3v9u";
+        const TEMPLATE_ID = "template_6mly7jn";
+        const PUBLIC_KEY = "dzlyz-rysoAExUJmu";
+
+        emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, e.target, PUBLIC_KEY)
+            .then(() => {
                 setStatus('success');
+                setFormData({ name: "", email: "", message: "" }); // Reset form
                 setIsSubmitting(false);
-                form.current.reset();
-            }, (error) => {
+            })
+            .catch((error) => {
+                console.error("Transmission Error:", error);
                 setStatus('error');
+                setErrorMessage("Transmission Failed. Please check your signal.");
                 setIsSubmitting(false);
             });
     };
@@ -73,7 +101,6 @@ export default function ContactSection() {
                     {/* Contact Form */}
                     <div className="flex-1">
                         <motion.form
-                            ref={form}
                             onSubmit={sendEmail}
                             initial={{ opacity: 0, x: 30 }}
                             whileInView={{ opacity: 1, x: 0 }}
@@ -83,9 +110,11 @@ export default function ContactSection() {
                             <div className="space-y-6">
                                 <div>
                                     <label className="block text-[10px] font-mono uppercase tracking-[0.2em] text-white/50 mb-3 ml-1">Identity Name</label>
-                                    <input 
-                                        type="text" 
-                                        name="user_name" 
+                                    <input
+                                        type="text"
+                                        name="name"
+                                        value={formData.name}
+                                        onChange={handleChange}
                                         required
                                         placeholder="Cipher Node"
                                         className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-white placeholder:text-white/20 focus:outline-none focus:border-purple-500/50 transition-all font-medium"
@@ -93,9 +122,11 @@ export default function ContactSection() {
                                 </div>
                                 <div>
                                     <label className="block text-[10px] font-mono uppercase tracking-[0.2em] text-white/50 mb-3 ml-1">Email Address</label>
-                                    <input 
-                                        type="email" 
-                                        name="user_email" 
+                                    <input
+                                        type="email"
+                                        name="email"
+                                        value={formData.email}
+                                        onChange={handleChange}
                                         required
                                         placeholder="node@network.com"
                                         className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-white placeholder:text-white/20 focus:outline-none focus:border-purple-500/50 transition-all font-medium"
@@ -103,8 +134,10 @@ export default function ContactSection() {
                                 </div>
                                 <div>
                                     <label className="block text-[10px] font-mono uppercase tracking-[0.2em] text-white/50 mb-3 ml-1">Encrypted Message</label>
-                                    <textarea 
-                                        name="message" 
+                                    <textarea
+                                        name="message"
+                                        value={formData.message}
+                                        onChange={handleChange}
                                         required
                                         rows="4"
                                         placeholder="Transmission content..."
@@ -128,7 +161,7 @@ export default function ContactSection() {
                                 </button>
 
                                 {status === 'success' && (
-                                    <motion.div 
+                                    <motion.div
                                         initial={{ opacity: 0, y: 10 }}
                                         animate={{ opacity: 1, y: 0 }}
                                         className="flex items-center gap-3 text-emerald-400 text-xs font-mono uppercase tracking-widest bg-emerald-400/10 p-4 rounded-xl border border-emerald-400/20"
@@ -137,12 +170,12 @@ export default function ContactSection() {
                                     </motion.div>
                                 )}
                                 {status === 'error' && (
-                                    <motion.div 
+                                    <motion.div
                                         initial={{ opacity: 0, y: 10 }}
                                         animate={{ opacity: 1, y: 0 }}
                                         className="flex items-center gap-3 text-red-400 text-xs font-mono uppercase tracking-widest bg-red-400/10 p-4 rounded-xl border border-red-400/20"
                                     >
-                                        <AlertCircle size={16} /> Transmission Failed
+                                        <AlertCircle size={16} /> {errorMessage || "Transmission Failed"}
                                     </motion.div>
                                 )}
                             </div>

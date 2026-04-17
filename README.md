@@ -1,16 +1,35 @@
-# React + Vite
+# Personal Portfolio with Signal Interception (Contact Form)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project features a production-ready contact system using React and **EmailJS**. It's a serverless solution that sends emails directly from the frontend.
 
-Currently, two official plugins are available:
+## 🚀 Getting Started
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Installation
 
-## React Compiler
+1.  **Install dependencies:**
+    ```bash
+    npm install
+    ```
+2.  **Start the development server:**
+    ```bash
+    npm run dev
+    ```
+    The site will run on `http://localhost:5173`.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### EmailJS Configuration
 
-## Expanding the ESLint configuration
+The contact form is pre-configured with the following credentials:
+- **Service ID**: `service_8ll3v9u`
+- **Template ID**: `template_6mly7jn`
+- **Public Key**: `dzlyz-rysoAExUJmu`
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+No additional setup is required unless you wish to use your own EmailJS account.
+
+## 🛠 Features
+
+- **Serverless Architecture:** No backend server required, simplifying deployment to Vercel/Netlify.
+- **EmailJS Integration:** Reliable email delivery managed via the EmailJS dashboard.
+- **Controlled Inputs:** React-managed state for better validation and UX.
+- **Rich Feedback:** Custom success/error animations and messages.
+- **Spam Protection:** Client-side validation to ensure all fields are filled.
+- **Responsive Design:** Fully mobile-optimized contact interface.
