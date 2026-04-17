@@ -8,16 +8,16 @@ const hackathons = [
         problem: "Climate change impact on local agriculture and food security.",
         solution: "EcoTrack: An AI-powered platform for sustainable farming and resource optimization.",
         outcome: "Global Top 100 Finalist",
-        repo: "https://github.com/HARSHILL2023",
-        demo: "https://youtube.com/demo1"
+        repo: "",
+        demo: ""
     },
     {
         name: "Smart India Hackathon 2023",
         problem: "Automating manual record-keeping for MSMEs.",
         solution: "BizLedger: Hyperledger-based secure transparent accounting system.",
         outcome: "Winner (National Level)",
-        repo: "https://github.com/HARSHILL2023",
-        demo: "https://youtube.com/demo2"
+        repo: "",
+        demo: ""
     }
 ];
 

@@ -10,9 +10,9 @@ const projects = [
         tag: 'Full Stack',
         status: 'Active',
         link: 'https://lambent-macaron-c52cee.netlify.app/',
-        github: 'https://github.com/HARSHILL2023',
-        youtube: 'https://youtube.com/demo1',
-        api: 'https://documenter.getpostman.com/view/example'
+        github: '',
+        youtube: '',
+        api: ''
     },
     {
         id: '02',
@@ -21,9 +21,9 @@ const projects = [
         tag: 'Full Stack',
         status: 'Live',
         link: 'https://quiet-chaja-9781c8.netlify.app/',
-        github: 'https://github.com/HARSHILL2023',
-        youtube: 'https://youtube.com/demo2',
-        api: 'https://documenter.getpostman.com/view/example'
+        github: '',
+        youtube: '',
+        api: ''
     },
     {
         id: '03',
@@ -32,8 +32,8 @@ const projects = [
         tag: 'Frontend',
         status: 'Live',
         link: 'https://incandescent-gaufre-51bce6.netlify.app/',
-        github: 'https://github.com/HARSHILL2023',
-        figma: 'https://www.figma.com/design/example'
+        github: '',
+        figma: ''
     },
     {
         id: '04',
@@ -42,7 +42,7 @@ const projects = [
         tag: 'Games',
         status: 'Deployed',
         link: 'https://resilient-mooncake-6f5f97.netlify.app',
-        github: 'https://github.com/HARSHILL2023'
+        github: ''
     },
     {
         id: '05',
@@ -51,8 +51,8 @@ const projects = [
         tag: 'Clones',
         status: 'Active',
         link: 'https://regal-torrone-7fbf6b.netlify.app',
-        github: 'https://github.com/HARSHILL2023',
-        youtube: 'https://youtube.com/demo3'
+        github: '',
+        youtube: ''
     },
     {
         id: '06',
@@ -61,8 +61,8 @@ const projects = [
         tag: 'Frontend',
         status: 'Deployed',
         link: 'https://github.com/HARSHILL2023/6th-project',
-        github: 'https://github.com/HARSHILL2023',
-        figma: 'https://www.figma.com/design/example'
+        github: '',
+        figma: ''
     }
 ];
 

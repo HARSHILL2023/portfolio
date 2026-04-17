@@ -41,73 +41,58 @@ export default function Portfolio() {
         { id: 'projects', icon: <Code size={20} />, label: 'Repository', link: '#projects' },
         { id: 'figma', icon: <Figma size={20} />, label: 'Studio', link: '#figma' },
         { id: 'hackathon', icon: <Terminal size={20} />, label: 'Arena', link: '#hackathon' },
+        { id: 'achievements', icon: <Award size={20} />, label: 'Milestones', link: '#achievements' },
         { id: 'certificates', icon: <Trophy size={20} />, label: 'Credentials', link: '#certificates' },
         { id: 'contact', icon: <Send size={20} />, label: 'Signal', link: '#contact' },
     ], []);
 
     useEffect(() => {
-        const sectionIds = navItems.map(item => item.id);
-
-        // Use a narrow detection band in the middle of the viewport
-        const observerOptions = {
-            root: null,
-            rootMargin: '-20% 0px -35% 0px',
-            threshold: [0, 0.05, 0.1, 0.2, 0.3, 0.5]
-        };
-
-        const observerCallback = (entries) => {
-            // Step 1: Update the persistent visibility map with new data
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    sectionVisibility.current.set(entry.target.id, entry.intersectionRatio);
-                } else {
-                    sectionVisibility.current.delete(entry.target.id);
-                }
-            });
-
-            // Step 2: From ALL currently visible sections, pick the one
-            // that appears first in DOM order (topmost on screen)
-            let bestSection = null;
-            let bestTop = Infinity;
-
-            sectionVisibility.current.forEach((ratio, id) => {
-                const el = document.getElementById(id);
-                if (el) {
-                    const rect = el.getBoundingClientRect();
-                    // The section whose top is closest to (but below) the viewport top wins
-                    const absTop = Math.abs(rect.top);
-                    if (absTop < bestTop) {
-                        bestTop = absTop;
-                        bestSection = id;
-                    }
-                }
-            });
-
-            if (bestSection) {
-                setActiveSection(bestSection);
-            }
-        };
-
-        const observer = new IntersectionObserver(observerCallback, observerOptions);
-
-        sectionIds.forEach(id => {
-            const element = document.getElementById(id);
-            if (element) observer.observe(element);
-        });
-
-        // Bottom-of-page fallback: force "contact" when scrolled to the very end
         const handleScroll = () => {
-            const winScroll = window.innerHeight + window.scrollY;
-            const height = document.body.offsetHeight;
-            if (winScroll >= height - 100) {
+            const sections = navItems.map(item => ({
+                id: item.id,
+                el: document.getElementById(item.id)
+            })).filter(item => item.el);
+
+            // The trigger point is roughly 1/3 down the viewport
+            const triggerPoint = window.innerHeight / 3;
+            const scrollPosition = window.scrollY + triggerPoint;
+            
+            // 1. Absolute Top Fallback
+            if (window.scrollY < 50) {
+                setActiveSection('home');
+                return;
+            }
+
+            // 2. Absolute Bottom Fallback
+            const isAtBottom = (window.innerHeight + window.scrollY) >= (document.documentElement.scrollHeight - 150);
+            if (isAtBottom) {
                 setActiveSection('contact');
+                return;
+            }
+
+            // 3. Main Scroll Detection
+            let currentActiveId = null;
+            for (let i = sections.length - 1; i >= 0; i--) {
+                const section = sections[i];
+                // Check if the trigger point has passed the start of this section
+                if (scrollPosition >= section.el.offsetTop) {
+                    currentActiveId = section.id;
+                    break;
+                }
+            }
+
+            if (currentActiveId) {
+                setActiveSection(prev => (currentActiveId !== prev ? currentActiveId : prev));
             }
         };
 
         window.addEventListener('scroll', handleScroll, { passive: true });
+        // Small delay to ensure lazy components have initialized their heights
+        const timer = setTimeout(handleScroll, 100);
+
         return () => {
-            observer.disconnect();
             window.removeEventListener('scroll', handleScroll);
+            clearTimeout(timer);
         };
     }, [navItems]);
 
@@ -156,7 +141,9 @@ export default function Portfolio() {
 
             {/* Achievements */}
             <Suspense fallback={<div className="h-24 bg-transparent" />}>
-                <AchievementsSection />
+                <section id="achievements">
+                    <AchievementsSection />
+                </section>
             </Suspense>
 
             {/* Industry Credentials Section */}

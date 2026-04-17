@@ -40,13 +40,6 @@ const socialLinks = [
         bg: 'hover:bg-yellow-500/10 hover:border-yellow-500/30',
         text: 'text-white/70 hover:text-yellow-400',
     },
-    {
-        href: 'https://twitter.com/example',
-        label: 'Twitter',
-        icon: <Twitter size={18} />,
-        bg: 'hover:bg-blue-400/10 hover:border-blue-400/30',
-        text: 'text-white/70 hover:text-blue-400',
-    },
 ];
 
 export const PersonalLanding = () => {

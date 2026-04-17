@@ -15,7 +15,7 @@ const projects = [
         title: "Test Platform",
         description: "A flexible and scalable testing platform interface built for performance monitoring and system validation, focusing on clarity, usability, and efficient workflow management.",
         image: "/assets/test-platform.png",
-        figmaLink: "https://www.figma.com/design/example2",
+        figmaLink: "",
         tags: ["Dashboard", "SaaS", "Enterprise"],
         isFeatured: false
     },
@@ -23,7 +23,7 @@ const projects = [
         title: "Nike Shoes Design",
         description: "A stylish and high-conversion e-commerce UI concept for showcasing Nike footwear, designed with bold visuals, smooth product browsing, and an engaging shopping experience.",
         image: "/assets/nike.png",
-        figmaLink: "https://www.figma.com/design/example3",
+        figmaLink: "",
         tags: ["Web3", "Finance", "Security"],
         isFeatured: false
     }
