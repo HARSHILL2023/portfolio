@@ -84,7 +84,7 @@ export const LimelightNav = ({
 
     return (
         <nav className={twMerge(
-            "relative inline-flex items-center h-16 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-xl px-2 shadow-2xl transition-all duration-500 overflow-x-auto max-w-[95vw] scrollbar-hide",
+            "relative inline-flex items-center h-16 rounded-2xl bg-white/15 border border-white/10 backdrop-blur-xl px-2 shadow-xl transition-all duration-500 overflow-x-auto max-w-[95vw] scrollbar-hide",
             className
         )}>
 

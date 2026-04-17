@@ -34,11 +34,18 @@ const socialLinks = [
         text: 'text-white/70 hover:text-white',
     },
     {
-        href: 'https://leetcode.com/u/HARSHILL2023/',
+        href: 'https://leetcode.com/u/trFRJmWPQm/',
         label: 'LeetCode',
         icon: <Code2 size={18} />,
         bg: 'hover:bg-yellow-500/10 hover:border-yellow-500/30',
         text: 'text-white/70 hover:text-yellow-400',
+    },
+    {
+        href: 'https://x.com/HarshilPat74943',
+        label: 'Twitter',
+        icon: <Twitter size={18} />,
+        bg: 'hover:bg-sky-500/10 hover:border-sky-500/50',
+        text: 'text-white/60 hover:text-sky-400',
     },
 ];
 
@@ -75,7 +82,7 @@ export const PersonalLanding = () => {
                             className="self-start inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[10px] font-mono tracking-[0.2em] uppercase bg-purple-500/10 border border-purple-500/20 text-purple-300 shadow-[0_0_20px_rgba(168,85,247,0.15)]"
                         >
                             <span className="w-1.5 h-1.5 bg-purple-400 rounded-full animate-pulse" />
-                            MERN Stack Developer | AI Enthusiast
+                            Harshil Patel Portfolio | MERN Stack Developer
                         </motion.span>
 
                         {/* Name heading */}
@@ -108,8 +115,8 @@ export const PersonalLanding = () => {
                             transition={{ delay: 0.7 }}
                             className="text-lg md:text-xl leading-relaxed text-white/70 font-medium max-w-lg"
                         >
-                            Senior Software Engineer crafting{' '}
-                            <span className="text-white font-bold">high-signal</span>, performant web architectures.
+                            Senior <span className="text-white font-bold">React Developer</span> crafting{' '}
+                            <span className="text-white font-bold">high-signal</span>, performant full-stack architectures.
                             Specializing in the <span className="text-purple-300 font-bold">MERN stack</span> and interactive design.
                         </motion.p>
 

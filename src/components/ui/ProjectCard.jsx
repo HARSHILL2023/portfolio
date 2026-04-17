@@ -11,6 +11,7 @@ export default function ProjectCard({
     youtube = "",
     figma = "",
     api = "",
+    image = "",
     className = ""
 }) {
     return (
@@ -22,6 +23,19 @@ export default function ProjectCard({
                 WebkitBackdropFilter: 'blur(20px) saturate(160%)',
             }}
         >
+            {/* Project Preview Image */}
+            {image && (
+                <div className="absolute inset-0 z-0 opacity-20 group-hover:opacity-40 transition-opacity duration-700">
+                    <img 
+                        src={image} 
+                        alt={`${title} Preview`} 
+                        loading="lazy"
+                        className="w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-b from-[#0a0814]/60 via-[#0a0814]/90 to-[#0a0814]" />
+                </div>
+            )}
+
             {/* Hover Glow Effect */}
             <div className="absolute -inset-px bg-gradient-to-br from-purple-500/20 via-transparent to-indigo-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
@@ -49,15 +63,19 @@ export default function ProjectCard({
 
             {/* Action Buttons */}
             <div className="mt-8 flex flex-wrap gap-3 pt-6 border-t border-white/5 relative z-10">
-                {link && (
+                {link && link !== "#" ? (
                     <a
                         href={link}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex-1 inline-flex items-center justify-center gap-2 text-[10px] font-bold uppercase tracking-widest px-4 py-3 rounded-xl bg-white text-black hover:bg-purple-400 hover:text-white transition-all active:scale-95"
+                        className="flex-1 inline-flex items-center justify-center gap-2 text-[10px] font-bold uppercase tracking-widest px-4 py-3 rounded-xl bg-white text-black hover:bg-purple-400 hover:text-white transition-all active:scale-95 shadow-[0_4px_12px_rgba(255,255,255,0.1)]"
                     >
                         <ExternalLink size={14} /> Live
                     </a>
+                ) : (
+                    <div className="flex-1 inline-flex items-center justify-center gap-2 text-[10px] font-bold uppercase tracking-widest px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white/40 cursor-not-allowed">
+                        <div className="w-1.5 h-1.5 rounded-full bg-red-500/50 animate-pulse" /> Currently Down
+                    </div>
                 )}
                 <div className="flex gap-2">
                     {github && (

@@ -5,6 +5,7 @@ import { motion, useSpring, useMotionValue, AnimatePresence } from 'framer-motio
 const TechOrbitSkills = lazy(() => import('./TechOrbitSkills'));
 const Certifications = lazy(() => import('./Certifications'));
 const ProjectShowcase = lazy(() => import('./ProjectShowcase'));
+const GamesSection = lazy(() => import('./GamesSection'));
 const FigmaShowcase = lazy(() => import('./FigmaShowcase'));
 const HackathonSection = lazy(() => import('./HackathonSection'));
 const AchievementsSection = lazy(() => import('./AchievementsSection'));
@@ -24,7 +25,8 @@ import {
     FileText,
     Figma,
     Terminal,
-    Award
+    Award,
+    Gamepad2
 } from 'lucide-react';
 import { Magnet } from './ui/Magnet';
 
@@ -40,6 +42,7 @@ export default function Portfolio() {
         { id: 'skills', icon: <Layers size={20} />, label: 'Arsenal', link: '#skills' },
         { id: 'projects', icon: <Code size={20} />, label: 'Repository', link: '#projects' },
         { id: 'figma', icon: <Figma size={20} />, label: 'Studio', link: '#figma' },
+        { id: 'games', icon: <Gamepad2 size={20} />, label: 'Playground', link: '#games' },
         { id: 'hackathon', icon: <Terminal size={20} />, label: 'Arena', link: '#hackathon' },
         { id: 'achievements', icon: <Award size={20} />, label: 'Milestones', link: '#achievements' },
         { id: 'certificates', icon: <Trophy size={20} />, label: 'Credentials', link: '#certificates' },
@@ -129,6 +132,13 @@ export default function Portfolio() {
             <Suspense fallback={<div className="h-24 bg-transparent" />}>
                 <section id="figma">
                     <FigmaShowcase />
+                </section>
+            </Suspense>
+
+            {/* Games Section */}
+            <Suspense fallback={<div className="h-24 bg-transparent" />}>
+                <section id="games">
+                    <GamesSection />
                 </section>
             </Suspense>
 

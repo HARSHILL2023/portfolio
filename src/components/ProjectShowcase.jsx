@@ -5,64 +5,73 @@ import ProjectCard from './ui/ProjectCard';
 const projects = [
     {
         id: '01',
-        title: 'Lenskart Experience',
-        description: 'Optimized eyewear e-commerce flow for higher conversion rates and architectural scalability.',
+        title: 'Tic Tech Toe Ecommerce',
+        description: 'A robust full-stack e-commerce marketplace featuring secure checkout, real-time product management, and a unified shopping dashboard.',
         tag: 'Full Stack',
-        status: 'Active',
-        link: 'https://lambent-macaron-c52cee.netlify.app/',
-        github: '',
-        youtube: '',
-        api: ''
+        status: 'Live',
+        link: 'https://tic-tech-toe-ecommerce-website.vercel.app/',
+        github: 'https://github.com/HARSHILL2023/tic_tech_toe-ecommerce-website-',
+        image: 'https://via.placeholder.com/600x400?text=Tic+Tech+Toe+Server'
     },
     {
         id: '02',
-        title: 'Fancode Live',
-        description: 'Real-time sports engagement platform with zero-latency synchronization and dynamic state management.',
+        title: 'FleetFlow Logistics',
+        description: 'A mission-critical logistics platform integrating real-time fleet synchronization, driver telemetry, and scalable backend operations.',
         tag: 'Full Stack',
-        status: 'Live',
-        link: 'https://quiet-chaja-9781c8.netlify.app/',
-        github: '',
-        youtube: '',
-        api: ''
+        status: 'Production',
+        link: '', // Currently Down
+        github: 'https://github.com/HARSHILL2023/odoo_x_gujarat-vidyapith',
+        image: 'https://via.placeholder.com/600x400?text=FleetFlow+Platform'
     },
     {
         id: '03',
-        title: 'Zetwork Enterprise',
-        description: 'Industrial procurement discovery interface optimized for large-scale enterprise trade flows.',
-        tag: 'Frontend',
-        status: 'Live',
-        link: 'https://incandescent-gaufre-51bce6.netlify.app/',
-        github: '',
-        figma: ''
+        title: 'AI Onboarding Engine',
+        description: 'An AI-powered talent acquisition ecosystem automating skill gap analysis and roadmap generation through predictive LLM logic.',
+        tag: 'Full Stack',
+        status: 'Active',
+        link: 'https://art-park-code-forge-hackathon-virid.vercel.app',
+        github: 'https://github.com/HARSHILL2023/ArtPark_CodeForge_Hackathon',
+        image: 'https://via.placeholder.com/600x400?text=AI+Onboarding+SaaS'
     },
     {
         id: '04',
-        title: 'Retro Shooter',
-        description: 'High-performance 2D space shooter built with native Javascript engines and optimized collision detection.',
-        tag: 'Games',
-        status: 'Deployed',
-        link: 'https://resilient-mooncake-6f5f97.netlify.app',
-        github: ''
+        title: 'Lenskart Experience',
+        description: 'A high-fidelity frontend implementation of the Lenskart eyewear browsing experience focusing on smooth transitions and item selection.',
+        tag: 'Frontend',
+        status: 'UI Prototype',
+        link: '', // Currently Down
+        github: 'https://github.com/HARSHILL2023/lenskart',
+        image: 'https://via.placeholder.com/600x400?text=Lenskart+Frontend'
+    },
+    {
+        id: '04b',
+        title: 'Lenskart Clone',
+        description: 'A structural clone of the Lenskart e-commerce flow, focusing on component-based architecture and design system replication.',
+        tag: 'Clones',
+        status: 'Clone',
+        link: '', // Currently Down
+        github: 'https://github.com/HARSHILL2023/lenskart',
+        image: 'https://via.placeholder.com/600x400?text=Lenskart+Clone'
     },
     {
         id: '05',
-        title: 'Udaan B2B Clone',
-        description: 'Full-stack marketplace architecture designed for large-scale trade and inventory management.',
-        tag: 'Clones',
-        status: 'Active',
-        link: 'https://regal-torrone-7fbf6b.netlify.app',
-        github: '',
-        youtube: ''
+        title: 'MemoFlip Challenge',
+        description: 'An interactive memory-based card matching game developed as part of a gaming logic study.',
+        tag: 'Games',
+        status: 'Research',
+        link: '', // Currently Down
+        github: 'https://github.com/HARSHILL2023/game',
+        image: 'https://via.placeholder.com/600x400?text=Memory+Game'
     },
     {
         id: '06',
-        title: 'Paperboat Design',
-        description: 'Strategic motion-driven UI centered on narrative storytelling and user experience strategy.',
-        tag: 'Frontend',
-        status: 'Deployed',
-        link: 'https://github.com/HARSHILL2023/6th-project',
-        github: '',
-        figma: ''
+        title: 'Typing Velocity Test',
+        description: 'A performance-tracking typing test game measuring words per minute and keystroke accuracy.',
+        tag: 'Games',
+        status: 'Research',
+        link: '', // Currently Down
+        github: 'https://github.com/HARSHILL2023/game',
+        image: 'https://via.placeholder.com/600x400?text=Typing+Test'
     }
 ];
 
@@ -76,7 +85,7 @@ export default function ProjectShowcase() {
         : projects.filter(p => p.tag === activeCategory);
 
     return (
-        <section className="py-24 md:py-32 px-6 bg-transparent relative overflow-hidden selection:bg-indigo-500/30">
+        <section id="projects" className="py-24 md:py-32 px-6 bg-transparent relative overflow-hidden selection:bg-indigo-500/30">
             {/* Global Design System Background Glow */}
             <div className="absolute inset-0 pointer-events-none opacity-20">
                 <div className="absolute top-1/4 left-1/4 w-[800px] h-[800px] bg-indigo-600/10 rounded-full blur-[160px] animate-pulse" />
@@ -139,9 +148,7 @@ export default function ProjectShowcase() {
                                     status={project.status}
                                     link={project.link}
                                     github={project.github}
-                                    youtube={project.youtube}
-                                    figma={project.figma}
-                                    api={project.api}
+                                    image={project.image}
                                 />
                             </motion.div>
                         ))}
