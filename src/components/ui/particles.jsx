@@ -57,6 +57,7 @@ export const Particles = ({
     vy = 0,
     ...props
 }) => {
+    const [isMobile, setIsMobile] = useState(false);
     const canvasRef = useRef(null);
     const canvasContainerRef = useRef(null);
     const context = useRef(null);
@@ -69,6 +70,14 @@ export const Particles = ({
     const resizeTimeout = useRef(null);
 
     useEffect(() => {
+        const checkMobile = () => setIsMobile(window.innerWidth <= 768);
+        checkMobile();
+        window.addEventListener("resize", checkMobile);
+        
+        if (window.innerWidth <= 768) {
+            return () => window.removeEventListener("resize", checkMobile);
+        }
+
         if (canvasRef.current) {
             context.current = canvasRef.current.getContext("2d");
         }
@@ -93,17 +102,20 @@ export const Particles = ({
             if (resizeTimeout.current) {
                 clearTimeout(resizeTimeout.current);
             }
+            window.removeEventListener("resize", checkMobile);
             window.removeEventListener("resize", handleResize);
         };
     }, [color]);
 
     useEffect(() => {
-        onMouseMove();
-    }, [mousePosition.x, mousePosition.y]);
+        if (!isMobile) onMouseMove();
+    }, [mousePosition.x, mousePosition.y, isMobile]);
 
     useEffect(() => {
-        initCanvas();
-    }, [refresh]);
+        if (!isMobile) initCanvas();
+    }, [refresh, isMobile]);
+
+    if (isMobile) return null;
 
     const initCanvas = () => {
         resizeCanvas();

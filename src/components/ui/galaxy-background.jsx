@@ -1,4 +1,4 @@
-import React, { Suspense, lazy, useRef, useEffect } from "react";
+import React, { Suspense, lazy, useState, useEffect } from "react";
 
 const Spline = lazy(() => import("@splinetool/react-spline"));
 
@@ -6,98 +6,115 @@ const Spline = lazy(() => import("@splinetool/react-spline"));
  * GalaxyBackground
  *
  * A cinematic, GPU-accelerated full-screen background.
- * Uses a Spline 3D scene layered with glowing blobs and a
- * vignette gradient overlay. Fixed positioning ensures it
- * never scrolls with the page.
- *
- * Performance notes:
- * - Spline is lazy-loaded to avoid blocking the main bundle
- * - Glow blobs use CSS animations (GPU composited, no JS loop)
- * - Pointer events are intentionally forwarded to the Spline canvas
- *   so the scene stays interactive without blocking content above
+ * Optimized for mobile: Disables Spline and heavy blurs under 768px.
  */
 const GalaxyBackground = () => {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
   return (
     <div
       className="fixed inset-0 w-screen h-screen overflow-hidden"
       style={{ background: "#000005", zIndex: 0 }}
     >
-      {/* ── Spline 3D Layer ─────────────────────────────────────────── */}
-      <Suspense
-        fallback={
+      {/* ── Spline 3D Layer (Desktop Only) ─────────────────────────── */}
+      {!isMobile && (
+        <Suspense
+          fallback={
+            <div
+              className="absolute inset-0"
+              style={{ background: "#000005" }}
+            />
+          }
+        >
+          <div className="absolute inset-0" style={{ pointerEvents: "auto" }}>
+            <Spline
+              scene="https://prod.spline.design/us3ALejTXl6usHZ7/scene.splinecode"
+              style={{ width: "100%", height: "100%" }}
+            />
+          </div>
+        </Suspense>
+      )}
+
+      {/* ── Animated Glow Blobs (Desktop Only) ──────────────────────── */}
+      {!isMobile && (
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          {/* Top-left violet orb */}
           <div
-            className="absolute inset-0"
-            style={{ background: "#000005" }}
+            className="galaxy-blob"
+            style={{
+              width: 700,
+              height: 700,
+              background:
+                "radial-gradient(circle, rgba(139,92,246,0.22) 0%, transparent 70%)",
+              top: "-160px",
+              left: "-160px",
+              animationDuration: "14s",
+              animationDelay: "0s",
+            }}
           />
-        }
-      >
-        <div className="absolute inset-0" style={{ pointerEvents: "auto" }}>
-          <Spline
-            scene="https://prod.spline.design/us3ALejTXl6usHZ7/scene.splinecode"
-            style={{ width: "100%", height: "100%" }}
+          {/* Bottom-right indigo orb */}
+          <div
+            className="galaxy-blob"
+            style={{
+              width: 600,
+              height: 600,
+              background:
+                "radial-gradient(circle, rgba(99,102,241,0.20) 0%, transparent 70%)",
+              bottom: "-160px",
+              right: "-160px",
+              animationDuration: "18s",
+              animationDelay: "-6s",
+            }}
+          />
+          {/* Centre deep-blue accent */}
+          <div
+            className="galaxy-blob"
+            style={{
+              width: 420,
+              height: 420,
+              background:
+                "radial-gradient(circle, rgba(59,130,246,0.12) 0%, transparent 70%)",
+              top: "38%",
+              left: "44%",
+              animationDuration: "22s",
+              animationDelay: "-10s",
+            }}
+          />
+          {/* Upper-right rose accent */}
+          <div
+            className="galaxy-blob"
+            style={{
+              width: 340,
+              height: 340,
+              background:
+                "radial-gradient(circle, rgba(168,85,247,0.14) 0%, transparent 70%)",
+              top: "8%",
+              right: "10%",
+              animationDuration: "16s",
+              animationDelay: "-3s",
+            }}
           />
         </div>
-      </Suspense>
+      )}
 
-      {/* ── Animated Glow Blobs ──────────────────────────────────────── */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        {/* Top-left violet orb */}
-        <div
-          className="galaxy-blob"
+      {/* ── Mobile-Only Static Background ───────────────────────────── */}
+      {isMobile && (
+        <div 
+          className="absolute inset-0 opacity-40"
           style={{
-            width: 700,
-            height: 700,
-            background:
-              "radial-gradient(circle, rgba(139,92,246,0.22) 0%, transparent 70%)",
-            top: "-160px",
-            left: "-160px",
-            animationDuration: "14s",
-            animationDelay: "0s",
+            background: 'radial-gradient(circle at top left, rgba(168, 85, 247, 0.15), transparent 50%), radial-gradient(circle at bottom right, rgba(99, 102, 241, 0.15), transparent 50%)'
           }}
         />
-        {/* Bottom-right indigo orb */}
-        <div
-          className="galaxy-blob"
-          style={{
-            width: 600,
-            height: 600,
-            background:
-              "radial-gradient(circle, rgba(99,102,241,0.20) 0%, transparent 70%)",
-            bottom: "-160px",
-            right: "-160px",
-            animationDuration: "18s",
-            animationDelay: "-6s",
-          }}
-        />
-        {/* Centre deep-blue accent */}
-        <div
-          className="galaxy-blob"
-          style={{
-            width: 420,
-            height: 420,
-            background:
-              "radial-gradient(circle, rgba(59,130,246,0.12) 0%, transparent 70%)",
-            top: "38%",
-            left: "44%",
-            animationDuration: "22s",
-            animationDelay: "-10s",
-          }}
-        />
-        {/* Upper-right rose accent */}
-        <div
-          className="galaxy-blob"
-          style={{
-            width: 340,
-            height: 340,
-            background:
-              "radial-gradient(circle, rgba(168,85,247,0.14) 0%, transparent 70%)",
-            top: "8%",
-            right: "10%",
-            animationDuration: "16s",
-            animationDelay: "-3s",
-          }}
-        />
-      </div>
+      )}
 
       {/* ── Cinematic Vignette / Edge Darkening ─────────────────────── */}
       <div
@@ -110,14 +127,16 @@ const GalaxyBackground = () => {
         }}
       />
 
-      {/* ── Grain / noise texture for depth ─────────────────────────── */}
-      <div
-        className="absolute inset-0 pointer-events-none opacity-[0.035]"
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
-          backgroundSize: "256px 256px",
-        }}
-      />
+      {/* ── Grain / noise texture (Desktop Only) ─────────────────────── */}
+      {!isMobile && (
+        <div
+          className="absolute inset-0 pointer-events-none opacity-[0.035]"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
+            backgroundSize: "256px 256px",
+          }}
+        />
+      )}
 
       {/* ── Blob keyframe animation injected once ───────────────────── */}
       <style>{`
@@ -142,3 +161,4 @@ const GalaxyBackground = () => {
 };
 
 export default GalaxyBackground;
+

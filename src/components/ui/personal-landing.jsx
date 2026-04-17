@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { twMerge } from "tailwind-merge";
 import {
@@ -50,6 +50,17 @@ const socialLinks = [
 ];
 
 export const PersonalLanding = () => {
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const checkMobile = () => {
+            setIsMobile(window.innerWidth <= 768);
+        };
+        checkMobile();
+        window.addEventListener("resize", checkMobile);
+        return () => window.removeEventListener("resize", checkMobile);
+    }, []);
+
     return (
         <div className="min-h-screen w-full flex items-start justify-center px-6 pt-28 pb-10 relative overflow-hidden selection:bg-cyan-500/30">
 
@@ -67,10 +78,10 @@ export const PersonalLanding = () => {
                     <div
                         className="rounded-[2.5rem] p-8 md:p-12 relative overflow-hidden flex flex-col gap-8 text-left border border-white/10"
                         style={{
-                            background: 'rgba(10, 8, 20, 0.4)',
-                            backdropFilter: 'blur(32px) saturate(180%)',
-                            WebkitBackdropFilter: 'blur(32px) saturate(180%)',
-                            boxShadow: '0 8px 64px rgba(0,0,0,0.24)',
+                            background: isMobile ? 'rgba(10, 8, 20, 0.9)' : 'rgba(10, 8, 20, 0.4)',
+                            backdropFilter: isMobile ? 'none' : 'blur(32px) saturate(180%)',
+                            WebkitBackdropFilter: isMobile ? 'none' : 'blur(32px) saturate(180%)',
+                            boxShadow: isMobile ? '0 4px 24px rgba(0,0,0,0.4)' : '0 8px 64px rgba(0,0,0,0.24)',
                         }}
                     >
 
@@ -183,29 +194,30 @@ export const PersonalLanding = () => {
                     transition={{ delay: 0.4, duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
                     className="relative flex items-center justify-center flex-shrink-0"
                 >
-                    {/* Ambient glow blob */}
-                    <div
-                        className="absolute pointer-events-none"
-                        style={{
-                            width: 480,
-                            height: 480,
-                            background: 'radial-gradient(circle, rgba(130,0,219,0.35) 0%, rgba(99,102,241,0.15) 55%, transparent 75%)',
-                            filter: 'blur(60px)',
-                            borderRadius: '2rem',
-                            animation: 'plGlowPulse 4s ease-in-out infinite',
-                        }}
-                    />
+                    {!isMobile && (
+                        <div
+                            className="absolute pointer-events-none"
+                            style={{
+                                width: 480,
+                                height: 480,
+                                background: 'radial-gradient(circle, rgba(130,0,219,0.35) 0%, rgba(99,102,241,0.15) 55%, transparent 75%)',
+                                filter: 'blur(60px)',
+                                borderRadius: '2rem',
+                                animation: 'plGlowPulse 4s ease-in-out infinite',
+                            }}
+                        />
+                    )}
 
                     {/* Photo — square */}
                     <div
                         style={{
                             position: 'relative',
-                            width: 380,
-                            height: 380,
+                            width: isMobile ? 300 : 380,
+                            height: isMobile ? 300 : 380,
                             borderRadius: '1.5rem',
                             overflow: 'hidden',
                             border: '1px solid rgba(255,255,255,0.18)',
-                            boxShadow: '0 0 80px rgba(130,0,219,0.45), 0 0 120px rgba(99,102,241,0.15)',
+                            boxShadow: isMobile ? '0 10px 40px rgba(130,0,219,0.3)' : '0 0 80px rgba(130,0,219,0.45), 0 0 120px rgba(99,102,241,0.15)',
                         }}
                     >
                         <img

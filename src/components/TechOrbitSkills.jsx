@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, useAnimationFrame } from 'framer-motion';
 
 const SKILLS = [
@@ -24,7 +24,7 @@ const SKILLS = [
 const RADIUS = { 1: 140, 2: 240, 3: 350 };
 const SPEEDS = { 1: 0.25, 2: -0.15, 3: 0.1 };
 
-const OrbitItem = ({ skill, index, totalInOrbit, radius, speed, isSystemPaused, hoveredSkill, setHoveredSkill }) => {
+const OrbitItem = ({ skill, index, totalInOrbit, radius, speed, isSystemPaused, hoveredSkill, setHoveredSkill, isMobile }) => {
     const angleOffset = (index / totalInOrbit) * 360;
     const [angle, setAngle] = useState(angleOffset);
 
@@ -60,7 +60,7 @@ const OrbitItem = ({ skill, index, totalInOrbit, radius, speed, isSystemPaused, 
                     className="w-full h-full rounded-full flex items-center justify-center font-bold text-xs shadow-xl border border-white/5 backdrop-blur-sm transition-all duration-300 relative z-20"
                     style={{
                         backgroundColor: 'rgba(255, 255, 255, 0.01)',
-                        backdropFilter: 'blur(2px)',
+                        backdropFilter: isMobile ? 'none' : 'blur(2px)',
                         boxShadow: isHovered ? `0 0 30px ${skill.glow || skill.color}80` : `0 0 10px ${skill.glow || skill.color}15`,
                         borderColor: isHovered ? (skill.glow || skill.color) : 'rgba(255,255,255,0.05)'
                     }}
@@ -126,7 +126,15 @@ const SkillIcon = ({ src, name }) => {
 
 export default function TechOrbitSkills() {
     const [hoveredSkill, setHoveredSkill] = useState(null);
+    const [isMobile, setIsMobile] = useState(false);
     const isPaused = hoveredSkill !== null;
+
+    useEffect(() => {
+        const checkMobile = () => setIsMobile(window.innerWidth <= 768);
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
 
     return (
         <section className="py-24 md:py-32 relative flex flex-col items-center justify-center min-h-screen bg-transparent z-10 selection:bg-purple-500/30 px-4 md:px-8">
@@ -138,28 +146,29 @@ export default function TechOrbitSkills() {
                 transition={{ duration: 1, ease: 'easeOut' }}
                 className="max-w-[1200px] w-full mx-auto relative rounded-3xl overflow-hidden"
                 style={{
-                    background: 'rgba(10, 8, 20, 0.08)',
-                    backdropFilter: 'blur(20px) saturate(160%)',
-                    WebkitBackdropFilter: 'blur(20px) saturate(160%)',
-                    boxShadow: '0 4px 32px rgba(0,0,0,0.12)',
+                    background: isMobile ? 'rgba(10, 8, 20, 0.95)' : 'rgba(10, 8, 20, 0.08)',
+                    backdropFilter: isMobile ? 'none' : 'blur(20px) saturate(160%)',
+                    WebkitBackdropFilter: isMobile ? 'none' : 'blur(20px) saturate(160%)',
+                    boxShadow: isMobile ? '0 4px 20px rgba(0,0,0,0.5)' : '0 4px 32px rgba(0,0,0,0.12)',
                 }}
             >
-                {/* Glowing conic border only (transparent center) */}
-                <div className="absolute inset-0 pointer-events-none rounded-[40px] p-[2px] z-20" 
-                     style={{ 
-                         WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)', 
-                         WebkitMaskComposite: 'xor', 
-                         maskComposite: 'exclude' 
-                     }}>
-                    <motion.div
-                        className="w-[250%] h-[250%] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-50"
-                        style={{
-                            background: 'conic-gradient(from 0deg, transparent 0%, #a855f7 40%, transparent 60%, #22d3ee 80%, transparent 100%)',
-                        }}
-                        animate={{ rotate: 360 }}
-                        transition={{ duration: 15, repeat: Infinity, ease: 'linear' }}
-                    />
-                </div>
+                {!isMobile && (
+                    <div className="absolute inset-0 pointer-events-none rounded-[40px] p-[2px] z-20" 
+                         style={{ 
+                             WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)', 
+                             WebkitMaskComposite: 'xor', 
+                             maskComposite: 'exclude' 
+                         }}>
+                        <motion.div
+                            className="w-[250%] h-[250%] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-50"
+                            style={{
+                                background: 'conic-gradient(from 0deg, transparent 0%, #a855f7 40%, transparent 60%, #22d3ee 80%, transparent 100%)',
+                            }}
+                            animate={{ rotate: 360 }}
+                            transition={{ duration: 15, repeat: Infinity, ease: 'linear' }}
+                        />
+                    </div>
+                )}
 
                 {/* Main Glass Panel */}
                 <div className="relative z-10 w-full rounded-[38px] bg-transparent flex flex-col items-center py-20 shadow-none">
@@ -228,6 +237,7 @@ export default function TechOrbitSkills() {
                                             isSystemPaused={isPaused}
                                             hoveredSkill={hoveredSkill}
                                             setHoveredSkill={setHoveredSkill}
+                                            isMobile={isMobile}
                                         />
                                     );
                                 })}

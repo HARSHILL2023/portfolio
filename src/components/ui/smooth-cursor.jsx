@@ -26,6 +26,7 @@ const DefaultCursorSVG = () => {
 };
 
 export function SmoothCursor() {
+    const [isMobile, setIsMobile] = useState(false);
     const mouseX = useMotionValue(0);
     const mouseY = useMotionValue(0);
     
@@ -38,11 +39,20 @@ export function SmoothCursor() {
     const scale = useSpring(1, { damping: 20, stiffness: 400 });
 
     useEffect(() => {
+        const checkMobile = () => {
+            setIsMobile(window.innerWidth <= 768);
+        };
+        checkMobile();
+        window.addEventListener("resize", checkMobile);
+        
+        if (window.innerWidth <= 768) {
+            return () => window.removeEventListener("resize", checkMobile);
+        }
+
         const handleMouseMove = (e) => {
             mouseX.set(e.clientX);
             mouseY.set(e.clientY);
             
-            // Re-check pointer state on move to handle dynamic elements
             const target = e.target;
             const isClickable = target.closest('a, button, input, [role="button"], .cursor-pointer') || 
                                window.getComputedStyle(target).cursor === 'pointer';
@@ -56,11 +66,14 @@ export function SmoothCursor() {
         const handleMouseDown = () => scale.set(0.8);
         const handleMouseUp = () => scale.set(isPointer ? 1.5 : 1);
 
-        // Hide cursor globally
+        // Hide cursor globally - ONLY on desktop
         const style = document.createElement("style");
+        style.id = "smooth-cursor-hide";
         style.innerHTML = `
-            * { cursor: none !important; }
-            a, button, [role="button"], input { cursor: none !important; }
+            @media (min-width: 769px) {
+                * { cursor: none !important; }
+                a, button, [role="button"], input { cursor: none !important; }
+            }
         `;
         document.head.appendChild(style);
 
@@ -69,12 +82,16 @@ export function SmoothCursor() {
         window.addEventListener("mouseup", handleMouseUp);
 
         return () => {
+            window.removeEventListener("resize", checkMobile);
             window.removeEventListener("mousemove", handleMouseMove);
             window.removeEventListener("mousedown", handleMouseDown);
             window.removeEventListener("mouseup", handleMouseUp);
-            document.head.removeChild(style);
+            const styleNode = document.getElementById("smooth-cursor-hide");
+            if (styleNode) document.head.removeChild(styleNode);
         };
     }, [isPointer, mouseX, mouseY, scale]);
+
+    if (isMobile) return null;
 
     return (
         <motion.div

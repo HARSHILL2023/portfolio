@@ -11,7 +11,7 @@ const projects = [
         status: 'Live',
         link: 'https://tic-tech-toe-ecommerce-website.vercel.app/',
         github: 'https://github.com/HARSHILL2023/tic_tech_toe-ecommerce-website-',
-        image: 'https://via.placeholder.com/600x400?text=Tic+Tech+Toe+Server'
+        image: 'https://placehold.co/600x400?text=Tic+Tech+Toe+Server'
     },
     {
         id: '02',
@@ -21,7 +21,7 @@ const projects = [
         status: 'Production',
         link: '', // Currently Down
         github: 'https://github.com/HARSHILL2023/odoo_x_gujarat-vidyapith',
-        image: 'https://via.placeholder.com/600x400?text=FleetFlow+Platform'
+        image: 'https://placehold.co/600x400?text=FleetFlow+Platform'
     },
     {
         id: '03',
@@ -31,7 +31,7 @@ const projects = [
         status: 'Active',
         link: 'https://art-park-code-forge-hackathon-virid.vercel.app',
         github: 'https://github.com/HARSHILL2023/ArtPark_CodeForge_Hackathon',
-        image: 'https://via.placeholder.com/600x400?text=AI+Onboarding+SaaS'
+        image: 'https://placehold.co/600x400?text=AI+Onboarding+SaaS'
     },
     {
         id: '04',
@@ -41,7 +41,7 @@ const projects = [
         status: 'UI Prototype',
         link: '', // Currently Down
         github: 'https://github.com/HARSHILL2023/lenskart',
-        image: 'https://via.placeholder.com/600x400?text=Lenskart+Frontend'
+        image: 'https://placehold.co/600x400?text=Lenskart+Frontend'
     },
     {
         id: '04b',
@@ -51,7 +51,7 @@ const projects = [
         status: 'Clone',
         link: '', // Currently Down
         github: 'https://github.com/HARSHILL2023/lenskart',
-        image: 'https://via.placeholder.com/600x400?text=Lenskart+Clone'
+        image: 'https://placehold.co/600x400?text=Lenskart+Clone'
     },
     {
         id: '05',
@@ -61,7 +61,7 @@ const projects = [
         status: 'Research',
         link: '', // Currently Down
         github: 'https://github.com/HARSHILL2023/game',
-        image: 'https://via.placeholder.com/600x400?text=Memory+Game'
+        image: 'https://placehold.co/600x400?text=Memory+Game'
     },
     {
         id: '06',
@@ -71,7 +71,7 @@ const projects = [
         status: 'Research',
         link: '', // Currently Down
         github: 'https://github.com/HARSHILL2023/game',
-        image: 'https://via.placeholder.com/600x400?text=Typing+Test'
+        image: 'https://placehold.co/600x400?text=Typing+Test'
     }
 ];
 
