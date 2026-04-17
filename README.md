@@ -1,16 +1,173 @@
-# React + Vite
+# 🚀 Personal Portfolio Website
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, responsive personal portfolio website built to showcase my projects, skills, and experience as a Full Stack Developer and ML enthusiast.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🌐 Live Demo
+👉 https://your-portfolio-link.com
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 📌 Features
 
-## Expanding the ESLint configuration
+- ⚡ Fully responsive design (mobile, tablet, desktop)
+- 🎨 Modern UI with smooth animations
+- 🧑 About section with skills overview
+- 💼 Projects showcase with live links
+- 📄 Resume download option (Google Drive integration)
+- 📬 Contact form with working email system (Nodemailer)
+- 🌙 Clean and minimal UI/UX
+- 🚀 Fast and optimized performance
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## 🛠️ Tech Stack
+
+### Frontend
+- React (Vite)
+- Tailwind CSS
+- Framer Motion
+
+### Backend
+- Node.js
+- Express.js
+- Nodemailer
+- CORS
+
+### Tools
+- Git & GitHub
+- REST API
+- dotenv
+
+---
+
+## 📁 Project Structure
+
+portfolio/
+├── frontend/
+│   ├── src/
+│   │   ├── components/
+│   │   ├── pages/
+│   │   ├── assets/
+│   │   └── App.jsx
+│   └── package.json
+│
+├── backend/
+│   ├── config/
+│   │   └── nodemailer.js
+│   ├── controllers/
+│   │   └── contact.controller.js
+│   ├── routes/
+│   │   └── contact.routes.js
+│   ├── server.js
+│   └── package.json
+│
+└── README.md
+
+---
+
+## 📬 Contact Form (Email System)
+
+When someone submits the contact form:
+- Frontend sends data to backend API
+- Backend uses Nodemailer
+- Email is delivered to my Gmail inbox
+
+---
+
+### API Endpoint
+POST /api/contact
+
+---
+
+### Request Body
+{
+  "name": "John Doe",
+  "email": "john@example.com",
+  "message": "Hello, I would like to connect with you!"
+}
+
+---
+
+### Email Format (Received in Gmail)
+
+Subject:
+New Portfolio Contact from <name>
+
+Body:
+Name: <name>
+Email: <email>
+
+Message:
+<message>
+
+---
+
+## ⚙️ Setup Instructions
+
+### 1. Clone repository
+git clone https://github.com/your-username/portfolio.git
+
+---
+
+### 2. Install frontend dependencies
+cd frontend
+npm install
+npm run dev
+
+---
+
+### 3. Install backend dependencies
+cd backend
+npm install
+npm start
+
+---
+
+## 🔐 Environment Variables
+
+Create .env file in backend:
+
+EMAIL=yourgmail@gmail.com
+APP_PASSWORD=your_gmail_app_password
+PORT=5000
+
+---
+
+## 🔥 Features Status
+
+✔ Contact form working  
+✔ Email sending to Gmail  
+✔ Responsive UI  
+✔ API integration  
+✔ Backend validation  
+✔ Production-ready structure  
+
+---
+
+## 🚀 Future Improvements
+
+- Blog section
+- Admin dashboard for messages
+- Dark/light mode toggle
+- SEO optimization
+- Deployment on Render/Vercel
+
+---
+
+## 🙋‍♂️ About Me
+
+Full Stack Developer & AI enthusiast building real-world projects using MERN stack and exploring AI/ML systems.
+
+---
+
+## ⭐ Support
+
+If you like this project, please give it a ⭐ on GitHub!
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License.
