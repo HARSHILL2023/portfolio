@@ -82,7 +82,7 @@ export default function ContactSection() {
                                     </div>
                                     <div>
                                         <p className="text-[10px] font-mono uppercase tracking-widest text-white/40">Email</p>
-                                        <p className="text-white font-medium">harshil.dev@example.com</p>
+                                        <p className="text-white font-medium">harshil.hkptael@gmail.com</p>
                                     </div>
                                 </div>
                                 <div className="flex items-center gap-6 group">
