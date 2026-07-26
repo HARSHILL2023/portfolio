@@ -1,188 +1,238 @@
-import React, { useState } from "react";
-import { motion } from "framer-motion";
-import { Send, CheckCircle, AlertCircle, Mail, MapPin, Phone } from "lucide-react";
-import emailjs from "@emailjs/browser";
+import React, { useState } from 'react';
+import { Send, CheckCircle2, AlertCircle, Mail, MapPin, ArrowUpRight } from 'lucide-react';
+import emailjs from '@emailjs/browser';
 
 export default function ContactSection() {
-    const [formData, setFormData] = useState({
-        name: "",
-        email: "",
-        message: ""
-    });
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    const [status, setStatus] = useState(null); // 'success' | 'error'
-    const [errorMessage, setErrorMessage] = useState("");
+  const RESUME_URL = "https://drive.google.com/file/d/1rSTAmfISTBJ_01nGLzpMXPauMA_PWnyn/view?usp=sharing";
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData(prev => ({
-            ...prev,
-            [name]: value
-        }));
-    };
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: ''
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [status, setStatus] = useState(null); // 'success' | 'error'
+  const [errorMessage, setErrorMessage] = useState('');
 
-    const sendEmail = (e) => {
-        e.preventDefault();
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
 
-        // Basic Client-side Validation
-        if (!formData.name || !formData.email || !formData.message) {
-            setStatus('error');
-            setErrorMessage("Please fill in all fields.");
-            return;
-        }
+  const sendEmail = (e) => {
+    e.preventDefault();
 
-        setIsSubmitting(true);
-        setStatus(null);
-        setErrorMessage("");
+    if (!formData.name || !formData.email || !formData.message) {
+      setStatus('error');
+      setErrorMessage('Please fill in all fields before sending.');
+      return;
+    }
 
-        // EmailJS Configuration - Using provided credentials
-        const SERVICE_ID = "service_8ll3v9u";
-        const TEMPLATE_ID = "template_6mly7jn";
-        const PUBLIC_KEY = "dzlyz-rysoAExUJmu";
+    setIsSubmitting(true);
+    setStatus(null);
+    setErrorMessage('');
 
-        emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, e.target, PUBLIC_KEY)
-            .then(() => {
-                setStatus('success');
-                setFormData({ name: "", email: "", message: "" }); // Reset form
-                setIsSubmitting(false);
-            })
-            .catch((error) => {
-                console.error("Transmission Error:", error);
-                setStatus('error');
-                setErrorMessage("Transmission Failed. Please check your signal.");
-                setIsSubmitting(false);
-            });
-    };
+    // EmailJS Credentials
+    const SERVICE_ID = 'service_8ll3v9u';
+    const TEMPLATE_ID = 'template_6mly7jn';
+    const PUBLIC_KEY = 'dzlyz-rysoAExUJmu';
 
-    return (
-        <section className="py-24 md:py-32 px-6 bg-transparent relative overflow-hidden">
-            <div className="max-w-6xl mx-auto relative z-10">
-                <div className="flex flex-col lg:flex-row gap-16">
-                    {/* Contact Info */}
-                    <div className="flex-1">
-                        <motion.div
-                            initial={{ opacity: 0, x: -30 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true }}
-                        >
-                            <span className="inline-block px-4 py-1.5 rounded-full border border-purple-500/30 text-purple-400 text-xs font-mono tracking-[0.2em] uppercase mb-6">
-                                Get In Touch
-                            </span>
-                            <h2 className="text-4xl md:text-5xl font-bold text-white uppercase tracking-tight mb-8">
-                                Signal <span className="text-purple-400">Interception</span>
-                            </h2>
-                            <p className="text-white/60 text-lg leading-relaxed mb-12 max-w-md">
-                                Have a specialized project or just want to discuss high-signal technical architectures? Send a frequency.
-                            </p>
+    emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, e.target, PUBLIC_KEY)
+      .then(() => {
+        setStatus('success');
+        setFormData({ name: '', email: '', message: '' });
+        setIsSubmitting(false);
+      })
+      .catch((error) => {
+        console.error('Email Transmission Error:', error);
+        setStatus('error');
+        setErrorMessage('Message transmission failed. Please try again.');
+        setIsSubmitting(false);
+      });
+  };
 
-                            <div className="space-y-6">
-                                <div className="flex items-center gap-6 group">
-                                    <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-purple-500/10 group-hover:border-purple-500/30 transition-all">
-                                        <Mail className="text-purple-400" size={20} />
-                                    </div>
-                                    <div>
-                                        <p className="text-[10px] font-mono uppercase tracking-widest text-white/40">Email</p>
-                                        <p className="text-white font-medium">harshil.hkptael@gmail.com</p>
-                                    </div>
-                                </div>
-                                <div className="flex items-center gap-6 group">
-                                    <div className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-purple-500/10 group-hover:border-purple-500/30 transition-all">
-                                        <MapPin className="text-purple-400" size={20} />
-                                    </div>
-                                    <div>
-                                        <p className="text-[10px] font-mono uppercase tracking-widest text-white/40">Location</p>
-                                        <p className="text-white font-medium">Gujarat, India</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </motion.div>
-                    </div>
+  const socialBadges = [
+    { label: 'GITHUB ->', href: 'https://github.com/HARSHILL2023', bg: 'bg-[#FF5733]' },
+    { label: 'LINKEDIN ->', href: 'https://www.linkedin.com/in/harshil-patel-b00063395/', bg: 'bg-[#2EC4B6]' },
+    { label: 'LEETCODE ->', href: 'https://leetcode.com/u/trFRJmWPQm/', bg: 'bg-[#FFC72C]' },
+    { label: 'YOUTUBE ->', href: 'https://youtube.com/@harshilpatel-20?si=L9HrbJJDXA0dCqUG', bg: 'bg-[#8B5CF6]' },
+    { label: 'RESUME ->', href: RESUME_URL, bg: 'bg-[#FF5733]' },
+  ];
 
-                    {/* Contact Form */}
-                    <div className="flex-1">
-                        <motion.form
-                            onSubmit={sendEmail}
-                            initial={{ opacity: 0, x: 30 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true }}
-                            className="bg-white/[0.03] backdrop-blur-xl border border-white/10 p-8 md:p-10 rounded-[2.5rem] relative overflow-hidden"
-                        >
-                            <div className="space-y-6">
-                                <div>
-                                    <label className="block text-[10px] font-mono uppercase tracking-[0.2em] text-white/50 mb-3 ml-1">Identity Name</label>
-                                    <input
-                                        type="text"
-                                        name="name"
-                                        value={formData.name}
-                                        onChange={handleChange}
-                                        required
-                                        placeholder="Cipher Node"
-                                        className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-white placeholder:text-white/20 focus:outline-none focus:border-purple-500/50 transition-all font-medium"
-                                    />
-                                </div>
-                                <div>
-                                    <label className="block text-[10px] font-mono uppercase tracking-[0.2em] text-white/50 mb-3 ml-1">Email Address</label>
-                                    <input
-                                        type="email"
-                                        name="email"
-                                        value={formData.email}
-                                        onChange={handleChange}
-                                        required
-                                        placeholder="node@network.com"
-                                        className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-white placeholder:text-white/20 focus:outline-none focus:border-purple-500/50 transition-all font-medium"
-                                    />
-                                </div>
-                                <div>
-                                    <label className="block text-[10px] font-mono uppercase tracking-[0.2em] text-white/50 mb-3 ml-1">Encrypted Message</label>
-                                    <textarea
-                                        name="message"
-                                        value={formData.message}
-                                        onChange={handleChange}
-                                        required
-                                        rows="4"
-                                        placeholder="Transmission content..."
-                                        className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-white placeholder:text-white/20 focus:outline-none focus:border-purple-500/50 transition-all font-medium resize-none"
-                                    />
-                                </div>
+  return (
+    <section id="contact" className="py-20 px-6 transition-colors duration-300">
+      <div className="max-w-7xl mx-auto">
+        
+        {/* Hero CTA Banner */}
+        <div className="bg-white dark:bg-[#161616] border-[3px] border-black dark:border-[#3A3A3A] shadow-[6px_6px_0px_0px_#000] dark:shadow-[6px_6px_0px_0px_#3A3A3A] p-8 sm:p-14 text-center mb-16 relative overflow-hidden">
+          <span className="font-mono text-xs font-bold tracking-widest text-black/60 dark:text-[#A1A1A1] uppercase block mb-4">
+            START A CONVERSATION
+          </span>
 
-                                <button
-                                    type="submit"
-                                    disabled={isSubmitting}
-                                    className="w-full group relative flex items-center justify-center gap-3 bg-purple-600 hover:bg-purple-500 disabled:bg-white/10 disabled:cursor-not-allowed text-white font-bold uppercase tracking-widest text-xs py-5 rounded-2xl transition-all overflow-hidden"
-                                >
-                                    {isSubmitting ? (
-                                        <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                                    ) : (
-                                        <>
-                                            <Send size={18} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-                                            Initialize Transmission
-                                        </>
-                                    )}
-                                </button>
+          <h2 className="font-bebas text-6xl sm:text-8xl md:text-9xl text-black dark:text-[#F7F4EB] leading-none uppercase tracking-tight mb-4">
+            READY TO <span className="text-[#FF5733]">BUILD SOMETHING?</span>
+          </h2>
 
-                                {status === 'success' && (
-                                    <motion.div
-                                        initial={{ opacity: 0, y: 10 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        className="flex items-center gap-3 text-emerald-400 text-xs font-mono uppercase tracking-widest bg-emerald-400/10 p-4 rounded-xl border border-emerald-400/20"
-                                    >
-                                        <CheckCircle size={16} /> Transmission Complete
-                                    </motion.div>
-                                )}
-                                {status === 'error' && (
-                                    <motion.div
-                                        initial={{ opacity: 0, y: 10 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        className="flex items-center gap-3 text-red-400 text-xs font-mono uppercase tracking-widest bg-red-400/10 p-4 rounded-xl border border-red-400/20"
-                                    >
-                                        <AlertCircle size={16} /> {errorMessage || "Transmission Failed"}
-                                    </motion.div>
-                                )}
-                            </div>
-                        </motion.form>
-                    </div>
+          <p className="font-sans text-base sm:text-xl font-medium text-black/80 dark:text-[#A1A1A1] max-w-2xl mx-auto leading-relaxed mb-8">
+            Interested in collaborating on web projects, open-source ideas, or tech discussions? Reach out directly or drop a message below.
+          </p>
+
+          <a
+            href="#contact-form"
+            className="brutal-btn inline-flex items-center gap-3 px-8 sm:px-12 py-4 sm:py-5 bg-[#FF5733] text-black font-bebas text-3xl sm:text-4xl tracking-wider uppercase shadow-[6px_6px_0px_0px_#000] dark:shadow-[6px_6px_0px_0px_#3A3A3A]"
+          >
+            GET IN TOUCH
+            <ArrowUpRight size={32} />
+          </a>
+
+          {/* Social Badges Row */}
+          <div className="flex flex-wrap items-center justify-center gap-3 mt-10 pt-8 border-t-2 border-black dark:border-[#2A2A2A]">
+            {socialBadges.map((badge) => (
+              <a
+                key={badge.label}
+                href={badge.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`brutal-btn px-4 py-2 border-2 border-black dark:border-[#3A3A3A] font-mono text-xs font-bold text-black uppercase ${badge.bg}`}
+              >
+                {badge.label}
+              </a>
+            ))}
+          </div>
+        </div>
+
+        {/* Contact Form & Direct Signals */}
+        <div id="contact-form" className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+          
+          {/* Left Column: Direct Signals */}
+          <div className="lg:col-span-5 bg-white dark:bg-[#161616] border-[3px] border-black dark:border-[#3A3A3A] shadow-[4px_4px_0px_0px_#000] dark:shadow-[4px_4px_0px_0px_#3A3A3A] p-8 flex flex-col justify-between">
+            <div>
+              <h3 className="font-bebas text-4xl text-black dark:text-[#F7F4EB] tracking-wide mb-2">
+                DIRECT CONTACT
+              </h3>
+              <p className="font-sans text-sm font-medium text-black/70 dark:text-[#A1A1A1] leading-relaxed mb-8 pb-4 border-b-2 border-black dark:border-[#2A2A2A]">
+                Have a project, hackathon collaboration, or technical query? Send a message directly.
+              </p>
+
+              <div className="space-y-6">
+                <div className="flex items-center gap-4">
+                  <div className="p-3 bg-[#FF5733] border-2 border-black dark:border-[#3A3A3A] text-black">
+                    <Mail size={22} />
+                  </div>
+                  <div>
+                    <span className="font-mono text-[10px] font-bold text-black/50 dark:text-[#A1A1A1] uppercase block">EMAIL ADDRESS</span>
+                    <a href="mailto:harshil.hkptael@gmail.com" className="font-mono text-sm font-bold text-black dark:text-[#F7F4EB] hover:text-[#FF5733]">
+                      harshil.hkptael@gmail.com
+                    </a>
+                  </div>
                 </div>
+
+                <div className="flex items-center gap-4">
+                  <div className="p-3 bg-[#2EC4B6] border-2 border-black dark:border-[#3A3A3A] text-black">
+                    <MapPin size={22} />
+                  </div>
+                  <div>
+                    <span className="font-mono text-[10px] font-bold text-black/50 dark:text-[#A1A1A1] uppercase block">LOCATION</span>
+                    <span className="font-mono text-sm font-bold text-black dark:text-[#F7F4EB]">
+                      Gujarat, India
+                    </span>
+                  </div>
+                </div>
+              </div>
             </div>
-        </section>
-    );
+
+            <div className="mt-8 pt-4 border-t-2 border-black dark:border-[#2A2A2A] font-mono text-xs font-bold text-black/60 dark:text-[#A1A1A1] uppercase flex items-center justify-between">
+              <span>STATUS</span>
+              <span className="text-[#FF5733]">OPEN FOR PROJECTS</span>
+            </div>
+          </div>
+
+          {/* Right Column: Contact Form */}
+          <div className="lg:col-span-7 bg-white dark:bg-[#161616] border-[3px] border-black dark:border-[#3A3A3A] shadow-[4px_4px_0px_0px_#000] dark:shadow-[4px_4px_0px_0px_#3A3A3A] p-8">
+            <h3 className="font-bebas text-4xl text-black dark:text-[#F7F4EB] tracking-wide mb-6 pb-2 border-b-2 border-black dark:border-[#2A2A2A]">
+              SEND A MESSAGE
+            </h3>
+
+            <form onSubmit={sendEmail} className="space-y-5">
+              <div>
+                <label className="font-mono text-xs font-bold text-black dark:text-[#F7F4EB] uppercase block mb-2">
+                  YOUR NAME *
+                </label>
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
+                  placeholder="Enter your name"
+                  className="w-full bg-[#F7F4EB] dark:bg-[#0D0D0D] border-2 border-black dark:border-[#3A3A3A] p-3.5 font-sans font-bold text-black dark:text-[#F7F4EB] placeholder:text-black/40 dark:placeholder:text-[#A1A1A1] focus:outline-none focus:bg-white dark:focus:bg-[#161616] transition-colors"
+                />
+              </div>
+
+              <div>
+                <label className="font-mono text-xs font-bold text-black dark:text-[#F7F4EB] uppercase block mb-2">
+                  EMAIL ADDRESS *
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                  placeholder="name@company.com"
+                  className="w-full bg-[#F7F4EB] dark:bg-[#0D0D0D] border-2 border-black dark:border-[#3A3A3A] p-3.5 font-sans font-bold text-black dark:text-[#F7F4EB] placeholder:text-black/40 dark:placeholder:text-[#A1A1A1] focus:outline-none focus:bg-white dark:focus:bg-[#161616] transition-colors"
+                />
+              </div>
+
+              <div>
+                <label className="font-mono text-xs font-bold text-black dark:text-[#F7F4EB] uppercase block mb-2">
+                  MESSAGE *
+                </label>
+                <textarea
+                  name="message"
+                  value={formData.message}
+                  onChange={handleChange}
+                  required
+                  rows="4"
+                  placeholder="Tell me about your project or inquiry..."
+                  className="w-full bg-[#F7F4EB] dark:bg-[#0D0D0D] border-2 border-black dark:border-[#3A3A3A] p-3.5 font-sans font-bold text-black dark:text-[#F7F4EB] placeholder:text-black/40 dark:placeholder:text-[#A1A1A1] focus:outline-none focus:bg-white dark:focus:bg-[#161616] transition-colors resize-none"
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="brutal-btn w-full py-4 bg-[#FF5733] text-black font-bebas text-2xl tracking-wider uppercase flex items-center justify-center gap-2 shadow-[4px_4px_0px_0px_#000] dark:shadow-[4px_4px_0px_0px_#3A3A3A]"
+              >
+                {isSubmitting ? (
+                  <span className="font-mono text-sm font-bold animate-pulse">TRANSMITTING...</span>
+                ) : (
+                  <>
+                    SEND MESSAGE
+                    <Send size={20} />
+                  </>
+                )}
+              </button>
+
+              {status === 'success' && (
+                <div className="p-4 bg-[#2EC4B6] border-2 border-black dark:border-[#3A3A3A] font-mono text-xs font-bold text-black flex items-center gap-2">
+                  <CheckCircle2 size={18} />
+                  MESSAGE SENT SUCCESSFULLY! I WILL GET BACK TO YOU SOON.
+                </div>
+              )}
+
+              {status === 'error' && (
+                <div className="p-4 bg-red-400 border-2 border-black dark:border-[#3A3A3A] font-mono text-xs font-bold text-black flex items-center gap-2">
+                  <AlertCircle size={18} />
+                  {errorMessage || 'TRANSMISSION FAILED. PLEASE TRY AGAIN.'}
+                </div>
+              )}
+            </form>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+  );
 }
