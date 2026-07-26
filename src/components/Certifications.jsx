@@ -1,146 +1,160 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { X, ExternalLink, Award } from 'lucide-react';
+import { Award, BadgeCheck, ChevronDown, ExternalLink } from 'lucide-react';
 
-const certifications = [
+export default function Certifications() {
+  const [openId, setOpenId] = useState(null);
+
+  const certs = [
     {
-        title: "Google AI Agent Camp Certificate",
-        issuer: "Google Kaggle",
-        date: "2024",
-        url: "https://drive.google.com/file/d/1pgr2FfDp53mVSGFYCnaeRTW82QkwxScF/view?usp=drivesdk",
-        color: "from-blue-500 to-cyan-500",
-        description: "Successfully completed the Google AI Agent Camp, gaining knowledge and hands-on experience in AI concepts and practical implementations."
+      id: 'c1',
+      title: 'Foundations of Cybersecurity',
+      issuer: 'Google (via Coursera)',
+      issued: 'Aug 2024',
+      badgeColor: 'bg-[#4285F4]',
+      skills: ['Network Security', 'Threat Analysis', 'Cybersecurity Principles'],
+      verifyLink: 'https://www.coursera.org/account/accomplishments/verify/8GVBPN5YFAAW'
     },
     {
-        title: "Web Development Hackathon",
-        issuer: "Sanagma University",
-        date: "2024",
-        url: "https://drive.google.com/file/d/1OkSxhxNUC41Ep-jYvjS4sh1RSe4VFvzZ/view?usp=drivesdk",
-        color: "from-purple-500 to-pink-500",
-        description: "Participated in a web development hackathon at Sanagma University, focusing on building practical and innovative web solutions."
+      id: 'c2',
+      title: 'Data Analysis with Python',
+      issuer: 'IBM (via Coursera)',
+      issued: 'Sep 2024',
+      badgeColor: 'bg-[#054ADA]',
+      skills: ['Python', 'Pandas', 'NumPy', 'Data Visualization'],
+      verifyLink: 'https://www.coursera.org/account/accomplishments/verify/WY9HTRSQ95L9'
     },
-];
+    {
+      id: 'c3',
+      title: 'Python for Data Science and AI',
+      issuer: 'IBM (via Coursera)',
+      issued: 'Oct 2024',
+      badgeColor: 'bg-[#FF5733]',
+      skills: ['Python Fundamentals', 'Data Science Libraries', 'Jupyter Notebooks'],
+      verifyLink: 'https://www.coursera.org/account/accomplishments/verify/7YX4TRB7BGGY'
+    },
+    {
+      id: 'c4',
+      title: 'Crash Course on Python',
+      issuer: 'Google (via Coursera)',
+      issued: 'Jul 2024',
+      badgeColor: 'bg-[#2EC4B6]',
+      skills: ['Python Scripting', 'OOP Concepts', 'Automation Logic'],
+      verifyLink: 'https://www.coursera.org/account/accomplishments/verify/XMNV2GPNKZ4R'
+    },
+    {
+      id: 'c5',
+      title: 'Introduction to Web Development with HTML, CSS, JavaScript',
+      issuer: 'IBM (via Coursera)',
+      issued: 'Jul 2024',
+      badgeColor: 'bg-[#8B5CF6]',
+      skills: ['HTML5', 'CSS3', 'Vanilla JavaScript', 'Web Fundamentals'],
+      verifyLink: 'https://www.coursera.org/account/accomplishments/verify/TI14AP3NYFQQ'
+    },
+    {
+      id: 'c6',
+      title: 'Develop Generative AI Solutions with Azure OpenAI Service',
+      issuer: 'Microsoft (via Coursera)',
+      issued: 'Jul 2024',
+      badgeColor: 'bg-[#00A4EF]',
+      skills: ['Azure OpenAI', 'GPT APIs', 'Generative AI', 'Prompt Engineering'],
+      verifyLink: 'https://www.coursera.org/account/accomplishments/verify/S5N3C3MNKPKH'
+    }
+  ];
 
-const Certifications = () => {
-    const [selectedCert, setSelectedCert] = useState(null);
+  const handleToggle = (id) => {
+    setOpenId(openId === id ? null : id);
+  };
 
-    return (
-        <section className="py-24 md:py-32 px-6 relative overflow-hidden">
-            <div className="max-w-7xl mx-auto">
-                <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.8 }}
-                    className="text-center mb-20"
-                >
-                    <span className="inline-block px-4 py-1.5 rounded-full border border-purple-500/30 text-purple-400 text-xs font-mono tracking-[0.2em] uppercase mb-8">
-                        The Credentials
-                    </span>
-                    <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tight text-white">
-                        Official <span className="text-purple-400">Verifications</span>
-                    </h2>
-                </motion.div>
+  return (
+    <section id="certifications" className="py-20 px-6 transition-colors duration-300">
+      <div className="max-w-7xl mx-auto">
+        
+        {/* Section Header */}
+        <div className="flex items-center gap-4 mb-10">
+          <h2 className="font-bebas text-5xl sm:text-6xl text-black dark:text-[#F7F4EB] tracking-wider uppercase flex items-center gap-3">
+            <Award size={44} className="text-[#FF5733]" />
+            CERTIFICATIONS
+          </h2>
+          <div className="flex-1 h-1 bg-black dark:bg-[#3A3A3A]"></div>
+        </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-                    {certifications.map((cert, index) => (
-                        <motion.div
-                            key={index}
-                            initial={{ opacity: 0, scale: 0.9, y: 30 }}
-                            whileInView={{ opacity: 1, scale: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.5, delay: index * 0.1 }}
-                            onClick={() => setSelectedCert(cert)}
-                            className="group relative border border-white/10 p-10 rounded-[2.5rem] overflow-hidden transition-all duration-500 shadow-2xl cursor-pointer hover:border-purple-400/40"
-                            style={{
-                                background: 'rgba(10, 8, 20, 0.4)',
-                                backdropFilter: 'blur(20px) saturate(160%)',
-                                WebkitBackdropFilter: 'blur(20px) saturate(160%)',
-                            }}
-                        >
-                            <div className="relative z-10 flex flex-col h-full">
-                                <div className="p-4 w-fit rounded-2xl bg-purple-500/10 border border-purple-500/20 mb-8 group-hover:scale-110 transition-transform duration-500">
-                                    <Award className="text-purple-400" size={28} />
-                                </div>
+        {/* Certification Accordion List */}
+        <div className="space-y-3">
+          {certs.map((cert) => (
+            <div
+              key={cert.id}
+              className="bg-white dark:bg-[#161616] border-[3px] border-black dark:border-[#3A3A3A] shadow-[4px_4px_0px_0px_#000] dark:shadow-[4px_4px_0px_0px_#3A3A3A]"
+            >
+              {/* Accordion Header */}
+              <button
+                onClick={() => handleToggle(cert.id)}
+                className="w-full flex items-center justify-between gap-4 p-5 text-left hover:bg-[#F7F4EB] dark:hover:bg-[#1E1E1E] transition-colors"
+              >
+                <div className="flex items-center gap-4 min-w-0">
+                  {/* Badge */}
+                  <div className={`${cert.badgeColor} p-2.5 border-2 border-black dark:border-[#3A3A3A] flex-shrink-0`}>
+                    <BadgeCheck size={22} className="text-white" />
+                  </div>
 
-                                <h3 className="text-2xl font-bold text-white mb-2 leading-tight group-hover:text-purple-300 transition-colors">
-                                    {cert.title}
-                                </h3>
-
-                                <div className="flex items-center justify-between mb-6">
-                                    <p className="text-white/60 text-sm font-medium">{cert.issuer}</p>
-                                    <p className="text-purple-400 text-[10px] font-mono uppercase tracking-widest">{cert.date}</p>
-                                </div>
-
-                                <p className="text-white/40 text-sm leading-relaxed mb-8">
-                                    {cert.description}
-                                </p>
-
-                                <button className="mt-auto inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-white/40 group-hover:text-white transition-colors">
-                                    View Protocol Details
-                                    <X className="rotate-[135deg]" size={14} />
-                                </button>
-                            </div>
-                        </motion.div>
-                    ))}
+                  <div className="min-w-0">
+                    <h3 className="font-mono text-sm font-bold text-black dark:text-[#F7F4EB] truncate uppercase">
+                      {cert.title}
+                    </h3>
+                    <p className="font-mono text-xs font-bold text-black/60 dark:text-[#A1A1A1] uppercase">
+                      {cert.issuer}
+                    </p>
+                  </div>
                 </div>
-            </div>
 
-            {/* Modal Preview */}
-            <AnimatePresence>
-                {selectedCert && (
-                    <div className="fixed inset-0 z-[200] flex items-center justify-center p-6 bg-black/80 backdrop-blur-xl">
-                        <motion.div
-                            initial={{ opacity: 0, scale: 0.9, y: 20 }}
-                            animate={{ opacity: 1, scale: 1, y: 0 }}
-                            exit={{ opacity: 0, scale: 0.9, y: 20 }}
-                            className="relative w-full max-w-2xl bg-zinc-900/90 border border-white/10 p-12 rounded-[3rem] shadow-3xl text-center"
-                        >
-                            <button 
-                                onClick={() => setSelectedCert(null)}
-                                className="absolute top-8 right-8 p-3 rounded-full bg-white/5 border border-white/10 text-white hover:bg-white/10 transition-all active:scale-90"
-                            >
-                                <X size={24} />
-                            </button>
+                <div className="flex items-center gap-3 flex-shrink-0">
+                  <span className="font-mono text-[10px] font-bold text-black dark:text-[#A1A1A1] uppercase hidden sm:inline">
+                    {cert.issued}
+                  </span>
+                  <ChevronDown
+                    size={20}
+                    className={`text-black dark:text-[#F7F4EB] transition-transform duration-200 ${openId === cert.id ? 'rotate-180' : ''}`}
+                  />
+                </div>
+              </button>
 
-                            <div className="inline-flex items-center justify-center p-6 rounded-3xl bg-purple-500/10 border border-purple-500/20 mb-10">
-                                <Award className="text-purple-400" size={48} />
-                            </div>
-
-                            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                                {selectedCert.title}
-                            </h2>
-                            <p className="text-purple-300 font-mono text-xs uppercase tracking-[0.3em] mb-8">
-                                Issued by {selectedCert.issuer} • {selectedCert.date}
-                            </p>
-                            
-                            <p className="text-white/60 text-lg leading-relaxed mb-12 max-w-lg mx-auto">
-                                {selectedCert.description}
-                            </p>
-
-                            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                                <a
-                                    href={selectedCert.url}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="flex items-center justify-center gap-3 px-10 py-5 rounded-2xl bg-white text-black font-bold uppercase tracking-widest text-xs hover:bg-purple-500 hover:text-white transition-all duration-300"
-                                >
-                                    Verify Certificate <ExternalLink size={16} />
-                                </a>
-                                <button 
-                                    onClick={() => setSelectedCert(null)}
-                                    className="px-10 py-5 rounded-2xl bg-white/5 border border-white/10 text-white font-bold uppercase tracking-widest text-xs hover:bg-white/10 transition-all duration-300"
-                                >
-                                    Return to Terminal
-                                </button>
-                            </div>
-                        </motion.div>
+              {/* Accordion Body */}
+              {openId === cert.id && (
+                <div className="px-5 pb-5 border-t-2 border-black dark:border-[#2A2A2A] pt-4">
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                    <div>
+                      <span className="font-mono text-xs font-bold text-black/60 dark:text-[#A1A1A1] uppercase block mb-2">
+                        SKILLS COVERED:
+                      </span>
+                      <div className="flex flex-wrap gap-1.5">
+                        {cert.skills.map((skill) => (
+                          <span
+                            key={skill}
+                            className="px-2.5 py-1 bg-[#F7F4EB] dark:bg-[#0D0D0D] border border-black dark:border-[#3A3A3A] font-mono text-[10px] font-bold text-black dark:text-[#F7F4EB]"
+                          >
+                            {skill}
+                          </span>
+                        ))}
+                      </div>
                     </div>
-                )}
-            </AnimatePresence>
-        </section>
-    );
-};
 
-export default Certifications;
+                    <a
+                      href={cert.verifyLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="brutal-btn px-5 py-2 bg-[#FF5733] text-black font-mono text-xs font-bold flex items-center gap-2 uppercase self-start sm:self-center"
+                    >
+                      VERIFY
+                      <ExternalLink size={14} />
+                    </a>
+                  </div>
+                </div>
+              )}
 
+            </div>
+          ))}
+        </div>
+
+      </div>
+    </section>
+  );
+}
