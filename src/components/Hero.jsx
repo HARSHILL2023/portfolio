@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { ArrowUpRight, Download, Terminal, Code2, BookOpen } from 'lucide-react';
 
 export default function Hero() {
-  const RESUME_URL = "https://drive.google.com/file/d/1rSTAmfISTBJ_01nGLzpMXPauMA_PWnyn/view?usp=sharing";
+  const RESUME_URL = "https://drive.google.com/file/d/1fY528YIw2HERsLX2stcFgaSFXrPOv8q_/view?usp=sharing";
 
   const socialLinks = [
     { name: 'GITHUB', url: 'https://github.com/HARSHILL2023' },

@@ -3,7 +3,7 @@ import { Send, CheckCircle2, AlertCircle, Mail, MapPin, ArrowUpRight } from 'luc
 import emailjs from '@emailjs/browser';
 
 export default function ContactSection() {
-  const RESUME_URL = "https://drive.google.com/file/d/1rSTAmfISTBJ_01nGLzpMXPauMA_PWnyn/view?usp=sharing";
+  const RESUME_URL = "https://drive.google.com/file/d/1fY528YIw2HERsLX2stcFgaSFXrPOv8q_/view?usp=sharing";
 
   const [formData, setFormData] = useState({
     name: '',

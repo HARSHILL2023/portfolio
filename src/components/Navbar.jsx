@@ -21,7 +21,7 @@ export default function Navbar({ darkMode, setDarkMode }) {
     { name: 'CONTACT', href: '#contact' },
   ];
 
-  const RESUME_URL = "https://drive.google.com/file/d/1rSTAmfISTBJ_01nGLzpMXPauMA_PWnyn/view?usp=sharing";
+  const RESUME_URL = "https://drive.google.com/file/d/1fY528YIw2HERsLX2stcFgaSFXrPOv8q_/view?usp=sharing";
 
   const handleThemeToggle = () => {
     setDarkMode((prev) => !prev);
