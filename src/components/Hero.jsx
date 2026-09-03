@@ -8,7 +8,7 @@ export default function Hero() {
   const socialLinks = [
     { name: 'GITHUB', url: 'https://github.com/HARSHILL2023' },
     { name: 'LINKEDIN', url: 'https://www.linkedin.com/in/harshil-patel-b00063395/' },
-    { name: 'LEETCODE', url: 'https://leetcode.com/u/trFRJmWPQm/' },
+    { name: 'LEETCODE', url: 'https://leetcode.com/u/harshilPatel2301/' },
     { name: 'TWITTER', url: 'https://x.com/HarshilPat74943' },
     { name: 'YOUTUBE', url: 'https://youtube.com/@harshilpatel-20?si=L9HrbJJDXA0dCqUG' },
   ];

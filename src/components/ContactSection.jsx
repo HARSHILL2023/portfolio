@@ -54,7 +54,7 @@ export default function ContactSection() {
   const socialBadges = [
     { label: 'GITHUB ->', href: 'https://github.com/HARSHILL2023', bg: 'bg-[#FF5733]' },
     { label: 'LINKEDIN ->', href: 'https://www.linkedin.com/in/harshil-patel-b00063395/', bg: 'bg-[#2EC4B6]' },
-    { label: 'LEETCODE ->', href: 'https://leetcode.com/u/trFRJmWPQm/', bg: 'bg-[#FFC72C]' },
+    { label: 'LEETCODE ->', href: 'https://leetcode.com/u/harshilPatel2301/', bg: 'bg-[#FFC72C]' },
     { label: 'YOUTUBE ->', href: 'https://youtube.com/@harshilpatel-20?si=L9HrbJJDXA0dCqUG', bg: 'bg-[#8B5CF6]' },
     { label: 'RESUME ->', href: RESUME_URL, bg: 'bg-[#FF5733]' },
   ];
