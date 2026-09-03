@@ -17,14 +17,32 @@ export default function ContactSection() {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
+    // Clear status when user starts typing again
+    if (status) setStatus(null);
+    if (errorMessage) setErrorMessage('');
   };
 
   const sendEmail = (e) => {
     e.preventDefault();
 
-    if (!formData.name || !formData.email || !formData.message) {
+    // Prevent duplicate submissions while sending
+    if (isSubmitting) return;
+
+    const trimmedName = formData.name.trim();
+    const trimmedEmail = formData.email.trim();
+    const trimmedMessage = formData.message.trim();
+
+    if (!trimmedName || !trimmedEmail || !trimmedMessage) {
       setStatus('error');
       setErrorMessage('Please fill in all fields before sending.');
+      return;
+    }
+
+    // Basic email format validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(trimmedEmail)) {
+      setStatus('error');
+      setErrorMessage('Please enter a valid email address.');
       return;
     }
 
@@ -32,12 +50,20 @@ export default function ContactSection() {
     setStatus(null);
     setErrorMessage('');
 
-    // EmailJS Credentials
-    const SERVICE_ID = 'service_8ll3v9u';
-    const TEMPLATE_ID = 'template_6mly7jn';
-    const PUBLIC_KEY = 'dzlyz-rysoAExUJmu';
+    // EmailJS Credentials - use env vars with fallback to provided credentials
+    // Works locally via .env and on Vercel via project environment variables
+    const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID || 'service_cyv99li';
+    const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID || 'template_om7zvil';
+    const PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || 'qKK9FBdTcc8ZQuw9m';
 
-    emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, e.target, PUBLIC_KEY)
+    // Map form fields to EmailJS template variables: from_name, from_email, message
+    const templateParams = {
+      from_name: trimmedName,
+      from_email: trimmedEmail,
+      message: trimmedMessage,
+    };
+
+    emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams, PUBLIC_KEY)
       .then(() => {
         setStatus('success');
         setFormData({ name: '', email: '', message: '' });
@@ -46,7 +72,7 @@ export default function ContactSection() {
       .catch((error) => {
         console.error('Email Transmission Error:', error);
         setStatus('error');
-        setErrorMessage('Message transmission failed. Please try again.');
+        setErrorMessage(error?.text || 'Message transmission failed. Please try again later.');
         setIsSubmitting(false);
       });
   };
@@ -164,8 +190,10 @@ export default function ContactSection() {
                   value={formData.name}
                   onChange={handleChange}
                   required
+                  disabled={isSubmitting}
+                  aria-disabled={isSubmitting}
                   placeholder="Enter your name"
-                  className="w-full bg-[#F7F4EB] dark:bg-[#0D0D0D] border-2 border-black dark:border-[#3A3A3A] p-3.5 font-sans font-bold text-black dark:text-[#F7F4EB] placeholder:text-black/40 dark:placeholder:text-[#A1A1A1] focus:outline-none focus:bg-white dark:focus:bg-[#161616] transition-colors"
+                  className="w-full bg-[#F7F4EB] dark:bg-[#0D0D0D] border-2 border-black dark:border-[#3A3A3A] p-3.5 font-sans font-bold text-black dark:text-[#F7F4EB] placeholder:text-black/40 dark:placeholder:text-[#A1A1A1] focus:outline-none focus:bg-white dark:focus:bg-[#161616] transition-colors disabled:opacity-60"
                 />
               </div>
 
@@ -179,8 +207,10 @@ export default function ContactSection() {
                   value={formData.email}
                   onChange={handleChange}
                   required
+                  disabled={isSubmitting}
+                  aria-disabled={isSubmitting}
                   placeholder="name@company.com"
-                  className="w-full bg-[#F7F4EB] dark:bg-[#0D0D0D] border-2 border-black dark:border-[#3A3A3A] p-3.5 font-sans font-bold text-black dark:text-[#F7F4EB] placeholder:text-black/40 dark:placeholder:text-[#A1A1A1] focus:outline-none focus:bg-white dark:focus:bg-[#161616] transition-colors"
+                  className="w-full bg-[#F7F4EB] dark:bg-[#0D0D0D] border-2 border-black dark:border-[#3A3A3A] p-3.5 font-sans font-bold text-black dark:text-[#F7F4EB] placeholder:text-black/40 dark:placeholder:text-[#A1A1A1] focus:outline-none focus:bg-white dark:focus:bg-[#161616] transition-colors disabled:opacity-60"
                 />
               </div>
 
@@ -193,16 +223,19 @@ export default function ContactSection() {
                   value={formData.message}
                   onChange={handleChange}
                   required
+                  disabled={isSubmitting}
+                  aria-disabled={isSubmitting}
                   rows="4"
                   placeholder="Tell me about your project or inquiry..."
-                  className="w-full bg-[#F7F4EB] dark:bg-[#0D0D0D] border-2 border-black dark:border-[#3A3A3A] p-3.5 font-sans font-bold text-black dark:text-[#F7F4EB] placeholder:text-black/40 dark:placeholder:text-[#A1A1A1] focus:outline-none focus:bg-white dark:focus:bg-[#161616] transition-colors resize-none"
+                  className="w-full bg-[#F7F4EB] dark:bg-[#0D0D0D] border-2 border-black dark:border-[#3A3A3A] p-3.5 font-sans font-bold text-black dark:text-[#F7F4EB] placeholder:text-black/40 dark:placeholder:text-[#A1A1A1] focus:outline-none focus:bg-white dark:focus:bg-[#161616] transition-colors resize-none disabled:opacity-60"
                 />
               </div>
 
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="brutal-btn w-full py-4 bg-[#FF5733] text-black font-bebas text-2xl tracking-wider uppercase flex items-center justify-center gap-2 shadow-[4px_4px_0px_0px_#000] dark:shadow-[4px_4px_0px_0px_#3A3A3A]"
+                aria-busy={isSubmitting}
+                className={`brutal-btn w-full py-4 bg-[#FF5733] text-black font-bebas text-2xl tracking-wider uppercase flex items-center justify-center gap-2 shadow-[4px_4px_0px_0px_#000] dark:shadow-[4px_4px_0px_0px_#3A3A3A] transition-opacity ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}
               >
                 {isSubmitting ? (
                   <span className="font-mono text-sm font-bold animate-pulse">TRANSMITTING...</span>
@@ -215,14 +248,14 @@ export default function ContactSection() {
               </button>
 
               {status === 'success' && (
-                <div className="p-4 bg-[#2EC4B6] border-2 border-black dark:border-[#3A3A3A] font-mono text-xs font-bold text-black flex items-center gap-2">
+                <div role="status" aria-live="polite" className="p-4 bg-[#2EC4B6] border-2 border-black dark:border-[#3A3A3A] font-mono text-xs font-bold text-black flex items-center gap-2">
                   <CheckCircle2 size={18} />
                   MESSAGE SENT SUCCESSFULLY! I WILL GET BACK TO YOU SOON.
                 </div>
               )}
 
               {status === 'error' && (
-                <div className="p-4 bg-red-400 border-2 border-black dark:border-[#3A3A3A] font-mono text-xs font-bold text-black flex items-center gap-2">
+                <div role="alert" aria-live="assertive" className="p-4 bg-red-400 border-2 border-black dark:border-[#3A3A3A] font-mono text-xs font-bold text-black flex items-center gap-2">
                   <AlertCircle size={18} />
                   {errorMessage || 'TRANSMISSION FAILED. PLEASE TRY AGAIN.'}
                 </div>
